@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:travel_planner_project/travel_planner_app.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Travel Planner',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const TravelPlannerApp(),
+      );
+  }
+}
+
+/*class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -122,4 +138,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-}
+}*/
