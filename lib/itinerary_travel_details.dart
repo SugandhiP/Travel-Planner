@@ -36,11 +36,18 @@ class _TravelFormState extends State<TravelForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButtonFormField<String>(
-                  decoration: InputDecoration(labelText: "From (Source)"),
+                  decoration: InputDecoration(
+                    labelText: "From (Source)",
+                    labelStyle: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.blue.shade50,
+                    prefixIcon: Icon(Icons.flight_takeoff, color: Colors.blue),
+                  ),
                   items: countryList.map((String country) {
                     return DropdownMenuItem<String>(
                       value: country,
-                      child: Text(country),
+                      child: Text(country, style: TextStyle(color: Colors.black87)),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -48,14 +55,23 @@ class _TravelFormState extends State<TravelForm> {
                       _selectedSource = value;
                     });
                   },
+                  validator: (value) => value == null ? "Select a source" : null,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 12),
+
                 DropdownButtonFormField<String>(
-                  decoration: InputDecoration(labelText: "To (Destination)"),
+                  decoration: InputDecoration(
+                    labelText: "To (Destination)",
+                    labelStyle: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.green.shade50,
+                    prefixIcon: Icon(Icons.flight_land, color: Colors.green),
+                  ),
                   items: countryList.map((String country) {
                     return DropdownMenuItem<String>(
                       value: country,
-                      child: Text(country),
+                      child: Text(country, style: TextStyle(color: Colors.black87)),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -64,29 +80,81 @@ class _TravelFormState extends State<TravelForm> {
                       _selectedAttractions.clear(); // Reset attractions
                     });
                   },
+                  validator: (value) => value == null ? "Select a destination" : null,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 12),
+
                 TextFormField(
-                  decoration: InputDecoration(labelText: "Airline Name"),
+                  decoration: InputDecoration(
+                    labelText: "Airline Name",
+                    labelStyle: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.purple.shade50,
+                    prefixIcon: Icon(Icons.airplanemode_active, color: Colors.purple),
+                  ),
                   onChanged: (value) => _airline = value,
+                  validator: (value) => value!.isEmpty ? "Enter airline name" : null,
                 ),
+                SizedBox(height: 12),
+
                 TextFormField(
-                  decoration: InputDecoration(labelText: "Flight Number"),
+                  decoration: InputDecoration(
+                    labelText: "Flight Number",
+                    labelStyle: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.orange.shade50,
+                    prefixIcon: Icon(Icons.confirmation_number, color: Colors.orange),
+                  ),
                   onChanged: (value) => _flightNumber = value,
+                  validator: (value) => value!.isEmpty ? "Enter flight number" : null,
                 ),
+                SizedBox(height: 12),
+
                 TextFormField(
-                  decoration: InputDecoration(labelText: "Departure Time"),
+                  decoration: InputDecoration(
+                    labelText: "Departure Time",
+                    labelStyle: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.red.shade50,
+                    prefixIcon: Icon(Icons.access_time, color: Colors.redAccent),
+                  ),
                   onChanged: (value) => _departureTime = value,
+                  validator: (value) => value!.isEmpty ? "Enter departure time" : null,
                 ),
+                SizedBox(height: 12),
+
                 TextFormField(
-                  decoration: InputDecoration(labelText: "Arrival Time"),
+                  decoration: InputDecoration(
+                    labelText: "Arrival Time",
+                    labelStyle: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.teal.shade50,
+                    prefixIcon: Icon(Icons.access_time_filled, color: Colors.teal),
+                  ),
                   onChanged: (value) => _arrivalTime = value,
+                  validator: (value) => value!.isEmpty ? "Enter arrival time" : null,
                 ),
+                SizedBox(height: 12),
+
                 TextFormField(
-                  decoration: InputDecoration(labelText: "Hotel Name"),
+                  decoration: InputDecoration(
+                    labelText: "Hotel Name",
+                    labelStyle: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.indigo.shade50,
+                    prefixIcon: Icon(Icons.hotel, color: Colors.indigo),
+                  ),
                   onChanged: (value) => _hotelName = value,
+                  validator: (value) => value!.isEmpty ? "Enter hotel name" : null,
                 ),
                 SizedBox(height: 20),
+
+
 
                 if (_selectedDestination != null &&
                     attractionsList.containsKey(_selectedDestination))
