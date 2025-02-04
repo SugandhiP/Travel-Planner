@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_planner_project/itinerary_form.dart';
+import 'package:travel_planner_project/itinerary_travel_details.dart';
 
 import 'model/itinerary.dart';
 class TravelPlannerApp extends StatefulWidget {
@@ -59,7 +60,8 @@ class _TravelPlannerAState extends State<TravelPlannerApp> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ItineraryForm(),
+              //builder: (context) => ItineraryForm(),
+              builder: (context) => TravelForm(),
             ),
           );
         },

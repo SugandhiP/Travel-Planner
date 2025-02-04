@@ -1,0 +1,6 @@
+const List<String> countryList = [
+  "United States", "Canada", "United Kingdom", "Germany", "France",
+  "Australia", "India", "China", "Japan", "Brazil",
+  "Mexico", "Italy", "Spain", "South Korea", "Netherlands",
+  "Russia", "Sweden", "Switzerland", "South Africa", "New Zealand"
+];
