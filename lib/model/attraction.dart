@@ -1,21 +1,21 @@
 class Attraction {
   final String name;
   final DateTime date;
-  final String openingTime;
-  final String closingTime;
-  final String notes;
+  // final String openingTime;
+  // final String closingTime;
+  // final String notes;
 
   Attraction({
     required this.name,
     required this.date,
-    required this.openingTime,
-    required this.closingTime,
-    required this.notes,
+    //required this.openingTime,
+    //required this.closingTime,
+    //required this.notes,
   });
 
   @override
   String toString() {
-    return "Attraction: $name, Date: $date, Open: $openingTime, Close: $closingTime, Notes: $notes";
+    return "Attraction: $name, Date: $date";
   }
 }
 

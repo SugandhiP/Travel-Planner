@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:travel_planner_project/itinerary_form.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_planner_project/itinerary_travel_details.dart';
-
+import 'package:travel_planner_project/itinerary_provider.dart';
 import 'model/itinerary.dart';
 class TravelPlannerApp extends StatefulWidget {
-  const TravelPlannerApp({super.key});
+  //TravelDetails td = new TravelDetails(source: "", destination: "", airline: "", flightNumber: "", departureTime: "", arrivalTime: "", hotelName: "", selectedAttractions: List<Attraction>? attractions); : attractions = attractions ?? [];
+  TravelPlannerApp({super.key});
 
   @override
   State<TravelPlannerApp> createState() => _TravelPlannerAState();
@@ -12,10 +13,6 @@ class TravelPlannerApp extends StatefulWidget {
 
 class _TravelPlannerAState extends State<TravelPlannerApp> {
   List<Itinerary> itineraries = [];
-
-  void _addItinerary() {
-
-  }
 
   void _deleteItinerary(int index) {
     setState(() {
@@ -31,6 +28,8 @@ class _TravelPlannerAState extends State<TravelPlannerApp> {
 
   @override
   Widget build(BuildContext context) {
+    final itineraries = context.read<ItineraryProvider>().itinerary;
+
     return Scaffold(
       appBar: AppBar(title: const Text("Itineraries")),
       body: ListView.builder(
