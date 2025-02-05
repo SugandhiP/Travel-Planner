@@ -21,8 +21,8 @@ class TravelDetails {
 
   @override
   String toString() {
-    return "Sources: $source, Destination: $destination, Airline: $airline, "
-        "Flight: $flightNumber, Departure: $departureTime, Arrival: $arrivalTime, "
-        "Hotel: $hotelName, Attractions: $selectedAttractions";
+    return "Source: $source, Destination: $destination, Airline Name: $airline, "
+        "Flight Number: $flightNumber, Departure Time: $departureTime, Arrival Time: $arrivalTime, "
+        "Hotel Name: $hotelName, Destination Attractions: $selectedAttractions";
   }
 }
