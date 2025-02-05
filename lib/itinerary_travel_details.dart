@@ -224,8 +224,14 @@ class _TravelFormState extends State<TravelForm> {
                     fillColor: Colors.indigo.shade50,
                     prefixIcon: Icon(Icons.hotel, color: Colors.indigo),
                   ),
-                  onChanged: (value) => _hotelName = value,
-                  validator: (value) => value!.isEmpty ? "Enter hotel name" : null,
+                  //onChanged: (value) => _hotelName = value.isNotEmpty ? value : null,
+                  onChanged: (value) {
+                    _hotelName = value.isEmpty ? null : value;
+                  },
+
+                  validator: (value) => null,
+
+
                 ),
                 SizedBox(height: 20),
 
@@ -264,10 +270,9 @@ class _TravelFormState extends State<TravelForm> {
                         _airline == null ||
                         _flightNumber == null ||
                         _departureTime == null ||
-                        _arrivalTime == null ||
-                        _hotelName == null) {
+                        _arrivalTime == null ) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please fill all fields before proceeding")),
+                        SnackBar(content: Text("Please fill the required details")),
                       );
                       return;
                     }
@@ -279,7 +284,7 @@ class _TravelFormState extends State<TravelForm> {
                       flightNumber: _flightNumber ?? "Unknown",
                       departureTime: _departureTime ?? "Unknown",
                       arrivalTime: _arrivalTime ?? "Unknown",
-                      hotelName: _hotelName ?? "Unknown",
+                      hotelName: _hotelName ?? "",
                       selectedAttractions: _selectedAttractions ?? [],
                     );
 

@@ -5,7 +5,7 @@ class TravelDetails {
   String flightNumber;
   String departureTime;
   String arrivalTime;
-  String hotelName;
+  String? hotelName;
   List<String> selectedAttractions;
 
   TravelDetails({
@@ -15,7 +15,7 @@ class TravelDetails {
     required this.flightNumber,
     required this.departureTime,
     required this.arrivalTime,
-    required this.hotelName,
+    this.hotelName,
     required this.selectedAttractions,
   });
 

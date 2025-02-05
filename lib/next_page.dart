@@ -25,7 +25,7 @@ class NextPage extends StatelessWidget {
             SizedBox(height: 16),
 
             reviewTravelTitle("HOTEL DETAILS"),
-            reviewTravelDetails("Hotel Name", travelDetails.hotelName),
+            reviewTravelDetails("Hotel Name", travelDetails.hotelName ?? "Not provided"),
             SizedBox(height: 16),
 
             reviewTravelTitle("ATTRACTIONS DETAILS"),

@@ -10,7 +10,7 @@ class Itinerary {
    double initialBudget;
    final DateTime departureTime;
    final DateTime arrivalTime;
-   final String hotelName;
+   final String? hotelName;
    List<Attraction> attractions;
   bool isFavorite;
 
@@ -23,7 +23,7 @@ class Itinerary {
     this.initialBudget = 0.0,
     required this.departureTime,
     required this.arrivalTime,
-    required this.hotelName,
+    this.hotelName,
     List<Attraction>? attractions,
     this.isFavorite = false,
   }) : attractions = attractions ?? [];
