@@ -5,7 +5,9 @@ class TravelDetails {
   String flightNumber;
   String departureTime;
   String arrivalTime;
-  String? hotelName;
+  String hotelName;
+  final String initialBudget;
+  final List<String> tripMember;
   List<String> selectedAttractions;
 
   TravelDetails({
@@ -15,7 +17,9 @@ class TravelDetails {
     required this.flightNumber,
     required this.departureTime,
     required this.arrivalTime,
-    this.hotelName,
+    required this.hotelName,
+    this.initialBudget ='0',
+    this.tripMember = const[],
     required this.selectedAttractions,
   });
 
@@ -23,6 +27,7 @@ class TravelDetails {
   String toString() {
     return "Source: $source, Destination: $destination, Airline Name: $airline, "
         "Flight Number: $flightNumber, Departure Time: $departureTime, Arrival Time: $arrivalTime, "
-        "Hotel Name: $hotelName, Destination Attractions: $selectedAttractions";
+        "Hotel Name: $hotelName, Initial Budget(USD): $initialBudget,Trip Members: $tripMember ,Destination Attractions: $selectedAttractions";
   }
 }
+

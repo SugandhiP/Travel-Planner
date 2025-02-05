@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:travel_planner_project/itinerary_provider.dart';
-import 'package:travel_planner_project/model/itinerary.dart';
-import 'package:travel_planner_project/save_itinerary.dart';
 import 'package:travel_planner_project/travel_planner_app.dart';
 import '../model/travel_details.dart';
 
@@ -13,19 +9,6 @@ class NextPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Itinerary myItinerary = Itinerary(
-      name: "",
-      from: travelDetails.source,
-      destination: travelDetails.destination,
-      departureTime: travelDetails.departureTime,
-      arrivalTime: travelDetails.arrivalTime,
-      tripMembers: 0,
-      initialBudget: 0.0,
-      hotelName: travelDetails.hotelName,
-      attractions: [],
-    );
-    context.read<ItineraryProvider>().addItinerary(myItinerary);
-    //Itinerary myItinerary = new Itinerary(name: "", from: travelDetails.destination, destination: travelDetails.destination, departureTime: travelDetails.departureTime, arrivalTime: travelDetails.arrivalTime, hotelName: travelDetails.hotelName);
     return Scaffold(
       appBar: AppBar(title: Text("Review Travel Itinerary Plan")),
       body: Padding(
@@ -39,11 +22,29 @@ class NextPage extends StatelessWidget {
             reviewTravelDetails("Flight Number", travelDetails.flightNumber),
             reviewTravelDetails("Departure Time", travelDetails.departureTime),
             reviewTravelDetails("Arrival Time", travelDetails.arrivalTime),
+            reviewTravelDetails("Initial Budget(USD)", travelDetails.initialBudget?.isNotEmpty == true ? travelDetails.initialBudget! : "Not specified"),
+            // reviewTravelDetails("Trip Members", travelDetails.tripMember),
+            SizedBox(height: 16),
+
+            reviewTravelTitle("TRIP MEMBERS"),
+            if (travelDetails.tripMember != null && travelDetails.tripMember!.isNotEmpty)
+              ...travelDetails.tripMember!.map((member) => reviewTravelDetails('•', member)).toList()
+            else
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  "No trip members added.",
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ),
+
 
             SizedBox(height: 16),
 
+
+
             reviewTravelTitle("HOTEL DETAILS"),
-            reviewTravelDetails("Hotel Name", travelDetails.hotelName ?? "Not provided"),
+            reviewTravelDetails("Hotel Name", travelDetails.hotelName),
             SizedBox(height: 16),
 
             reviewTravelTitle("ATTRACTIONS DETAILS"),
@@ -69,7 +70,7 @@ class NextPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SaveItinerary(travelDetails: travelDetails, itinerary: myItinerary)),
+              MaterialPageRoute(builder: (context) => TravelPlannerApp()),
             );
           },
           child: Text(

@@ -31,6 +31,8 @@ class _TravelFormState extends State<TravelForm> {
   String? _departureTime;
   String? _arrivalTime;
   String? _hotelName;
+  String? _initialBudget;
+  List<String> _tripMembers = [];
   List<String> _selectedAttractions = [];
 
   @override
@@ -224,17 +226,53 @@ class _TravelFormState extends State<TravelForm> {
                     fillColor: Colors.indigo.shade50,
                     prefixIcon: Icon(Icons.hotel, color: Colors.indigo),
                   ),
-                  //onChanged: (value) => _hotelName = value.isNotEmpty ? value : null,
-                  onChanged: (value) {
-                    _hotelName = value.isEmpty ? null : value;
-                  },
-
-                  validator: (value) => null,
-
-
+                  onChanged: (value) => _hotelName = value,
+                  validator: (value) => value!.isEmpty ? "Enter hotel name" : null,
                 ),
                 SizedBox(height: 20),
 
+                SizedBox(height: 12),
+
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Initial Budget(USD)",
+                    labelStyle: TextStyle(color: Colors.brown, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.brown.shade50,
+                    prefixIcon: Icon(Icons.attach_money, color: Colors.brown),
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    setState(() {
+                      _initialBudget = value.isNotEmpty ? value : null;
+                    });
+                  },
+                  validator: (value) {
+                    if (value!.isNotEmpty && double.tryParse(value) == null) {
+                      return "Enter a valid budget amount";
+                    }
+                    return null; // Optional field, no validation if empty
+                  },
+                ),
+                SizedBox(height: 12),
+
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Trip Members",
+                    labelStyle: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    filled: true,
+                    fillColor: Colors.teal.shade50,
+                    prefixIcon: Icon(Icons.group, color: Colors.teal),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _tripMembers = value.split(",").map((e) => e.trim()).toList();
+                    });
+                  },
+                ),
+                SizedBox(height: 12),
 
 
                 if (_selectedDestination != null &&
@@ -270,9 +308,10 @@ class _TravelFormState extends State<TravelForm> {
                         _airline == null ||
                         _flightNumber == null ||
                         _departureTime == null ||
-                        _arrivalTime == null ) {
+                        _arrivalTime == null ||
+                        _hotelName == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please fill the required details")),
+                        SnackBar(content: Text("Please fill all fields before proceeding")),
                       );
                       return;
                     }
@@ -284,7 +323,7 @@ class _TravelFormState extends State<TravelForm> {
                       flightNumber: _flightNumber ?? "Unknown",
                       departureTime: _departureTime ?? "Unknown",
                       arrivalTime: _arrivalTime ?? "Unknown",
-                      hotelName: _hotelName ?? "",
+                      hotelName: _hotelName ?? "Unknown",
                       selectedAttractions: _selectedAttractions ?? [],
                     );
 
