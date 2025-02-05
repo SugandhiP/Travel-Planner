@@ -12,6 +12,16 @@ class TravelForm extends StatefulWidget {
 }
 
 class _TravelFormState extends State<TravelForm> {
+
+  final TextEditingController _departureController = TextEditingController();
+  final TextEditingController _arrivalController = TextEditingController();
+
+
+  @override
+  void dispose() {
+    _departureController.dispose();
+    super.dispose();
+  }
   final _formKey = GlobalKey<FormState>();
 
   String? _selectedSource;
@@ -113,6 +123,8 @@ class _TravelFormState extends State<TravelForm> {
                 SizedBox(height: 12),
 
                 TextFormField(
+                  controller: _departureController,
+                  readOnly: true, // Prevents manual input
                   decoration: InputDecoration(
                     labelText: "Departure Time",
                     labelStyle: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
@@ -121,22 +133,85 @@ class _TravelFormState extends State<TravelForm> {
                     fillColor: Colors.red.shade50,
                     prefixIcon: Icon(Icons.access_time, color: Colors.redAccent),
                   ),
-                  onChanged: (value) => _departureTime = value,
-                  validator: (value) => value!.isEmpty ? "Enter departure time" : null,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2101),
+                    );
+
+                    if (pickedDate != null) {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+
+                      if (pickedTime != null) {
+                        DateTime finalDateTime = DateTime(
+                          pickedDate.year,
+                          pickedDate.month,
+                          pickedDate.day,
+                          pickedTime.hour,
+                          pickedTime.minute,
+                        );
+
+                        setState(() {
+                          _departureTime = finalDateTime.toString();
+                          _departureController.text =
+                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
+                        });
+                      }
+                    }
+                  },
+                  validator: (value) => value!.isEmpty ? "Select departure time" : null,
                 ),
                 SizedBox(height: 12),
 
+
                 TextFormField(
+                  controller: _arrivalController,
+                  readOnly: true, // Prevents manual input
                   decoration: InputDecoration(
                     labelText: "Arrival Time",
-                    labelStyle: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+                    labelStyle: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                     filled: true,
-                    fillColor: Colors.teal.shade50,
-                    prefixIcon: Icon(Icons.access_time_filled, color: Colors.teal),
+                    fillColor: Colors.red.shade50,
+                    prefixIcon: Icon(Icons.access_time, color: Colors.redAccent),
                   ),
-                  onChanged: (value) => _arrivalTime = value,
-                  validator: (value) => value!.isEmpty ? "Enter arrival time" : null,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2101),
+                    );
+
+                    if (pickedDate != null) {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+
+                      if (pickedTime != null) {
+                        DateTime finalDateTime = DateTime(
+                          pickedDate.year,
+                          pickedDate.month,
+                          pickedDate.day,
+                          pickedTime.hour,
+                          pickedTime.minute,
+                        );
+
+                        setState(() {
+                          _arrivalTime = finalDateTime.toString();
+                          _arrivalController.text =
+                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
+                        });
+                      }
+                    }
+                  },
+                  validator: (value) => value!.isEmpty ? "Select arrival time" : null,
                 ),
                 SizedBox(height: 12),
 
