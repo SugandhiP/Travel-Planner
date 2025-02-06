@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:travel_planner_project/travel_planner_app.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_planner_project/save_itinerary.dart';
 import '../model/travel_details.dart';
+import 'itinerary_provider.dart';
+import 'model/itinerary.dart';
 
 class NextPage extends StatelessWidget {
   final TravelDetails travelDetails;
@@ -9,6 +12,18 @@ class NextPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Itinerary myItinerary = Itinerary(
+      name: "",
+      from: travelDetails.source,
+      destination: travelDetails.destination,
+      departureTime: travelDetails.departureTime,
+      arrivalTime: travelDetails.arrivalTime,
+      tripMembers: 0,
+      initialBudget: 0.0,
+      hotelName: travelDetails.hotelName,
+      attractions: [],
+    );
+    context.read<ItineraryProvider>().addItinerary(myItinerary);
     return Scaffold(
       appBar: AppBar(title: Text("Review Travel Itinerary Plan")),
       body: Padding(
@@ -44,7 +59,7 @@ class NextPage extends StatelessWidget {
 
 
             reviewTravelTitle("HOTEL DETAILS"),
-            reviewTravelDetails("Hotel Name", travelDetails.hotelName),
+            reviewTravelDetails("Hotel Name", travelDetails.hotelName ?? "Not provided"),
             SizedBox(height: 16),
 
             reviewTravelTitle("ATTRACTIONS DETAILS"),
@@ -70,7 +85,7 @@ class NextPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TravelPlannerApp()),
+              MaterialPageRoute(builder: (context) => SaveItinerary(travelDetails: travelDetails, itinerary: myItinerary)),
             );
           },
           child: Text(
