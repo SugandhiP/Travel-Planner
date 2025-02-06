@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_planner_project/itinerary_provider.dart';
-import 'package:travel_planner_project/travel_planner_app.dart';
+import 'package:travel_planner_project/itineraries_home_page.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: TravelPlannerApp(),
+        home: ItinerariesHomePage(),
       );
   }
 }

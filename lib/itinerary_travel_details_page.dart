@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import '../model/travel_details.dart';
 import '../data/country_list.dart';
 import '../model/attraction.dart';
-import 'next_page.dart';
+import 'itineraries_data_recorded_page.dart';
 
-class TravelForm extends StatefulWidget {
-  const TravelForm({super.key});
+class ItineraryTravelDetailsPage extends StatefulWidget {
+  const ItineraryTravelDetailsPage({super.key});
 
   @override
   _TravelFormState createState() => _TravelFormState();
 }
 
-class _TravelFormState extends State<TravelForm> {
+class _TravelFormState extends State<ItineraryTravelDetailsPage> {
 
   final TextEditingController _departureController = TextEditingController();
   final TextEditingController _arrivalController = TextEditingController();
@@ -229,8 +229,6 @@ class _TravelFormState extends State<TravelForm> {
                   onChanged: (value) => _hotelName = value,
                   validator: (value) => value!.isEmpty ? "Enter hotel name" : null,
                 ),
-                SizedBox(height: 20),
-
                 SizedBox(height: 12),
 
                 TextFormField(
@@ -324,6 +322,8 @@ class _TravelFormState extends State<TravelForm> {
                       departureTime: _departureTime ?? "Unknown",
                       arrivalTime: _arrivalTime ?? "Unknown",
                       hotelName: _hotelName ?? "Unknown",
+                      initialBudget: _initialBudget ?? "Not Specified",
+                      tripMember: _tripMembers ?? [],
                       selectedAttractions: _selectedAttractions ?? [],
                     );
 
@@ -332,7 +332,7 @@ class _TravelFormState extends State<TravelForm> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NextPage(travelDetails: travelDetails),
+                        builder: (context) => ItinerariesDataRecordedPage(travelDetails: travelDetails),
                       ),
                     );
                   },

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_planner_project/itinerary_travel_details.dart';
+import 'package:travel_planner_project/itinerary_travel_details_page.dart';
 import 'package:travel_planner_project/itinerary_provider.dart';
 import 'model/itinerary.dart';
-class TravelPlannerApp extends StatefulWidget {
+
+
+class ItinerariesHomePage extends StatefulWidget {
   //TravelDetails td = new TravelDetails(source: "", destination: "", airline: "", flightNumber: "", departureTime: "", arrivalTime: "", hotelName: "", selectedAttractions: List<Attraction>? attractions); : attractions = attractions ?? [];
-  TravelPlannerApp({super.key});
+  const ItinerariesHomePage({super.key});
 
   @override
-  State<TravelPlannerApp> createState() => _TravelPlannerAState();
+  State<ItinerariesHomePage> createState() => _TravelPlannerAState();
 }
 
-class _TravelPlannerAState extends State<TravelPlannerApp> {
+class _TravelPlannerAState extends State<ItinerariesHomePage> {
   List<Itinerary> itineraries = [];
 
   void _deleteItinerary(int index) {
@@ -60,7 +62,7 @@ class _TravelPlannerAState extends State<TravelPlannerApp> {
             context,
             MaterialPageRoute(
               //builder: (context) => ItineraryForm(),
-              builder: (context) => TravelForm(),
+              builder: (context) => ItineraryTravelDetailsPage(),
             ),
           );
         },

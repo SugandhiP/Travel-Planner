@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_planner_project/itinerary_travel_details.dart';
-import 'package:travel_planner_project/next_page.dart';
+import 'package:travel_planner_project/itinerary_travel_details_page.dart';
+import 'package:travel_planner_project/itineraries_data_recorded_page.dart';
 
 void main() {
   testWidgets('Finding text fields in the itinerary form', (WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(home: TravelForm()));
+    await tester.pumpWidget(const MaterialApp(home: ItineraryTravelDetailsPage()));
 
 
     await tester.pumpAndSettle();
@@ -25,7 +25,7 @@ void main() {
 
 
   testWidgets('Entering the details in the form and testing until successful navigation to next page ', (WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(home: TravelForm()));
+    await tester.pumpWidget(const MaterialApp(home: ItineraryTravelDetailsPage()));
 
     await tester.tap(find.byType(DropdownButtonFormField<String>).first);
     await tester.pumpAndSettle();
@@ -73,6 +73,6 @@ void main() {
     await tester.tap(find.text("Save & Next"));
     await tester.pumpAndSettle();
 
-    expect(find.byType(NextPage), findsOneWidget);
+    expect(find.byType(ItinerariesDataRecordedPage), findsOneWidget);
   });
 }

@@ -5,10 +5,10 @@ import '../model/travel_details.dart';
 import 'itinerary_provider.dart';
 import 'model/itinerary.dart';
 
-class NextPage extends StatelessWidget {
+class ItinerariesDataRecordedPage extends StatelessWidget {
   final TravelDetails travelDetails;
 
-  const NextPage({super.key, required this.travelDetails});
+  const ItinerariesDataRecordedPage({super.key, required this.travelDetails});
 
   @override
   Widget build(BuildContext context) {
