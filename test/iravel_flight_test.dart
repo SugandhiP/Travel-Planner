@@ -17,6 +17,8 @@ void main() {
     expect(find.text("Departure Time"), findsOneWidget);
     expect(find.text("Arrival Time"), findsOneWidget);
     expect(find.text("Hotel Name"), findsOneWidget);
+    expect(find.text("Initial Budget(USD)"), findsOneWidget);
+    expect(find.text("Trip Members"), findsOneWidget);
 
     await tester.tap(find.text("Save & Next"));
   });
@@ -58,6 +60,13 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextFormField).at(4), "Radisson Hotel");
+    await tester.pump();
+
+    // New fields for Initial Budget and Trip Members
+    await tester.enterText(find.byType(TextFormField).at(5), "5000");
+    await tester.pump();
+
+    await tester.enterText(find.byType(TextFormField).at(6), "5");
     await tester.pump();
 
     await tester.ensureVisible(find.text("Save & Next"));

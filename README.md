@@ -9,3 +9,10 @@ of all the attractions you have booked or are looking to cover and may miss some
 or worse you may find the attraction is closed for the day. That is why we are proposing a new app
 that would keep track of all your journey-related schedules, attraction details, and other important
 details all in one application.
+
+
+
+commands for running test cases
+flutter test --coverage
+genhtml coverage/lcov.info -o coverage/html
+open coverage/html/index.html
