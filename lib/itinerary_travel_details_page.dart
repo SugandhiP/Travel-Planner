@@ -169,7 +169,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                   controller: _departureController,
                   readOnly: true,
                   decoration: InputDecoration(
-                    labelText: "Departure Time",
+                    labelText: "Departure Date and Time",
                     labelStyle: TextStyle(
                         color: Colors.redAccent, fontWeight: FontWeight.bold),
                     border: OutlineInputBorder(
@@ -218,7 +218,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                   controller: _arrivalController,
                   readOnly: true,
                   decoration: InputDecoration(
-                    labelText: "Arrival Time",
+                    labelText: "Arrival Date and Time",
                     labelStyle: TextStyle(
                         color: Colors.redAccent, fontWeight: FontWeight.bold),
                     border: OutlineInputBorder(
