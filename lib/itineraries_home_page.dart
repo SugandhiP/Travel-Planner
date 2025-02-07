@@ -32,7 +32,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ItineraryTravelDetailsPage(),
+        builder: (context) => ItineraryTravelDetailsPage(travelDetails: myTravelDetails[index]),
       ),
     );
   }

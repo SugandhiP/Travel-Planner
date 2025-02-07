@@ -3,10 +3,15 @@ import '../model/travel_details.dart';
 import '../data/country_list.dart';
 import '../model/attraction.dart';
 import 'itineraries_data_recorded_page.dart';
-
+import 'package:provider/provider.dart';
+import '../travel_details_provider.dart';
 
 class ItineraryTravelDetailsPage extends StatefulWidget {
-  const ItineraryTravelDetailsPage({super.key});
+  final TravelDetails? travelDetails;
+  final int? index;
+
+  const ItineraryTravelDetailsPage({Key? key, this.travelDetails, this.index})
+      : super(key: key);
 
   @override
   _TravelFormState createState() => _TravelFormState();
@@ -19,6 +24,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   @override
   void dispose() {
     _departureController.dispose();
+    _arrivalController.dispose();
     super.dispose();
   }
 
@@ -36,6 +42,27 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   List<String> _selectedAttractions = [];
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.travelDetails != null) {
+      _selectedSource = widget.travelDetails!.source;
+      _selectedDestination = widget.travelDetails!.destination;
+      _airline = widget.travelDetails!.airline;
+      _flightNumber = widget.travelDetails!.flightNumber;
+      _departureTime = widget.travelDetails!.departureTime;
+      _arrivalTime = widget.travelDetails!.arrivalTime;
+      _hotelName = widget.travelDetails!.hotelName;
+      _initialBudget = widget.travelDetails!.initialBudget;
+      _tripMembers = widget.travelDetails!.tripMember;
+      _selectedAttractions =
+          List.from(widget.travelDetails!.selectedAttractions);
+
+      _departureController.text = widget.travelDetails!.departureTime;
+      _arrivalController.text = widget.travelDetails!.arrivalTime;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Travel Planner")),
@@ -48,6 +75,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButtonFormField<String>(
+                  value: _selectedSource,
                   decoration: InputDecoration(
                     labelText: "From (Source)",
                     labelStyle: TextStyle(
@@ -71,10 +99,11 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     });
                   },
                   validator: (value) =>
-                      value == null ? "Select a source" : null,
+                  value == null ? "Select a source" : null,
                 ),
                 SizedBox(height: 12),
                 DropdownButtonFormField<String>(
+                  value: _selectedDestination,
                   decoration: InputDecoration(
                     labelText: "To (Destination)",
                     labelStyle: TextStyle(
@@ -95,7 +124,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                   onChanged: (value) {
                     setState(() {
                       _selectedDestination = value;
-                      _selectedAttractions.clear(); // Reset attractions
+                      _selectedAttractions.clear();
                     });
                   },
                   validator: (value) {
@@ -110,6 +139,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                 ),
                 SizedBox(height: 12),
                 TextFormField(
+                  initialValue: _airline,
                   decoration: InputDecoration(
                     labelText: "Airline Name",
                     labelStyle: TextStyle(
@@ -119,7 +149,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.purple.shade50,
                     prefixIcon:
-                        Icon(Icons.airplanemode_active, color: Colors.purple),
+                    Icon(Icons.airplanemode_active, color: Colors.purple),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -130,7 +160,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     if (value!.isEmpty) {
                       return "Enter airline name";
                     }
-                    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                    if (!RegExp(r'^[a-zA-Z\\s]+$').hasMatch(value)) {
                       return "Please enter valid input";
                     }
                     return null;
@@ -138,6 +168,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                 ),
                 SizedBox(height: 12),
                 TextFormField(
+                  initialValue: _flightNumber,
                   decoration: InputDecoration(
                     labelText: "Flight Number",
                     labelStyle: TextStyle(
@@ -147,7 +178,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.orange.shade50,
                     prefixIcon:
-                        Icon(Icons.confirmation_number, color: Colors.orange),
+                    Icon(Icons.confirmation_number, color: Colors.orange),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -158,7 +189,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     if (value == null || value.isEmpty) {
                       return "Enter flight number";
                     }
-                    if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                    if (!RegExp(r'^[a-zA-Z0-9\\s]+$').hasMatch(value)) {
                       return "Flight number should only contain letters and numbers";
                     }
                     return null;
@@ -177,7 +208,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.red.shade50,
                     prefixIcon:
-                        Icon(Icons.access_time, color: Colors.redAccent),
+                    Icon(Icons.access_time, color: Colors.redAccent),
                   ),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -186,7 +217,6 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                       firstDate: DateTime.now(),
                       lastDate: DateTime(2101),
                     );
-
                     if (pickedDate != null) {
                       TimeOfDay? pickedTime = await showTimePicker(
                         context: context,
@@ -205,13 +235,13 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         setState(() {
                           _departureTime = finalDateTime.toString();
                           _departureController.text =
-                              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
+                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
                         });
                       }
                     }
                   },
                   validator: (value) =>
-                      value!.isEmpty ? "Select departure time" : null,
+                  value!.isEmpty ? "Select departure time" : null,
                 ),
                 SizedBox(height: 12),
                 TextFormField(
@@ -226,7 +256,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.red.shade50,
                     prefixIcon:
-                        Icon(Icons.access_time, color: Colors.redAccent),
+                    Icon(Icons.access_time, color: Colors.redAccent),
                   ),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -254,7 +284,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         setState(() {
                           _arrivalTime = finalDateTime.toString();
                           _arrivalController.text =
-                              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
+                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
                         });
                       }
                     }
@@ -275,12 +305,12 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         departure.isAtSameMomentAs(arrival)) {
                       return "Arrival time cannot be the same as departure time";
                     }
-
                     return null;
                   },
                 ),
                 SizedBox(height: 12),
                 TextFormField(
+                  initialValue: _hotelName,
                   decoration: InputDecoration(
                     labelText: "Hotel Name",
                     labelStyle: TextStyle(
@@ -304,6 +334,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                 ),
                 SizedBox(height: 12),
                 TextFormField(
+                  initialValue: _initialBudget?.toString(),
                   decoration: InputDecoration(
                     labelText: "Initial Budget(USD)",
                     labelStyle: TextStyle(
@@ -329,6 +360,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                 ),
                 SizedBox(height: 12),
                 TextFormField(
+                  initialValue: _tripMembers?.toString(),
                   decoration: InputDecoration(
                     labelText: "Trip Members",
                     labelStyle: TextStyle(
@@ -361,74 +393,95 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                       Column(
                         children: attractionsList[_selectedDestination]!
                             .map((attraction) => CheckboxListTile(
-                                  title: Text(attraction),
-                                  value:
-                                      _selectedAttractions.contains(attraction),
-                                  onChanged: (bool? selected) {
-                                    setState(() {
-                                      if (selected == true) {
-                                        _selectedAttractions.add(attraction);
-                                      } else {
-                                        _selectedAttractions.remove(attraction);
-                                      }
-                                    });
-                                  },
-                                ))
+                          title: Text(attraction),
+                          value:
+                          _selectedAttractions.contains(attraction),
+                          onChanged: (bool? selected) {
+                            setState(() {
+                              if (selected == true) {
+                                _selectedAttractions.add(attraction);
+                              } else {
+                                _selectedAttractions.remove(attraction);
+                              }
+                            });
+                          },
+                        ))
                             .toList(),
-                      )
+                      ),
                     ],
                   ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      if (_selectedSource == null ||
-                          _selectedDestination == null ||
-                          _airline == null ||
-                          _flightNumber == null ||
-                          _departureTime == null ||
-                          _arrivalTime == null ||
-                          _hotelName == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(
-                                  "Please fill all fields before proceeding")),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        if (_selectedSource == null ||
+                            _selectedDestination == null ||
+                            _airline == null ||
+                            _flightNumber == null ||
+                            _departureTime == null ||
+                            _arrivalTime == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    "Please fill all required fields before proceeding")),
+                          );
+                          return;
+                        }
+
+                        TravelDetails travelDetail = TravelDetails(
+                          name: "",
+                          source: _selectedSource!,
+                          destination: _selectedDestination!,
+                          airline: _airline!,
+                          flightNumber: _flightNumber!,
+                          departureTime: _departureTime!,
+                          arrivalTime: _arrivalTime!,
+                          hotelName: _hotelName!,
+                          initialBudget: _initialBudget ?? 0.0,
+                          tripMember: _tripMembers ?? 0,
+                          selectedAttractions: _selectedAttractions,
+                          isFavorite: false,
                         );
-                        return;
+
+                        if (widget.travelDetails != null && widget.index != null) {
+                          // Editing Existing
+                          widget.travelDetails!.source = _selectedSource!;
+                          widget.travelDetails!.destination = _selectedDestination!;
+                          widget.travelDetails!.airline = _airline!;
+                          widget.travelDetails!.flightNumber = _flightNumber!;
+                          widget.travelDetails!.departureTime = _departureTime!;
+                          widget.travelDetails!.arrivalTime = _arrivalTime!;
+                          widget.travelDetails!.hotelName = _hotelName!;
+                          _initialBudget ?? widget.travelDetails!.initialBudget;
+                          _tripMembers ?? widget.travelDetails!.tripMember;
+                          //widget.travelDetails!.tripMember = _tripMembers ?? 0;
+                          widget.travelDetails!.selectedAttractions = _selectedAttractions;
+
+                          context.read<TravelDetailsProvider>().updateTravelDetails(widget.index!,widget.travelDetails!);
+                          // Navigator.pushReplacement(context, MaterialPageRoute(builder:
+                          // (context) => ItinerariesDataRecordedPage(travelDetails: travelDetail,)),);
+                        } else {
+                          // Adding New
+                          context.read<TravelDetailsProvider>().addTravelDetails(travelDetail);
+                        }
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ItinerariesDataRecordedPage(
+                                travelDetails: travelDetail),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Please enter valid input")),
+                        );
                       }
-
-                      TravelDetails travelDetails = TravelDetails(
-                        source: _selectedSource ?? "Unknown",
-                        destination: _selectedDestination ?? "Unknown",
-                        airline: _airline ?? "Unknown",
-                        flightNumber: _flightNumber ?? "Unknown",
-                        departureTime: _departureTime ?? "Unknown",
-                        arrivalTime: _arrivalTime ?? "Unknown",
-                        hotelName: _hotelName ?? "Unknown",
-                        initialBudget: _initialBudget ?? 0.0,
-                        tripMember: _tripMembers ?? 0,
-                        selectedAttractions: _selectedAttractions ?? [],
-                        isFavorite: false,
-                        name: "",
-                      );
-
-                      print("Navigating with: $travelDetails");
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ItinerariesDataRecordedPage(
-                              travelDetails: travelDetails),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please enter valid input")),
-                      );
-                    }
-                  },
-                  child: Text("Save & Next"),
-                ),
+                    },
+                    child: Text("Save & Next"),
+                  ),
+                )
               ],
             ),
           ),
