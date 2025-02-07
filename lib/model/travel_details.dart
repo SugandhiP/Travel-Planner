@@ -7,8 +7,8 @@ class TravelDetails {
   String departureTime;
   String arrivalTime;
   String hotelName;
-  final String initialBudget;
-  final List<String> tripMember;
+  final double initialBudget;
+  final int tripMember;
   List<String> selectedAttractions;
   bool isFavorite;
 
@@ -21,8 +21,8 @@ class TravelDetails {
     required this.departureTime,
     required this.arrivalTime,
     required this.hotelName,
-    this.initialBudget ='0',
-    this.tripMember = const[],
+    this.initialBudget =0.0,
+    this.tripMember = 0,
     required this.selectedAttractions,
     required this.isFavorite,
   });

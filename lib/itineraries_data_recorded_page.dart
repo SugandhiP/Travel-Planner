@@ -34,26 +34,13 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
             reviewTravelDetails("Flight Number", travelDetails.flightNumber),
             reviewTravelDetails("Departure Time", travelDetails.departureTime),
             reviewTravelDetails("Arrival Time", travelDetails.arrivalTime),
-            reviewTravelDetails("Initial Budget(USD)", travelDetails.initialBudget?.isNotEmpty == true ? travelDetails.initialBudget! : "Not specified"),
+            reviewTravelDetails(
+              "Initial Budget(USD)", travelDetails.initialBudget != 0.0 ? travelDetails.initialBudget.toString() : "0.0",),
+
             // reviewTravelDetails("Trip Members", travelDetails.tripMember),
-            SizedBox(height: 16),
-
-            reviewTravelTitle("TRIP MEMBERS"),
-            if (travelDetails.tripMember != null && travelDetails.tripMember!.isNotEmpty)
-              ...travelDetails.tripMember!.map((member) => reviewTravelDetails('•', member)).toList()
-            else
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  "No trip members added.",
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ),
-
+            reviewTravelDetails("Trip Members", travelDetails.tripMember!=0 ? travelDetails.tripMember.toString(): "Not Specified"),
 
             SizedBox(height: 16),
-
-
 
             reviewTravelTitle("HOTEL DETAILS"),
             reviewTravelDetails("Hotel Name", travelDetails.hotelName ?? "Not provided"),
