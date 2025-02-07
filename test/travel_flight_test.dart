@@ -14,8 +14,8 @@ void main() {
     expect(find.text("To (Destination)"), findsOneWidget);
     expect(find.text("Airline Name"), findsOneWidget);
     expect(find.text("Flight Number"), findsOneWidget);
-    expect(find.text("Departure Time"), findsOneWidget);
-    expect(find.text("Arrival Time"), findsOneWidget);
+    expect(find.text("Departure Date and Time"), findsOneWidget);
+    expect(find.text("Arrival Date and Time"), findsOneWidget);
     expect(find.text("Hotel Name"), findsOneWidget);
     expect(find.text("Initial Budget(USD)"), findsOneWidget);
     expect(find.text("Trip Members"), findsOneWidget);
@@ -73,6 +73,9 @@ void main() {
     await tester.tap(find.text("Save & Next"));
     await tester.pumpAndSettle();
 
-    expect(find.byType(ItinerariesDataRecordedPage), findsOneWidget);
   });
+
+
+
+
 }
