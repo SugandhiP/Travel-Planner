@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:travel_planner_project/itinerary_travel_details_page.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
 import 'package:travel_planner_project/travel_details_provider.dart';
+import 'itineraries_data_recorded_page.dart';
 
 
 class ItinerariesHomePage extends StatefulWidget {
@@ -37,6 +38,18 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     );
   }
 
+  void _viewItinerary(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItinerariesDataRecordedPage(
+          travelDetails: myTravelDetails[index],
+          isViewing: true,
+        ),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +75,11 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                 IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () => _editItinerary(index),
+                ),
+
+                IconButton(
+                  icon: const Icon(Icons.remove_red_eye),
+                  onPressed: () => _viewItinerary(index),
                 ),
                 IconButton(icon: Icon(Icons.delete), onPressed: () => _deleteItinerary(index)),
               ],

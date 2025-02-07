@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:travel_planner_project/save_itinerary.dart';
 import '../model/travel_details.dart';
+import 'itineraries_home_page.dart';
 
 class ItinerariesDataRecordedPage extends StatelessWidget {
   final TravelDetails travelDetails;
+  final  bool? isViewing;
 
-  const ItinerariesDataRecordedPage({super.key, required this.travelDetails});
+  const ItinerariesDataRecordedPage({super.key, required this.travelDetails, this.isViewing});
 
   @override
   Widget build(BuildContext context) {
@@ -60,16 +62,37 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
 
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ElevatedButton(
+        child: isViewing == true // Check if we are in view mode
+            ? ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blueAccent,
             padding: EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
           onPressed: () {
+            // Navigate back to the Itinerary Home Page
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ItinerariesHomePage()), // Replace with your home page widget
+            );
+          },
+          child: Text(
+            "Back to Home Page",
+            style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        )
+            : ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueAccent,
+            padding: EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+          onPressed: () {
+            // Navigate to Save Itinerary page when the form is not in view mode
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SaveItinerary(travelDetails: travelDetails)),
+              MaterialPageRoute(
+                  builder: (context) => SaveItinerary(travelDetails: travelDetails)),
             );
           },
           child: Text(
@@ -78,6 +101,7 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
           ),
         ),
       ),
+
     );
   }
 
