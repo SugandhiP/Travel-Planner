@@ -62,7 +62,6 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(4), "Radisson Hotel");
     await tester.pump();
 
-    // New fields for Initial Budget and Trip Members
     await tester.enterText(find.byType(TextFormField).at(5), "5000");
     await tester.pump();
 
