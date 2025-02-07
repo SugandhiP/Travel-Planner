@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_planner_project/itinerary_provider.dart';
 import 'package:travel_planner_project/itineraries_home_page.dart';
+import 'package:travel_planner_project/travel_details_provider.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-    create: (context) => ItineraryProvider(),
+    create: (context) => TravelDetailsProvider(),
   child: const MyApp(),
   ));
 }

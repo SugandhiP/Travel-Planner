@@ -1,6 +1,6 @@
 import 'attraction.dart';
 
-class Itinerary {
+/*class Itinerary {
    String name;
    final String from;
    final String destination;
@@ -23,4 +23,4 @@ class Itinerary {
     List<Attraction>? attractions,
     this.isFavorite = false,
   }) : attractions = attractions ?? [];
-}
+}*/

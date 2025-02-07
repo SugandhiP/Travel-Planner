@@ -1,4 +1,5 @@
 class TravelDetails {
+  String name;
   String source;
   String destination;
   String airline;
@@ -9,8 +10,10 @@ class TravelDetails {
   final String initialBudget;
   final List<String> tripMember;
   List<String> selectedAttractions;
+  bool isFavorite;
 
   TravelDetails({
+    required this.name,
     required this.source,
     required this.destination,
     required this.airline,
@@ -21,6 +24,7 @@ class TravelDetails {
     this.initialBudget ='0',
     this.tripMember = const[],
     required this.selectedAttractions,
+    required this.isFavorite,
   });
 
   @override

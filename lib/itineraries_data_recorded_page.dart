@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:travel_planner_project/save_itinerary.dart';
 import '../model/travel_details.dart';
-import 'itinerary_provider.dart';
-import 'model/itinerary.dart';
 
 class ItinerariesDataRecordedPage extends StatelessWidget {
   final TravelDetails travelDetails;
@@ -12,18 +9,18 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Itinerary myItinerary = Itinerary(
-      name: "",
-      from: travelDetails.source,
-      destination: travelDetails.destination,
-      departureTime: travelDetails.departureTime,
-      arrivalTime: travelDetails.arrivalTime,
-      tripMembers: 0,
-      initialBudget: 0.0,
-      hotelName: travelDetails.hotelName,
-      attractions: [],
-    );
-    context.read<ItineraryProvider>().addItinerary(myItinerary);
+    // Itinerary myItinerary = Itinerary(
+    //   name: "",
+    //   from: travelDetails.source,
+    //   destination: travelDetails.destination,
+    //   departureTime: travelDetails.departureTime,
+    //   arrivalTime: travelDetails.arrivalTime,
+    //   tripMembers: 0,
+    //   initialBudget: 0.0,
+    //   hotelName: travelDetails.hotelName,
+    //   attractions: [],
+    // );
+    // context.read<ItineraryProvider>().addItinerary(myItinerary);
     return Scaffold(
       appBar: AppBar(title: Text("Review Travel Itinerary Plan")),
       body: Padding(
@@ -85,7 +82,7 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SaveItinerary(travelDetails: travelDetails, itinerary: myItinerary)),
+              MaterialPageRoute(builder: (context) => SaveItinerary(travelDetails: travelDetails)),
             );
           },
           child: Text(

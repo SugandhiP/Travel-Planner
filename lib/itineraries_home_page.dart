@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_planner_project/itinerary_travel_details_page.dart';
-import 'package:travel_planner_project/itinerary_provider.dart';
-import 'model/itinerary.dart';
+import 'package:travel_planner_project/model/travel_details.dart';
+import 'package:travel_planner_project/travel_details_provider.dart';
 
 
 class ItinerariesHomePage extends StatefulWidget {
@@ -14,39 +14,38 @@ class ItinerariesHomePage extends StatefulWidget {
 }
 
 class _TravelPlannerAState extends State<ItinerariesHomePage> {
-  List<Itinerary> itineraries = [];
+  List<TravelDetails> myTravelDetails = [];
 
   void _deleteItinerary(int index) {
     setState(() {
-      itineraries.removeAt(index);
+      myTravelDetails.removeAt(index);
     });
   }
 
   void _toggleFavorite(int index) {
     setState(() {
-      itineraries[index].isFavorite = !itineraries[index].isFavorite;
+      myTravelDetails[index].isFavorite = !myTravelDetails[index].isFavorite;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final itineraries = context.read<ItineraryProvider>().itinerary;
-
+    myTravelDetails = context.read<TravelDetailsProvider>().travelDetail;
     return Scaffold(
       appBar: AppBar(title: const Text("Itineraries")),
       body: ListView.builder(
-        itemCount: itineraries.length,
+        itemCount: myTravelDetails.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(itineraries[index].name),
-            subtitle: Text(itineraries[index].destination),
+            title: Text(myTravelDetails[index].name),
+            subtitle: Text(myTravelDetails[index].destination),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
                   icon: Icon(
-                    itineraries[index].isFavorite ? Icons.star : Icons.star_border,
-                    color: itineraries[index].isFavorite ? Colors.yellow : Colors.grey,
+                    myTravelDetails[index].isFavorite ? Icons.star : Icons.star_border,
+                    color: myTravelDetails[index].isFavorite ? Colors.yellow : Colors.grey,
                   ),
                   onPressed: () => _toggleFavorite(index),
                 ),

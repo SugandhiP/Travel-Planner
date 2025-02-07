@@ -325,6 +325,8 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                       initialBudget: _initialBudget ?? "Not Specified",
                       tripMember: _tripMembers ?? [],
                       selectedAttractions: _selectedAttractions ?? [],
+                      isFavorite: false,
+                      name: "",
                     );
 
                     print("Navigating with: $travelDetails");
