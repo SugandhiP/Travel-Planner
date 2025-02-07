@@ -28,6 +28,16 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     });
   }
 
+  void _editItinerary(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItineraryTravelDetailsPage(),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     myTravelDetails = context.read<TravelDetailsProvider>().travelDetail;
@@ -48,6 +58,10 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                     color: myTravelDetails[index].isFavorite ? Colors.yellow : Colors.grey,
                   ),
                   onPressed: () => _toggleFavorite(index),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () => _editItinerary(index),
                 ),
                 IconButton(icon: Icon(Icons.delete), onPressed: () => _deleteItinerary(index)),
               ],
