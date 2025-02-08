@@ -65,7 +65,20 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Travel Planner")),
+      appBar: AppBar(
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // Centers the content
+          children: [
+            Text(
+              "Travel Planner",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.blueAccent,
+        centerTitle: true, // Ensures proper centering
+
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -99,7 +112,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     });
                   },
                   validator: (value) =>
-                  value == null ? "Select a source" : null,
+                      value == null ? "Select a source" : null,
                 ),
                 SizedBox(height: 12),
                 DropdownButtonFormField<String>(
@@ -149,7 +162,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.purple.shade50,
                     prefixIcon:
-                    Icon(Icons.airplanemode_active, color: Colors.purple),
+                        Icon(Icons.airplanemode_active, color: Colors.purple),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -178,7 +191,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.orange.shade50,
                     prefixIcon:
-                    Icon(Icons.confirmation_number, color: Colors.orange),
+                        Icon(Icons.confirmation_number, color: Colors.orange),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -208,7 +221,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.red.shade50,
                     prefixIcon:
-                    Icon(Icons.access_time, color: Colors.redAccent),
+                        Icon(Icons.access_time, color: Colors.redAccent),
                   ),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -235,13 +248,13 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         setState(() {
                           _departureTime = finalDateTime.toString();
                           _departureController.text =
-                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
+                              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
                         });
                       }
                     }
                   },
                   validator: (value) =>
-                  value!.isEmpty ? "Select departure time" : null,
+                      value!.isEmpty ? "Select departure time" : null,
                 ),
                 SizedBox(height: 12),
                 TextFormField(
@@ -256,7 +269,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.red.shade50,
                     prefixIcon:
-                    Icon(Icons.access_time, color: Colors.redAccent),
+                        Icon(Icons.access_time, color: Colors.redAccent),
                   ),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -284,7 +297,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         setState(() {
                           _arrivalTime = finalDateTime.toString();
                           _arrivalController.text =
-                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
+                              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
                         });
                       }
                     }
@@ -393,19 +406,19 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                       Column(
                         children: attractionsList[_selectedDestination]!
                             .map((attraction) => CheckboxListTile(
-                          title: Text(attraction),
-                          value:
-                          _selectedAttractions.contains(attraction),
-                          onChanged: (bool? selected) {
-                            setState(() {
-                              if (selected == true) {
-                                _selectedAttractions.add(attraction);
-                              } else {
-                                _selectedAttractions.remove(attraction);
-                              }
-                            });
-                          },
-                        ))
+                                  title: Text(attraction),
+                                  value:
+                                      _selectedAttractions.contains(attraction),
+                                  onChanged: (bool? selected) {
+                                    setState(() {
+                                      if (selected == true) {
+                                        _selectedAttractions.add(attraction);
+                                      } else {
+                                        _selectedAttractions.remove(attraction);
+                                      }
+                                    });
+                                  },
+                                ))
                             .toList(),
                       ),
                     ],
@@ -444,10 +457,12 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           isFavorite: false,
                         );
 
-                        if (widget.travelDetails != null && widget.index != null) {
+                        if (widget.travelDetails != null &&
+                            widget.index != null) {
                           // Editing Existing
                           widget.travelDetails!.source = _selectedSource!;
-                          widget.travelDetails!.destination = _selectedDestination!;
+                          widget.travelDetails!.destination =
+                              _selectedDestination!;
                           widget.travelDetails!.airline = _airline!;
                           widget.travelDetails!.flightNumber = _flightNumber!;
                           widget.travelDetails!.departureTime = _departureTime!;
@@ -456,9 +471,13 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           _initialBudget ?? widget.travelDetails!.initialBudget;
                           _tripMembers ?? widget.travelDetails!.tripMember;
                           //widget.travelDetails!.tripMember = _tripMembers ?? 0;
-                          widget.travelDetails!.selectedAttractions = _selectedAttractions;
+                          widget.travelDetails!.selectedAttractions =
+                              _selectedAttractions;
 
-                          context.read<TravelDetailsProvider>().updateTravelDetails(widget.index!,widget.travelDetails!);
+                          context
+                              .read<TravelDetailsProvider>()
+                              .updateTravelDetails(
+                                  widget.index!, widget.travelDetails!);
                           // Navigator.pushReplacement(context, MaterialPageRoute(builder:
                           // (context) => ItinerariesDataRecordedPage(travelDetails: travelDetail,)),);
                         } else {

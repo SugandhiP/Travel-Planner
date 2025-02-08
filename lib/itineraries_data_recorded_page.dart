@@ -24,7 +24,8 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
     // );
     // context.read<ItineraryProvider>().addItinerary(myItinerary);
     return Scaffold(
-      appBar: AppBar(title: Text("Review Travel Itinerary Plan")),
+      appBar: AppBar(title: Text("Review Travel Itinerary Plan" ,style: TextStyle(fontWeight: FontWeight.bold),),
+      backgroundColor: Colors.blueAccent),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: ListView(

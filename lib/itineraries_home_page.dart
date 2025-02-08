@@ -98,7 +98,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
               margin: EdgeInsets.symmetric(vertical: 8),
               child: ListTile(
                 contentPadding: EdgeInsets.all(12),
-                leading: Icon(Icons.flight, color: Colors.blueAccent, size: 35),
+                leading: Icon(Icons.flight_outlined, color: Colors.blueAccent, size: 35),
                 title: Text(
                   myTravelDetails[index].name,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
