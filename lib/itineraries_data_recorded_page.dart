@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_planner_project/save_itinerary.dart';
+import 'package:travel_planner_project/travel_details_provider.dart';
 import '../model/travel_details.dart';
 import 'itineraries_home_page.dart';
 
 class ItinerariesDataRecordedPage extends StatelessWidget {
   final TravelDetails travelDetails;
   final  bool? isViewing;
+  final bool? isEditing;
 
-  const ItinerariesDataRecordedPage({super.key, required this.travelDetails, this.isViewing});
+  const ItinerariesDataRecordedPage({super.key, required this.travelDetails, this.isViewing, this.isEditing});
 
   @override
   Widget build(BuildContext context) {
-    // Itinerary myItinerary = Itinerary(
-    //   name: "",
-    //   from: travelDetails.source,
-    //   destination: travelDetails.destination,
-    //   departureTime: travelDetails.departureTime,
-    //   arrivalTime: travelDetails.arrivalTime,
-    //   tripMembers: 0,
-    //   initialBudget: 0.0,
-    //   hotelName: travelDetails.hotelName,
-    //   attractions: [],
-    // );
-    // context.read<ItineraryProvider>().addItinerary(myItinerary);
     return Scaffold(
       appBar: AppBar(title: Text("Review Travel Itinerary Plan" ,style: TextStyle(fontWeight: FontWeight.bold),),
       backgroundColor: Colors.blueAccent),
@@ -82,6 +73,38 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
             style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
           ),
         )
+            :isEditing == true
+                ? ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                padding: EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                //Save changes while editing
+                int index = 0;
+                List<TravelDetails> dummy = context.read<TravelDetailsProvider>().travelDetail;
+                for(TravelDetails td in dummy) {
+                  if(td.name == travelDetails.name) {
+                    context.read<TravelDetailsProvider>().deleteTravelDetails(index);
+                    context.read<TravelDetailsProvider>().addTravelDetails(travelDetails);
+                    break;
+                  }
+                  ++index;
+                }
+                  // Navigator.pushReplacement(context, MaterialPageRoute(builder:
+                  // (context) => ItinerariesDataRecordedPage(travelDetails: travelDetail,)),);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ItinerariesHomePage()),
+                );
+              },
+              child: Text(
+                "Save Changes",
+                style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            )
             : ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blueAccent,

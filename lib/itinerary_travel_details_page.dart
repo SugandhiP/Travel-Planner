@@ -7,8 +7,10 @@ import 'package:provider/provider.dart';
 import '../travel_details_provider.dart';
 
 class ItineraryTravelDetailsPage extends StatefulWidget {
+  static bool? isEditing;
   final TravelDetails? travelDetails;
   final int? index;
+
 
   const ItineraryTravelDetailsPage({Key? key, this.travelDetails, this.index})
       : super(key: key);
@@ -20,7 +22,7 @@ class ItineraryTravelDetailsPage extends StatefulWidget {
 class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   final TextEditingController _departureController = TextEditingController();
   final TextEditingController _arrivalController = TextEditingController();
-
+  String myItiName = "";
   @override
   void dispose() {
     _departureController.dispose();
@@ -29,7 +31,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
+  String? _name;
   String? _selectedSource;
   String? _selectedDestination;
   String? _airline;
@@ -45,6 +47,8 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   void initState() {
     super.initState();
     if (widget.travelDetails != null) {
+      ItineraryTravelDetailsPage.isEditing = true;
+      _name = widget.travelDetails?.name;
       _selectedSource = widget.travelDetails!.source;
       _selectedDestination = widget.travelDetails!.destination;
       _airline = widget.travelDetails!.airline;
@@ -445,9 +449,14 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           );
                           return;
                         }
-
+                        // if (widget.travelDetails != null &&
+                        // widget.index != null){
+                        //   myItiName = widget.travelDetails!.name;
+                        // }
                         TravelDetails travelDetail = TravelDetails(
-                          name: "",
+                          //name: widget.travelDetails.name,
+
+                          name: _name ?? "",
                           source: _selectedSource!,
                           destination: _selectedDestination!,
                           airline: _airline!,
@@ -464,6 +473,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         if (widget.travelDetails != null &&
                             widget.index != null) {
                           // Editing Existing
+                          travelDetail.name = widget.travelDetails!.name;
                           widget.travelDetails!.source = _selectedSource!;
                           widget.travelDetails!.destination =
                               _selectedDestination!;
@@ -493,7 +503,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ItinerariesDataRecordedPage(
-                                travelDetails: travelDetail),
+                                travelDetails: travelDetail, isViewing: false, isEditing: ItineraryTravelDetailsPage.isEditing),
                           ),
                         );
                       } else {

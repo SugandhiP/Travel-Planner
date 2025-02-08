@@ -14,6 +14,7 @@ class ItinerariesHomePage extends StatefulWidget {
 }
 
 class _TravelPlannerAState extends State<ItinerariesHomePage> {
+
   List<TravelDetails> myTravelDetails = [];
 
   void _deleteItinerary(int index) {
