@@ -5,7 +5,6 @@ import 'package:travel_planner_project/model/travel_details.dart';
 import 'package:travel_planner_project/travel_details_provider.dart';
 import 'itineraries_data_recorded_page.dart';
 
-
 class ItinerariesHomePage extends StatefulWidget {
   //TravelDetails td = new TravelDetails(source: "", destination: "", airline: "", flightNumber: "", departureTime: "", arrivalTime: "", hotelName: "", selectedAttractions: List<Attraction>? attractions); : attractions = attractions ?? [];
   const ItinerariesHomePage({super.key});
@@ -33,7 +32,8 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ItineraryTravelDetailsPage(travelDetails: myTravelDetails[index]),
+        builder: (context) =>
+            ItineraryTravelDetailsPage(travelDetails: myTravelDetails[index]),
       ),
     );
   }
@@ -50,7 +50,6 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     myTravelDetails.sort((a, b) {
@@ -64,51 +63,100 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     });
 
     myTravelDetails = context.read<TravelDetailsProvider>().travelDetail;
-    return Scaffold(
-      appBar: AppBar(title: const Text("Itineraries")),
-      body: ListView.builder(
-        itemCount: myTravelDetails.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(myTravelDetails[index].name),
-            subtitle: Text(myTravelDetails[index].destination),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    myTravelDetails[index].isFavorite ? Icons.star : Icons.star_border,
-                    color: myTravelDetails[index].isFavorite ? Colors.yellow : Colors.grey,
-                  ),
-                  onPressed: () => _toggleFavorite(index),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () => _editItinerary(index),
-                ),
 
-                IconButton(
-                  icon: const Icon(Icons.remove_red_eye),
-                  onPressed: () => _viewItinerary(index),
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.flight_takeoff, color: Colors.white),
+            SizedBox(width: 8),
+            Text("Your Itineraries",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        backgroundColor: Colors.blueAccent,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue.shade100, Colors.white],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: ListView.builder(
+          itemCount: myTravelDetails.length,
+          padding: EdgeInsets.all(12),
+          itemBuilder: (context, index) {
+            return Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: ListTile(
+                contentPadding: EdgeInsets.all(12),
+                leading: Icon(Icons.flight, color: Colors.blueAccent, size: 35),
+                title: Text(
+                  myTravelDetails[index].name,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                IconButton(icon: Icon(Icons.delete), onPressed: () => _deleteItinerary(index)),
-              ],
-            ),
-          );
-        },
+                subtitle: Text(
+                  myTravelDetails[index].destination,
+                  style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        myTravelDetails[index].isFavorite
+                            ? Icons.star
+                            : Icons.star_border,
+                        color: myTravelDetails[index].isFavorite
+                            ? Colors.amber
+                            : Colors.grey,
+                      ),
+                      onPressed: () => _toggleFavorite(index),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.blueAccent),
+                      onPressed: () => _editItinerary(index),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.remove_red_eye, color: Colors.green),
+                      onPressed: () => _viewItinerary(index),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _deleteItinerary(index),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              //builder: (context) => ItineraryForm(),
-              builder: (context) => ItineraryTravelDetailsPage(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ItineraryTravelDetailsPage()),
+            );
+          },
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          label: Text(
+            "New Itinerary",
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          backgroundColor: Colors.blueAccent),
     );
   }
 }
