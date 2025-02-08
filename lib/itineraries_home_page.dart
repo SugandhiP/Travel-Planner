@@ -53,6 +53,16 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    myTravelDetails.sort((a, b) {
+      if (a.isFavorite && !b.isFavorite) {
+        return -1;
+      } else if (!a.isFavorite && b.isFavorite) {
+        return 1;
+      } else {
+        return a.departureTime.compareTo(b.departureTime);
+      }
+    });
+
     myTravelDetails = context.read<TravelDetailsProvider>().travelDetail;
     return Scaffold(
       appBar: AppBar(title: const Text("Itineraries")),
