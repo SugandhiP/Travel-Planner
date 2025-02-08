@@ -463,7 +463,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           // (context) => ItinerariesDataRecordedPage(travelDetails: travelDetail,)),);
                         } else {
                           // Adding New
-                          context.read<TravelDetailsProvider>().addTravelDetails(travelDetail);
+                          //context.read<TravelDetailsProvider>().addTravelDetails(travelDetail);
                         }
 
                         Navigator.push(
