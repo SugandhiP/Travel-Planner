@@ -209,6 +209,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                   },
                 ),
                 SizedBox(height: 12),
+
                 TextFormField(
                   controller: _departureController,
                   readOnly: true,
@@ -221,7 +222,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.red.shade50,
                     prefixIcon:
-                        Icon(Icons.access_time, color: Colors.redAccent),
+                    Icon(Icons.access_time, color: Colors.redAccent),
                   ),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -248,13 +249,13 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         setState(() {
                           _departureTime = finalDateTime.toString();
                           _departureController.text =
-                              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
+                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
                         });
                       }
                     }
                   },
                   validator: (value) =>
-                      value!.isEmpty ? "Select departure time" : null,
+                  value!.isEmpty ? "Select departure time" : null,
                 ),
                 SizedBox(height: 12),
                 TextFormField(
@@ -269,7 +270,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     filled: true,
                     fillColor: Colors.red.shade50,
                     prefixIcon:
-                        Icon(Icons.access_time, color: Colors.redAccent),
+                    Icon(Icons.access_time, color: Colors.redAccent),
                   ),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -297,7 +298,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         setState(() {
                           _arrivalTime = finalDateTime.toString();
                           _arrivalController.text =
-                              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
+                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${pickedTime.format(context)}";
                         });
                       }
                     }
@@ -313,15 +314,18 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                         ? DateTime.parse(_arrivalTime!)
                         : null;
 
-                    if (departure != null &&
-                        arrival != null &&
-                        departure.isAtSameMomentAs(arrival)) {
-                      return "Arrival time cannot be the same as departure time";
+                    if (departure != null && arrival != null) {
+                      if (departure.isAtSameMomentAs(arrival)) {
+                        return "Arrival time cannot be the same as departure time";
+                      } else if (arrival.isBefore(departure)) {
+                        return "Arrival time cannot be earlier than departure time";
+                      }
                     }
                     return null;
                   },
                 ),
                 SizedBox(height: 12),
+
                 TextFormField(
                   initialValue: _hotelName,
                   decoration: InputDecoration(
