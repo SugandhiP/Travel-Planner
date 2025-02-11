@@ -22,7 +22,6 @@ class ItineraryTravelDetailsPage extends StatefulWidget {
 class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   final TextEditingController _departureController = TextEditingController();
   final TextEditingController _arrivalController = TextEditingController();
-  String myItiName = "";
   @override
   void dispose() {
     _departureController.dispose();
@@ -449,13 +448,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           );
                           return;
                         }
-                        // if (widget.travelDetails != null &&
-                        // widget.index != null){
-                        //   myItiName = widget.travelDetails!.name;
-                        // }
                         TravelDetails travelDetail = TravelDetails(
-                          //name: widget.travelDetails.name,
-
                           name: _name ?? "",
                           source: _selectedSource!,
                           destination: _selectedDestination!,
