@@ -1,4 +1,5 @@
 class TravelDetails {
+ 
   String name;
   String source;
   String destination;
@@ -7,7 +8,7 @@ class TravelDetails {
   String departureTime;
   String arrivalTime;
   String hotelName;
-  final double initialBudget;
+  late final double initialBudget;
   final int tripMember;
   List<String> selectedAttractions;
   bool isFavorite;
@@ -26,6 +27,8 @@ class TravelDetails {
     required this.selectedAttractions,
     required this.isFavorite,
   });
+
+  get id => null;
 
   @override
   String toString() {

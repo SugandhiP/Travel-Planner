@@ -66,6 +66,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -370,10 +371,13 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                     setState(() {
                       _initialBudget = double.tryParse(value) ?? 0.0;
                     });
+                    // Update the budget in the provider
+                    Provider.of<TravelDetailsProvider>(context, listen: false)
+                        .updateBudget(_initialBudget!);
                   },
                   validator: (value) {
                     if (value!.isNotEmpty && double.tryParse(value) == null) {
-                      return "Enter a valid budget amount";
+                      return "Please enter a valid budget";
                     }
                     return null;
                   },
@@ -475,7 +479,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           widget.travelDetails!.departureTime = _departureTime!;
                           widget.travelDetails!.arrivalTime = _arrivalTime!;
                           widget.travelDetails!.hotelName = _hotelName!;
-                          _initialBudget ?? widget.travelDetails!.initialBudget;
+                          widget.travelDetails!.initialBudget = _initialBudget ?? widget.travelDetails!.initialBudget;
                           _tripMembers ?? widget.travelDetails!.tripMember;
                           //widget.travelDetails!.tripMember = _tripMembers ?? 0;
                           widget.travelDetails!.selectedAttractions =

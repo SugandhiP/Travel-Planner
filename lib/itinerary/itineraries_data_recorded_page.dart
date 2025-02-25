@@ -4,19 +4,21 @@ import 'package:travel_planner_project/itinerary/save_itinerary.dart';
 import 'package:travel_planner_project/travel_details_provider.dart';
 import '../../model/travel_details.dart';
 import 'itineraries_home_page.dart';
+import 'package:travel_planner_project/expense_tracker/expense_tracker_page.dart'; // Import the ExpenseTrackerPage
 
 class ItinerariesDataRecordedPage extends StatelessWidget {
   final TravelDetails travelDetails;
-  final  bool? isViewing;
+  final bool? isViewing;
   final bool? isEditing;
 
-  const ItinerariesDataRecordedPage({super.key, required this.travelDetails, this.isViewing, this.isEditing});
+  const ItinerariesDataRecordedPage({Key? key, required this.travelDetails, this.isViewing, this.isEditing});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Review Travel Itinerary Plan" ,style: TextStyle(fontWeight: FontWeight.bold),),
-      backgroundColor: Colors.blueAccent),
+      appBar: AppBar(
+          title: Text("Review Travel Itinerary Plan", style: TextStyle(fontWeight: FontWeight.bold),),
+          backgroundColor: Colors.blueAccent),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: ListView(
@@ -25,14 +27,14 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
             reviewTravelDetails("Source", travelDetails.source),
             reviewTravelDetails("Destination", travelDetails.destination),
             reviewTravelDetails("Airline Name", travelDetails.airline),
-            reviewTravelDetails("Flight Number", travelDetails.flightNumber),
+            reviewTravelDetails("Flight Number", travelDetails.airline),
             reviewTravelDetails("Departure Time", travelDetails.departureTime),
             reviewTravelDetails("Arrival Time", travelDetails.arrivalTime),
             reviewTravelDetails(
               "Initial Budget(USD)", travelDetails.initialBudget != 0.0 ? travelDetails.initialBudget.toString() : "0.0",),
 
             // reviewTravelDetails("Trip Members", travelDetails.tripMember),
-            reviewTravelDetails("Trip Members", travelDetails.tripMember!=0 ? travelDetails.tripMember.toString(): "Not Specified"),
+            reviewTravelDetails("Trip Members", travelDetails.tripMember != 0 ? travelDetails.tripMember.toString() : "Not Specified"),
 
             SizedBox(height: 16),
 
@@ -54,26 +56,54 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
 
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: isViewing == true // Check if we are in view mode
-            ? ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blueAccent,
-            padding: EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          onPressed: () {
-            // Navigate back to the Itinerary Home Page
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => ItinerariesHomePage()), // Replace with your home page widget
-            );
-          },
-          child: Text(
-            "Back to Home Page",
-            style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        )
-            :isEditing == true
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green, // Choose an appropriate color
+                padding: EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                // Access the TravelDetailsProvider and set the new travelDetailsId
+                Provider.of<TravelDetailsProvider>(context, listen: false)
+                    .setTravelDetailsId(travelDetails.name);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExpenseTrackerPage(travelDetails: travelDetails),
+                  ),
+                );
+              },
+              child: Text(
+                "Go to Expense Tracker",
+                style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+
+            SizedBox(height: 8),
+            isViewing == true
+                ? ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                padding: EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                // Navigate back to the Itinerary Home Page
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ItinerariesHomePage()),
+                );
+              },
+              child: Text(
+                "Back to Home Page",
+                style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            )
+                : isEditing == true
                 ? ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
@@ -84,16 +114,16 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
                 //Save changes while editing
                 int index = 0;
                 List<TravelDetails> dummy = context.read<TravelDetailsProvider>().travelDetail;
-                for(TravelDetails td in dummy) {
-                  if(td.name == travelDetails.name) {
+                for (TravelDetails td in dummy) {
+                  if (td.name == travelDetails.name) {
                     context.read<TravelDetailsProvider>().deleteTravelDetails(index);
                     context.read<TravelDetailsProvider>().addTravelDetails(travelDetails);
                     break;
                   }
                   ++index;
                 }
-                  // Navigator.pushReplacement(context, MaterialPageRoute(builder:
-                  // (context) => ItinerariesDataRecordedPage(travelDetails: travelDetail,)),);
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder:
+                // (context) => ItinerariesDataRecordedPage(travelDetails: travelDetail,)),);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -105,27 +135,28 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
               ),
             )
-            : ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blueAccent,
-            padding: EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          onPressed: () {
-            // Navigate to Save Itinerary page when the form is not in view mode
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SaveItinerary(travelDetails: travelDetails)),
-            );
-          },
-          child: Text(
-            "Save your Itinerary",
-            style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+                : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                padding: EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                // Navigate to Save Itinerary page when the form is not in view mode
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SaveItinerary(travelDetails: travelDetails)),
+                );
+              },
+              child: Text(
+                "Save your Itinerary",
+                style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
         ),
       ),
-
     );
   }
 
