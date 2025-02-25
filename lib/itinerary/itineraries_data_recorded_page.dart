@@ -27,7 +27,7 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
             reviewTravelDetails("Source", travelDetails.source),
             reviewTravelDetails("Destination", travelDetails.destination),
             reviewTravelDetails("Airline Name", travelDetails.airline),
-            reviewTravelDetails("Flight Number", travelDetails.airline),
+            reviewTravelDetails("Flight Number", travelDetails.flightNumber),
             reviewTravelDetails("Departure Time", travelDetails.departureTime),
             reviewTravelDetails("Arrival Time", travelDetails.arrivalTime),
             reviewTravelDetails(
