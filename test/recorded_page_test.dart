@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
-import 'package:travel_planner_project/itineraries_data_recorded_page.dart';
+import 'package:travel_planner_project/itinerary/itineraries_data_recorded_page.dart';
 
 void main() {
   //Test for displaying the correct sample data

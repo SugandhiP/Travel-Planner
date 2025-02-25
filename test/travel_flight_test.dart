@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_planner_project/itinerary_travel_details_page.dart';
-import 'package:travel_planner_project/itineraries_data_recorded_page.dart';
+import 'package:travel_planner_project/itinerary/itinerary_travel_details_page.dart';
+import 'package:travel_planner_project/itinerary/itineraries_data_recorded_page.dart';
 
 void main() {
   testWidgets('Finding text fields in the itinerary form', (WidgetTester tester) async {
