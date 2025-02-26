@@ -76,6 +76,12 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           ],
         ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Takes the user back to HomePage
+          },
+        ),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
         automaticallyImplyLeading: false,

@@ -1,40 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:travel_planner_project/model/travel_details.dart';
+import 'package:travel_planner_project/database/attraction_dao.dart';
 import '../database/database.dart';
 import '../database/expense_dao.dart';
+import '../model/destination.dart';
 import '../model/expense.dart';
+import '../model/travel_details.dart';
+import 'database/destination_dao.dart';
 
 class TravelDetailsProvider with ChangeNotifier {
-  final List<TravelDetails> _travelDetail = [];
-  List<Expense> _expenses = []; // Private expenses list
   late AppDatabase _database;
   late ExpenseDao _expenseDao;
+  late DestinationDao _destinationDao;
+  late AttractionDao _attractionDao;
+
+  List<Destination> _destinations = [];
+  final List<TravelDetails> _travelDetail = [];
+  List<Expense> _expenses = []; // Private expenses list
+
   double _budget = 0.0;
   String _travelDetailsId = "DEFAULT_TRAVEL_ID"; // Initialize with a default value
 
   TravelDetailsProvider(String travelDetailsId) {
     _travelDetailsId = travelDetailsId;
-    _initializeDatabase();
+    initializeDatabase();
   }
-
-  // Initialize database and load expenses for a travel detail
-  Future<void> _initializeDatabase() async {
+  // Initialize database and load initial data
+  Future<void> initializeDatabase() async {
     _database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
     _expenseDao = _database.expenseDao;
+    _destinationDao = _database.destinationDao;
+    _attractionDao = _database.attractionDao;
+    await fetchDestinations();
     await loadExpenses(); // Load initial expenses
   }
 
-  // Method to update the travelDetailsId and load expenses
+  // Fetch destinations from database
+  Future<void> fetchDestinations() async {
+    _destinations = await _database.destinationDao.getAllDestinations();
+    print("📌 Fetching destinations from DB...");
+    print("📌 Destinations fetched: $_destinations");
+    notifyListeners();
+  }
+
+  List<Destination> get destinations => _destinations;
+  List<TravelDetails> get travelDetail => _travelDetail;
+  List<Expense> get expenses => _expenses; // Getter for expenses
+  double get budget => _budget; // Getter for budget
+
+  // Set a new travelDetailsId and load associated expenses
   Future<void> setTravelDetailsId(String travelDetailsId) async {
     _travelDetailsId = travelDetailsId;
     await loadExpenses();
     notifyListeners();
   }
 
-  List<TravelDetails> get travelDetail => _travelDetail;
-  List<Expense> get expenses => _expenses; // Getter for expenses
-  double get budget => _budget; // Getter for budget
-
+  // Add, update, and delete travel details
   Future<void> addTravelDetails(TravelDetails travelDetails) async {
     _travelDetail.add(travelDetails);
     notifyListeners();
@@ -76,7 +96,7 @@ class TravelDetailsProvider with ChangeNotifier {
   // Delete an expense and remove it from the database
   Future<void> deleteExpense(Expense expense) async {
     await _expenseDao.deleteExpense(expense);
-    _expenses.remove(expense); // Remove from the local list as well
+    _expenses.remove(expense);
     await loadExpenses(); // Reload expenses to keep the list up-to-date
     notifyListeners();
   }

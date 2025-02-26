@@ -1,21 +1,47 @@
+import 'package:floor/floor.dart';
+
+@entity
 class Attraction {
+  @PrimaryKey(autoGenerate: true)
+  final int? id;
   final String name;
-  final DateTime date;
-  // final String openingTime;
-  // final String closingTime;
-  // final String notes;
+  final String country;
+  final String imageUrl;
+  //final DateTime date;
+  final int destinationId; // Foreign key reference
 
   Attraction({
+    this.id,
     required this.name,
-    required this.date,
-    //required this.openingTime,
-    //required this.closingTime,
-    //required this.notes,
+    //required this.date,
+    required this.country,
+    required this.imageUrl,
+    required this.destinationId
+
   });
+
+  // Convert Attraction to JSON
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'country': country,
+    'imageUrl': imageUrl,
+    'destinationId':destinationId,
+  };
+
+  // Convert JSON to Attraction object
+  factory Attraction.fromJson(Map<String, dynamic> json) => Attraction(
+    id: json['id'],
+    name: json['name'],
+    country: json['country'],
+    imageUrl: json['imageUrl'],
+    destinationId: json['destinationId']  ?? 0,
+  );
 
   @override
   String toString() {
-    return "Attraction: $name, Date: $date";
+    //return "Attraction: $name, Country:$country,Date: $date";
+    return "Attraction: $name, Country:$country ,ImageUrl:$imageUrl ,DestinationId:$destinationId";
   }
 }
 

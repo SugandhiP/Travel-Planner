@@ -74,6 +74,10 @@ class _$AppDatabase extends AppDatabase {
 
   ExpenseDao? _expenseDaoInstance;
 
+  DestinationDao? _destinationDaoInstance;
+
+  AttractionDao? _attractionDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -97,6 +101,10 @@ class _$AppDatabase extends AppDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Expense` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `category` TEXT NOT NULL, `amount` REAL NOT NULL, `note` TEXT NOT NULL, `travelDetailsId` TEXT NOT NULL, `date` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Destination` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `country` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `attractionsJson` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Attraction` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `country` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `destinationId` INTEGER NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -107,6 +115,17 @@ class _$AppDatabase extends AppDatabase {
   @override
   ExpenseDao get expenseDao {
     return _expenseDaoInstance ??= _$ExpenseDao(database, changeListener);
+  }
+
+  @override
+  DestinationDao get destinationDao {
+    return _destinationDaoInstance ??=
+        _$DestinationDao(database, changeListener);
+  }
+
+  @override
+  AttractionDao get attractionDao {
+    return _attractionDaoInstance ??= _$AttractionDao(database, changeListener);
   }
 }
 
@@ -221,6 +240,93 @@ class _$ExpenseDao extends ExpenseDao {
   @override
   Future<void> deleteExpense(Expense expense) async {
     await _expenseDeletionAdapter.delete(expense);
+  }
+}
+
+class _$DestinationDao extends DestinationDao {
+  _$DestinationDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _destinationInsertionAdapter = InsertionAdapter(
+            database,
+            'Destination',
+            (Destination item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'country': item.country,
+                  'imageUrl': item.imageUrl,
+                  'attractionsJson': item.attractionsJson
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Destination> _destinationInsertionAdapter;
+
+  @override
+  Future<List<Destination>> getAllDestinations() async {
+    return _queryAdapter.queryList('SELECT * FROM Destination',
+        mapper: (Map<String, Object?> row) => Destination(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            country: row['country'] as String,
+            imageUrl: row['imageUrl'] as String,
+            attractionsJson: row['attractionsJson'] as String));
+  }
+
+  @override
+  Future<int> insertDestination(Destination destination) {
+    return _destinationInsertionAdapter.insertAndReturnId(
+        destination, OnConflictStrategy.abort);
+  }
+}
+
+class _$AttractionDao extends AttractionDao {
+  _$AttractionDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _attractionInsertionAdapter = InsertionAdapter(
+            database,
+            'Attraction',
+            (Attraction item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'country': item.country,
+                  'imageUrl': item.imageUrl,
+                  'destinationId': item.destinationId
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Attraction> _attractionInsertionAdapter;
+
+  @override
+  Future<List<Attraction>> getAttractionsForDestination(
+      int destinationId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM Attraction WHERE destinationId = ?1',
+        mapper: (Map<String, Object?> row) => Attraction(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            country: row['country'] as String,
+            imageUrl: row['imageUrl'] as String,
+            destinationId: row['destinationId'] as int),
+        arguments: [destinationId]);
+  }
+
+  @override
+  Future<void> insertAttraction(Attraction attraction) async {
+    await _attractionInsertionAdapter.insert(
+        attraction, OnConflictStrategy.abort);
   }
 }
 
