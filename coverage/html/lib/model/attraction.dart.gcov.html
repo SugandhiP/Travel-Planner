@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">15</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-02-07 21:20:15</td>
+            <td class="headerValue">2025-02-26 11:37:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -60,39 +60,65 @@
               <td>
 <pre class="sourceHeading">            Line data    Source code</pre>
 <pre class="source">
-<span id="L1"><span class="lineNum">       1</span>              : class Attraction {</span>
-<span id="L2"><span class="lineNum">       2</span>              :   final String name;</span>
-<span id="L3"><span class="lineNum">       3</span>              :   final DateTime date;</span>
-<span id="L4"><span class="lineNum">       4</span>              :   // final String openingTime;</span>
-<span id="L5"><span class="lineNum">       5</span>              :   // final String closingTime;</span>
-<span id="L6"><span class="lineNum">       6</span>              :   // final String notes;</span>
-<span id="L7"><span class="lineNum">       7</span>              : </span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :   Attraction({</span></span>
-<span id="L9"><span class="lineNum">       9</span>              :     required this.name,</span>
-<span id="L10"><span class="lineNum">      10</span>              :     required this.date,</span>
-<span id="L11"><span class="lineNum">      11</span>              :     //required this.openingTime,</span>
-<span id="L12"><span class="lineNum">      12</span>              :     //required this.closingTime,</span>
-<span id="L13"><span class="lineNum">      13</span>              :     //required this.notes,</span>
-<span id="L14"><span class="lineNum">      14</span>              :   });</span>
-<span id="L15"><span class="lineNum">      15</span>              : </span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :   @override</span></span>
-<span id="L17"><span class="lineNum">      17</span>              :   String toString() {</span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :     return &quot;Attraction: $name, Date: $date&quot;;</span></span>
-<span id="L19"><span class="lineNum">      19</span>              :   }</span>
-<span id="L20"><span class="lineNum">      20</span>              : }</span>
-<span id="L21"><span class="lineNum">      21</span>              : </span>
+<span id="L1"><span class="lineNum">       1</span>              : import 'package:floor/floor.dart';</span>
+<span id="L2"><span class="lineNum">       2</span>              : </span>
+<span id="L3"><span class="lineNum">       3</span>              : @entity</span>
+<span id="L4"><span class="lineNum">       4</span>              : class Attraction {</span>
+<span id="L5"><span class="lineNum">       5</span>              :   @PrimaryKey(autoGenerate: true)</span>
+<span id="L6"><span class="lineNum">       6</span>              :   final int? id;</span>
+<span id="L7"><span class="lineNum">       7</span>              :   final String name;</span>
+<span id="L8"><span class="lineNum">       8</span>              :   final String country;</span>
+<span id="L9"><span class="lineNum">       9</span>              :   final String imageUrl;</span>
+<span id="L10"><span class="lineNum">      10</span>              :   //final DateTime date;</span>
+<span id="L11"><span class="lineNum">      11</span>              :   final int destinationId; // Foreign key reference</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   Attraction({</span></span>
+<span id="L14"><span class="lineNum">      14</span>              :     this.id,</span>
+<span id="L15"><span class="lineNum">      15</span>              :     required this.name,</span>
+<span id="L16"><span class="lineNum">      16</span>              :     //required this.date,</span>
+<span id="L17"><span class="lineNum">      17</span>              :     required this.country,</span>
+<span id="L18"><span class="lineNum">      18</span>              :     required this.imageUrl,</span>
+<span id="L19"><span class="lineNum">      19</span>              :     required this.destinationId</span>
+<span id="L20"><span class="lineNum">      20</span>              : </span>
+<span id="L21"><span class="lineNum">      21</span>              :   });</span>
 <span id="L22"><span class="lineNum">      22</span>              : </span>
-<span id="L23"><span class="lineNum">      23</span>              : const Map&lt;String, List&lt;String&gt;&gt; attractionsList = {</span>
-<span id="L24"><span class="lineNum">      24</span>              :   &quot;United States&quot;: [&quot;Statue of Liberty&quot;, &quot;Grand Canyon&quot;, &quot;Disney World&quot;],</span>
-<span id="L25"><span class="lineNum">      25</span>              :   &quot;Canada&quot;: [&quot;Niagara Falls&quot;, &quot;Banff National Park&quot;, &quot;CN Tower&quot;],</span>
-<span id="L26"><span class="lineNum">      26</span>              :   &quot;United Kingdom&quot;: [&quot;Big Ben&quot;, &quot;Tower of London&quot;, &quot;Stonehenge&quot;],</span>
-<span id="L27"><span class="lineNum">      27</span>              :   &quot;France&quot;: [&quot;Eiffel Tower&quot;, &quot;Louvre Museum&quot;, &quot;Mont Saint-Michel&quot;],</span>
-<span id="L28"><span class="lineNum">      28</span>              :   &quot;Germany&quot;: [&quot;Brandenburg Gate&quot;, &quot;Neuschwanstein Castle&quot;, &quot;Berlin Wall&quot;],</span>
-<span id="L29"><span class="lineNum">      29</span>              :   &quot;Japan&quot;: [&quot;Mount Fuji&quot;, &quot;Tokyo Tower&quot;, &quot;Fushimi Inari Shrine&quot;],</span>
-<span id="L30"><span class="lineNum">      30</span>              :   &quot;India&quot;: [&quot;Taj Mahal&quot;, &quot;Red Fort&quot;, &quot;Jaipur Palace&quot;],</span>
-<span id="L31"><span class="lineNum">      31</span>              :   &quot;China&quot;: [&quot;Great Wall of China&quot;, &quot;Forbidden City&quot;, &quot;Terracotta Army&quot;],</span>
-<span id="L32"><span class="lineNum">      32</span>              :   &quot;Brazil&quot;: [&quot;Christ the Redeemer&quot;, &quot;Amazon Rainforest&quot;, &quot;Sugarloaf Mountain&quot;],</span>
-<span id="L33"><span class="lineNum">      33</span>              : };</span>
+<span id="L23"><span class="lineNum">      23</span>              :   // Convert Attraction to JSON</span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   Map&lt;String, dynamic&gt; toJson() =&gt; {</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :     'id': id,</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :     'name': name,</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :     'country': country,</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :     'imageUrl': imageUrl,</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :     'destinationId':destinationId,</span></span>
+<span id="L30"><span class="lineNum">      30</span>              :   };</span>
+<span id="L31"><span class="lineNum">      31</span>              : </span>
+<span id="L32"><span class="lineNum">      32</span>              :   // Convert JSON to Attraction object</span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :   factory Attraction.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Attraction(</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :     id: json['id'],</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :     name: json['name'],</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :     country: json['country'],</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :     imageUrl: json['imageUrl'],</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :     destinationId: json['destinationId']  ?? 0,</span></span>
+<span id="L39"><span class="lineNum">      39</span>              :   );</span>
+<span id="L40"><span class="lineNum">      40</span>              : </span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L42"><span class="lineNum">      42</span>              :   String toString() {</span>
+<span id="L43"><span class="lineNum">      43</span>              :     //return &quot;Attraction: $name, Country:$country,Date: $date&quot;;</span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :     return &quot;Attraction: $name, Country:$country ,ImageUrl:$imageUrl ,DestinationId:$destinationId&quot;;</span></span>
+<span id="L45"><span class="lineNum">      45</span>              :   }</span>
+<span id="L46"><span class="lineNum">      46</span>              : }</span>
+<span id="L47"><span class="lineNum">      47</span>              : </span>
+<span id="L48"><span class="lineNum">      48</span>              : </span>
+<span id="L49"><span class="lineNum">      49</span>              : const Map&lt;String, List&lt;String&gt;&gt; attractionsList = {</span>
+<span id="L50"><span class="lineNum">      50</span>              :   &quot;United States&quot;: [&quot;Statue of Liberty&quot;, &quot;Grand Canyon&quot;, &quot;Disney World&quot;],</span>
+<span id="L51"><span class="lineNum">      51</span>              :   &quot;Canada&quot;: [&quot;Niagara Falls&quot;, &quot;Banff National Park&quot;, &quot;CN Tower&quot;],</span>
+<span id="L52"><span class="lineNum">      52</span>              :   &quot;United Kingdom&quot;: [&quot;Big Ben&quot;, &quot;Tower of London&quot;, &quot;Stonehenge&quot;],</span>
+<span id="L53"><span class="lineNum">      53</span>              :   &quot;France&quot;: [&quot;Eiffel Tower&quot;, &quot;Louvre Museum&quot;, &quot;Mont Saint-Michel&quot;],</span>
+<span id="L54"><span class="lineNum">      54</span>              :   &quot;Germany&quot;: [&quot;Brandenburg Gate&quot;, &quot;Neuschwanstein Castle&quot;, &quot;Berlin Wall&quot;],</span>
+<span id="L55"><span class="lineNum">      55</span>              :   &quot;Japan&quot;: [&quot;Mount Fuji&quot;, &quot;Tokyo Tower&quot;, &quot;Fushimi Inari Shrine&quot;],</span>
+<span id="L56"><span class="lineNum">      56</span>              :   &quot;India&quot;: [&quot;Taj Mahal&quot;, &quot;Red Fort&quot;, &quot;Jaipur Palace&quot;],</span>
+<span id="L57"><span class="lineNum">      57</span>              :   &quot;China&quot;: [&quot;Great Wall of China&quot;, &quot;Forbidden City&quot;, &quot;Terracotta Army&quot;],</span>
+<span id="L58"><span class="lineNum">      58</span>              :   &quot;Brazil&quot;: [&quot;Christ the Redeemer&quot;, &quot;Amazon Rainforest&quot;, &quot;Sugarloaf Mountain&quot;],</span>
+<span id="L59"><span class="lineNum">      59</span>              : };</span>
         </pre>
               </td>
             </tr>
