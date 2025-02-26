@@ -17,7 +17,6 @@ Future<void> deleteDatabaseFile() async {
 
   if (File(filePath).existsSync()) {
     await File(filePath).delete();
-    print("🗑️ Database deleted successfully!");
   }
 }
 Future<void> main() async {
@@ -33,7 +32,6 @@ Future<void> main() async {
   await populateDatabase(database);
 
   String dbPath = await getDatabasesPath();
-  print("📂 Database Path: $dbPath");
 
   runApp(
     ChangeNotifierProvider(

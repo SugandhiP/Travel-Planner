@@ -11,64 +11,64 @@ Future<void> populateDatabase(AppDatabase database) async {
     {
       "name": "United States",
       "country": "USA",
-      "imageUrl": "https://example.com/usa.jpg",
+      "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg",
       "attractions": [
-        {"name": "Statue of Liberty", "country": "USA", "imageUrl": "https://example.com/statue.jpg"},
-        {"name": "Grand Canyon", "country": "USA", "imageUrl": "https://example.com/canyon.jpg"}
+        {"name": "Statue of Liberty", "country": "USA", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"},
+        {"name": "Grand Canyon", "country": "USA", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"}
       ]
     },
     {
       "name": "France",
       "country": "France",
-      "imageUrl": "https://example.com/france.jpg",
+      "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg",
       "attractions": [
-        {"name": "Eiffel Tower", "country": "France", "imageUrl": "https://example.com/eiffel.jpg"},
-        {"name": "Louvre Museum", "country": "France", "imageUrl": "https://example.com/louvre.jpg"}
+        {"name": "Eiffel Tower", "country": "France", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"},
+        {"name": "Louvre Museum", "country": "France", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"}
       ]
     },
     {
       "name": "Japan",
       "country": "Japan",
-      "imageUrl": "https://example.com/japan.jpg",
+      "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg",
       "attractions": [
-        {"name": "Mount Fuji", "country": "Japan", "imageUrl": "https://example.com/fuji.jpg"},
-        {"name": "Tokyo Tower", "country": "Japan", "imageUrl": "https://example.com/tokyo.jpg"}
+        {"name": "Mount Fuji", "country": "Japan", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"},
+        {"name": "Tokyo Tower", "country": "Japan", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"}
       ]
     },
     {
       "name": "Italy",
       "country": "Italy",
-      "imageUrl": "https://example.com/italy.jpg",
+      "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg",
       "attractions": [
-        {"name": "Colosseum", "country": "Italy", "imageUrl": "https://example.com/colosseum.jpg"},
-        {"name": "Venice Canals", "country": "Italy", "imageUrl": "https://example.com/venice.jpg"}
+        {"name": "Colosseum", "country": "Italy", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"},
+        {"name": "Venice Canals", "country": "Italy", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"}
       ]
     },
     {
       "name": "Australia",
       "country": "Australia",
-      "imageUrl": "https://example.com/australia.jpg",
+      "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg",
       "attractions": [
-        {"name": "Sydney Opera House", "country": "Australia", "imageUrl": "https://example.com/sydney.jpg"},
-        {"name": "Great Barrier Reef", "country": "Australia", "imageUrl": "https://example.com/reef.jpg"}
+        {"name": "Sydney Opera House", "country": "Australia", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"},
+        {"name": "Great Barrier Reef", "country": "Australia", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"}
       ]
     },
     {
       "name": "Brazil",
       "country": "Brazil",
-      "imageUrl": "https://example.com/brazil.jpg",
+      "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg",
       "attractions": [
-        {"name": "Christ the Redeemer", "country": "Brazil", "imageUrl": "https://example.com/christ.jpg"},
-        {"name": "Amazon Rainforest", "country": "Brazil", "imageUrl": "https://example.com/amazon.jpg"}
+        {"name": "Christ the Redeemer", "country": "Brazil", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"},
+        {"name": "Amazon Rainforest", "country": "Brazil", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"}
       ]
     },
     {
       "name": "United Kingdom",
       "country": "UK",
-      "imageUrl": "https://example.com/uk.jpg",
+      "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg",
       "attractions": [
-        {"name": "Big Ben", "country": "UK", "imageUrl": "https://example.com/bigben.jpg"},
-        {"name": "Stonehenge", "country": "UK", "imageUrl": "https://example.com/stonehenge.jpg"}
+        {"name": "Big Ben", "country": "UK", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"},
+        {"name": "Stonehenge", "country": "UK", "imageUrl": "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg"}
       ]
     }
   ];
@@ -77,7 +77,6 @@ Future<void> populateDatabase(AppDatabase database) async {
   for (var destinationMap in destinationData) {
     String attractionsJson = json.encode(destinationMap["attractions"]);
 
-    // Insert Destination and get the auto-generated ID
     final destination = Destination(
       name: destinationMap["name"],
       country: destinationMap["country"],
@@ -86,7 +85,6 @@ Future<void> populateDatabase(AppDatabase database) async {
     );
     int destinationId = await destinationDao.insertDestination(destination);
 
-    // Insert Attractions using the generated destinationId
     List<Attraction> attractions = (destinationMap["attractions"] as List<dynamic>)
         .map((a) => Attraction(
       name: a["name"],
@@ -99,6 +97,5 @@ Future<void> populateDatabase(AppDatabase database) async {
     for (var attraction in attractions) {
       await attractionDao.insertAttraction(attraction);
     }
-    print("✅ Attractions Inserted!");
   }
 }

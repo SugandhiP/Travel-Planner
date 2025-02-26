@@ -22,7 +22,7 @@ class AttractionsPage extends StatelessWidget {
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  attraction.imageUrl, // Ensure this field exists
+                  attraction.imageUrl,
                   width: 60,
                   height: 60,
                   fit: BoxFit.cover,

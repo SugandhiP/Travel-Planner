@@ -18,7 +18,7 @@ class TravelDetailsProvider with ChangeNotifier {
   List<Expense> _expenses = []; // Private expenses list
 
   double _budget = 0.0;
-  String _travelDetailsId = "DEFAULT_TRAVEL_ID"; // Initialize with a default value
+  String _travelDetailsId = "DEFAULT_TRAVEL_ID";
 
   TravelDetailsProvider(String travelDetailsId) {
     _travelDetailsId = travelDetailsId;
@@ -37,8 +37,6 @@ class TravelDetailsProvider with ChangeNotifier {
   // Fetch destinations from database
   Future<void> fetchDestinations() async {
     _destinations = await _database.destinationDao.getAllDestinations();
-    print("📌 Fetching destinations from DB...");
-    print("📌 Destinations fetched: $_destinations");
     notifyListeners();
   }
 

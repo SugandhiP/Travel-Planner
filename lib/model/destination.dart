@@ -14,14 +14,13 @@ class Destination {
 
   Destination({this.id, required this.name, required this.country,required this.imageUrl,required this.attractionsJson});
 
-  // Convert JSON String to List<Attraction>
+
   List<Attraction> get attractions {
     if (attractionsJson.isEmpty) return [];
     List<dynamic> jsonList = json.decode(attractionsJson);
     return jsonList.map((json) => Attraction.fromJson(json)).toList();
   }
 
-  // Convert List<Attraction> to JSON String
   Destination copyWith({List<Attraction>? newAttractions}) {
     return Destination(
       id: id,

@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.network(
-                              destination.imageUrl ?? 'https://via.placeholder.com/60',
+                              destination.imageUrl ?? '',
                               width: 60,
                               height: 60,
                               fit: BoxFit.cover,
@@ -80,7 +80,6 @@ class _HomePageState extends State<HomePage> {
                           title: Text(destination.name, style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(destination.country),
                           onTap: () {
-                            print("📌 Navigating to AttractionsPage with: ${destination.name}");
                             Navigator.push(
                               context,
 
