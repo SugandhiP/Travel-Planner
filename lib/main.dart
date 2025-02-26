@@ -30,7 +30,7 @@ Future<void> main() async {
 
   // Initialize the database
   final database = (await $FloorAppDatabase
-      .databaseBuilder('app_database.db')
+      .databaseBuilder('app_database1.db')
       .addMigrations([AppDatabase.migration1to2, AppDatabase.migration2to3]) // Access the static migration variable
       .build());
 
@@ -40,7 +40,7 @@ Future<void> main() async {
 
   runApp(
     ChangeNotifierProvider(
-      create: (context) => TravelDetailsProvider("DEFAULT_TRAVEL_ID"),
+      create: (context) => TravelDetailsProvider('DEFAULT_TRAVEL_ID'),
       child: MyApp(database: database),
     ),
   );
