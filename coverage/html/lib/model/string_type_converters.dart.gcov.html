@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - lcov.info - lib/model/type_converters.dart</title>
+  <title>LCOV - lcov.info - lib/model/string_type_converters.dart</title>
   <link rel="stylesheet" type="text/css" href="../../gcov.css">
 </head>
 
@@ -19,7 +19,7 @@
                 <table cellpadding=1 border=0 width="100%">
           <tr>
             <td width="10%" class="headerItem">Current view:</td>
-            <td width="10%" class="headerValue"><a href="../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory lib/model">lib/model</a> - type_converters.dart</td>
+            <td width="10%" class="headerValue"><a href="../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory lib/model">lib/model</a> - string_type_converters.dart</td>
             <td width="5%"></td>
             <td width="5%"></td>
             <td width="5%" class="headerCovTableHead">Coverage</td>
@@ -60,19 +60,20 @@
               <td>
 <pre class="sourceHeading">            Line data    Source code</pre>
 <pre class="source">
-<span id="L1"><span class="lineNum">       1</span>              : import 'package:floor/floor.dart';</span>
-<span id="L2"><span class="lineNum">       2</span>              : </span>
-<span id="L3"><span class="lineNum">       3</span>              : class DateTimeConverter extends TypeConverter&lt;DateTime, int&gt; {</span>
-<span id="L4"><span class="lineNum">       4</span> <span class="tlaUNC">           0 :   @override</span></span>
-<span id="L5"><span class="lineNum">       5</span>              :   DateTime decode(int databaseValue) {</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC">           0 :     return DateTime.fromMillisecondsSinceEpoch(databaseValue);</span></span>
-<span id="L7"><span class="lineNum">       7</span>              :   }</span>
-<span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :   @override</span></span>
-<span id="L10"><span class="lineNum">      10</span>              :   int encode(DateTime value) {</span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :     return value.millisecondsSinceEpoch;</span></span>
-<span id="L12"><span class="lineNum">      12</span>              :   }</span>
-<span id="L13"><span class="lineNum">      13</span>              : }</span>
+<span id="L1"><span class="lineNum">       1</span>              : import 'dart:convert';</span>
+<span id="L2"><span class="lineNum">       2</span>              : import 'package:floor/floor.dart';</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : class StringListConverter extends TypeConverter&lt;List&lt;String&gt;, String&gt; {</span>
+<span id="L5"><span class="lineNum">       5</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L6"><span class="lineNum">       6</span>              :   List&lt;String&gt; decode(String databaseValue) {</span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 :     return List&lt;String&gt;.from(json.decode(databaseValue));</span></span>
+<span id="L8"><span class="lineNum">       8</span>              :   }</span>
+<span id="L9"><span class="lineNum">       9</span>              : </span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L11"><span class="lineNum">      11</span>              :   String encode(List&lt;String&gt; value) {</span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :     return json.encode(value);</span></span>
+<span id="L13"><span class="lineNum">      13</span>              :   }</span>
+<span id="L14"><span class="lineNum">      14</span>              : }</span>
         </pre>
               </td>
             </tr>

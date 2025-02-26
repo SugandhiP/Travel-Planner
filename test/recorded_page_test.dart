@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_planner_project/model/expense.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
 import 'package:travel_planner_project/itinerary/itineraries_data_recorded_page.dart';
 import 'package:travel_planner_project/travel_details_provider.dart';
@@ -8,6 +9,25 @@ import 'package:travel_planner_project/travel_details_provider.dart';
 void main() {
   testWidgets('ItinerariesDataRecordedPage displays correct data', (WidgetTester tester) async {
     // Sample travel details
+    List<Expense> testExpenses = [
+    Expense(
+    id: 1,
+    category: "Transport",
+    amount: 300.0,
+    note: "Flight ticket",
+    date: DateTime(2025, 2, 26),
+    travelDetailsId: "test_travel_id",
+    ),
+    Expense(
+    id: 2,
+    category: "Accommodation",
+    amount: 200.0,
+    note: "Hotel stay",
+    date: DateTime(2025, 2, 27),
+    travelDetailsId: "test_travel_id",
+    ),
+    ];
+
     final travelDetails = TravelDetails(
       name: 'Test Trip',
       source: 'New York',
@@ -21,6 +41,7 @@ void main() {
       tripMember: 2,
       selectedAttractions: ['Eiffel Tower', 'Louvre Museum'],
       isFavorite: false,
+      expenses: testExpenses,
     );
 
     // Render the page inside a MaterialApp
@@ -66,6 +87,24 @@ void main() {
 
   //Testing for viewing the sample data when the view button is clicked
   testWidgets('ItinerariesDataRecordedPage handles viewing mode correctly', (WidgetTester tester) async {
+    List<Expense> testExpenses = [
+      Expense(
+        id: 1,
+        category: "Transport",
+        amount: 300.0,
+        note: "Flight ticket",
+        date: DateTime(2025, 2, 26),
+        travelDetailsId: "test_travel_id",
+      ),
+      Expense(
+        id: 2,
+        category: "Accommodation",
+        amount: 200.0,
+        note: "Hotel stay",
+        date: DateTime(2025, 2, 27),
+        travelDetailsId: "test_travel_id",
+      ),
+    ];
     final travelDetails = TravelDetails(
       name: 'Test Trip',
       source: 'New York',
@@ -79,6 +118,7 @@ void main() {
       tripMember: 2,
       selectedAttractions: ['Eiffel Tower', 'Louvre Museum'],
       isFavorite: false,
+      expenses: testExpenses,
     );
 
     await tester.pumpWidget(MaterialApp(
