@@ -26,11 +26,12 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
   //   setState(() {}); // Refresh UI after deletion
   // }
 
-  // Future<void> _toggleFavorite(TravelDetails travelDetail) async {
-  //   final updatedTravelDetail = travelDetail.copyWith(isFavorite: !travelDetail.isFavorite);
-  //   await database.travelDetailsDao.updateTravelDetail(updatedTravelDetail);
-  //   setState(() {}); // Refresh UI
-  // }
+  Future<void> _toggleFavorite(TravelDetails travelDetail) async {
+    final updatedTravelDetail = travelDetail.copyWith(isFavorite: !travelDetail.isFavorite);
+    await database.travelDetailsDao.updateTravelDetail(updatedTravelDetail);
+    setState(() {}); // Refresh UI
+  }
+
 
   void _editItinerary(TravelDetails travelDetail) {
     Navigator.push(
@@ -90,6 +91,15 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
 
           List<TravelDetails> myTravelDetails = snapshot.data!;
 
+          // void _toggleFavorite(TravelDetails myTravelDetails) {
+          //   setState(() {
+          //     if(myTravelDetails.isFavorite)
+          //       myTravelDetails.isFavorite = false;
+          //     myTravelDetails.isFavorite = true;
+          //     //myTravelDetails.isFavorite = !myTravelDetails.isFavorite;
+          //   });
+          // }
+
           // Sort itineraries: Favorites first, then by departure time
           myTravelDetails.sort((a, b) {
             if (a.isFavorite && !b.isFavorite) return -1;
@@ -134,8 +144,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                             travelDetail.isFavorite ? Icons.star : Icons.star_border,
                             color: travelDetail.isFavorite ? Colors.amber : Colors.grey,
                           ),
-                          onPressed: (){},
-                          //onPressed: () => _toggleFavorite(travelDetail),
+                          onPressed: () => _toggleFavorite(travelDetail),
                         ),
                         IconButton(
                           icon: Icon(Icons.edit, color: Colors.blueAccent),

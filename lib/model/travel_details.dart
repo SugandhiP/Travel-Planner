@@ -90,6 +90,38 @@ class TravelDetails{
         "Flight Number: $flightNumber, Departure Time: $departureTime, Arrival Time: $arrivalTime, "
         "Hotel Name: $hotelName, Initial Budget(USD): $initialBudget, Trip Members: $tripMember, Destination Attractions: $selectedAttractions";
   }
+
+  TravelDetails copyWith({
+    String? name,
+    String? source,
+    String? destination,
+    String? airline,
+    String? flightNumber,
+    String? departureTime,
+    String? arrivalTime,
+    String? hotelName,
+    double? initialBudget,
+    int? tripMember,
+    List<String>? selectedAttractions,
+    bool? isFavorite,
+    List<Expense>? expenses,
+  }) {
+    return TravelDetails(
+      name: name ?? this.name,
+      source: source ?? this.source,
+      destination: destination ?? this.destination,
+      airline: airline ?? this.airline,
+      flightNumber: flightNumber ?? this.flightNumber,
+      departureTime: departureTime ?? this.departureTime,
+      arrivalTime: arrivalTime ?? this.arrivalTime,
+      hotelName: hotelName ?? this.hotelName,
+      initialBudget: initialBudget ?? this.initialBudget,
+      tripMember: tripMember ?? this.tripMember,
+      selectedAttractions: selectedAttractions ?? this.selectedAttractions,
+      isFavorite: isFavorite ?? this.isFavorite,
+      expenses: expenses ?? this.expenses,
+    );
+  }
 }
 
 /*

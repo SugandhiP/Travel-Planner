@@ -26,7 +26,7 @@ Future<void> deleteDatabaseFile() async {
 }
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await deleteDatabaseFile();
+  //await deleteDatabaseFile();
 
   // Initialize the database
   final database = (await $FloorAppDatabase
