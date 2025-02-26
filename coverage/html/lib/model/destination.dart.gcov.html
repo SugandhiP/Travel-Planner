@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">8.3&nbsp;%</td>
+            <td class="headerCovTableEntryLo">41.7&nbsp;%</td>
             <td class="headerCovTableEntry">12</td>
-            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">5</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-02-26 12:53:11</td>
+            <td class="headerValue">2025-02-26 14:19:40</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -74,13 +74,13 @@
 <span id="L12"><span class="lineNum">      12</span>              :   final String imageUrl;</span>
 <span id="L13"><span class="lineNum">      13</span>              :   final String attractionsJson;</span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           1 :   Destination({this.id, required this.name, required this.country,required this.imageUrl,required this.attractionsJson});</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           2 :   Destination({this.id, required this.name, required this.country,required this.imageUrl,required this.attractionsJson});</span></span>
 <span id="L16"><span class="lineNum">      16</span>              : </span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   List&lt;Attraction&gt; get attractions {</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     if (attractionsJson.isEmpty) return [];</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :     List&lt;dynamic&gt; jsonList = json.decode(attractionsJson);</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :     return jsonList.map((json) =&gt; Attraction.fromJson(json)).toList();</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :   List&lt;Attraction&gt; get attractions {</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           2 :     if (attractionsJson.isEmpty) return [];</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           2 :     List&lt;dynamic&gt; jsonList = json.decode(attractionsJson);</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           4 :     return jsonList.map((json) =&gt; Attraction.fromJson(json)).toList();</span></span>
 <span id="L22"><span class="lineNum">      22</span>              :   }</span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   Destination copyWith({List&lt;Attraction&gt;? newAttractions}) {</span></span>
