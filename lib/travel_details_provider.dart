@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:travel_planner_project/database/attraction_dao.dart';
 import '../database/database.dart';
@@ -33,6 +35,13 @@ class TravelDetailsProvider with ChangeNotifier {
     await fetchDestinations();
     await loadExpenses(); // Load initial expenses
   }
+
+  // Initialize database and load expenses for a travel detail
+  // Future<void> _initializeDatabase() async {
+  //   _database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  //   _expenseDao = _database.expenseDao;
+  //   await loadExpenses(); // Load initial expenses
+  // }
 
   // Fetch destinations from database
   Future<void> fetchDestinations() async {

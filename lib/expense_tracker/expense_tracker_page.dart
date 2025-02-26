@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
+import '../database/database.dart';
+import '../itinerary/save_itinerary.dart';
 import '../model/expense.dart';
 import '../travel_details_provider.dart';
 
@@ -27,6 +29,25 @@ class ExpenseTrackerPage extends StatelessWidget {
             _buildBudgetSection(context),
             Expanded(child: _buildExpenseList(context)),
             _buildExpenseSummary(context),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                padding: EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                // Navigate to Save Itinerary page when the form is not in view mode
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SaveItinerary(travelDetails: travelDetails)),
+                );
+              },
+              child: Text(
+                "Save your Itinerary",
+                style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
             Expanded(child: _buildChart(context)),
           ],
         ),
@@ -39,7 +60,133 @@ class ExpenseTrackerPage extends StatelessWidget {
     );
   }
 
+  /*Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Expense Tracker',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.lightBlue,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            _buildBudgetSection(context),
+            Expanded(child: _buildExpenseList(context)),
+            _buildExpenseSummary(context),
+            Expanded(child: _buildChart(context)),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _addExpense(context),
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.lightBlue,
+      ),
+    );
+  }*/
+
   Widget _buildBudgetSection(BuildContext context) {
+    /*final tprovider = Provider.of<TravelDetailsProvider>(context, listen: false);
+    if(tprovider.expenses!= null){
+      return _buildBudgetPage(context);
+    }*/
+    final database = Provider.of<AppDatabase>(context, listen: false);
+
+    return FutureBuilder<List<Expense>>(
+      future: database.expenseDao.findAllExpenses(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return _buildBudgetPage(context);
+        }
+
+        final expenses = snapshot.data!;
+
+        return SingleChildScrollView(
+          child: Column(
+            children: expenses.map((expense) {
+              return Card(
+                child: _buildExpenseList(context), // No Expanded here
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBudgetPage(BuildContext context) {
+    final travelDetailsProvider = Provider.of<TravelDetailsProvider>(context);
+
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Initial Budget: \$${travelDetailsProvider.budget.toStringAsFixed(2)}',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            if (travelDetailsProvider.budget == 0.0)
+              ElevatedButton(
+                onPressed: () => _setBudget(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                child: const Text('Set Initial Budget',
+                    style: TextStyle(fontSize: 16)),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  /*Widget _buildBudgetSection(BuildContext context) {
+    final database = Provider.of<AppDatabase>(context, listen: false);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Expenses"),
+        automaticallyImplyLeading: false,
+      ),
+      body: FutureBuilder<List<Expense>>(
+        future: database.expenseDao.findAllExpenses(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return _buildBudgetPage(context);
+          }
+
+          final expenses = snapshot.data!.map((e) => e.toJson()).toList();
+
+          return SingleChildScrollView(
+            child: Column(
+              children: expenses.map((expense) {
+                return Card(
+                  child: Expanded(child: _buildExpenseList(context)),
+                );
+              }).toList(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildBudgetPage(BuildContext context) {
     final travelDetailsProvider = Provider.of<TravelDetailsProvider>(context);
     return Card(
       elevation: 4,
@@ -70,7 +217,7 @@ class ExpenseTrackerPage extends StatelessWidget {
         ),
       ),
     );
-  }
+  }*/
 
   Widget _buildExpenseList(BuildContext context) {
     return Consumer<TravelDetailsProvider>(

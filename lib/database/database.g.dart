@@ -78,6 +78,8 @@ class _$AppDatabase extends AppDatabase {
 
   AttractionDao? _attractionDaoInstance;
 
+  TravelDetailsDao? _travelDetailsDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -105,6 +107,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `Destination` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `country` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `attractionsJson` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Attraction` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `country` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `destinationId` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `TravelDetails` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `source` TEXT NOT NULL, `destination` TEXT NOT NULL, `airline` TEXT NOT NULL, `flightNumber` TEXT NOT NULL, `departureTime` TEXT NOT NULL, `arrivalTime` TEXT NOT NULL, `hotelName` TEXT NOT NULL, `initialBudget` REAL NOT NULL, `tripMember` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL, `selectedAttractions` TEXT NOT NULL, `expenses` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -126,6 +130,12 @@ class _$AppDatabase extends AppDatabase {
   @override
   AttractionDao get attractionDao {
     return _attractionDaoInstance ??= _$AttractionDao(database, changeListener);
+  }
+
+  @override
+  TravelDetailsDao get travelDetailsDao {
+    return _travelDetailsDaoInstance ??=
+        _$TravelDetailsDao(database, changeListener);
   }
 }
 
@@ -330,5 +340,148 @@ class _$AttractionDao extends AttractionDao {
   }
 }
 
+class _$TravelDetailsDao extends TravelDetailsDao {
+  _$TravelDetailsDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _travelDetailsInsertionAdapter = InsertionAdapter(
+            database,
+            'TravelDetails',
+            (TravelDetails item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'source': item.source,
+                  'destination': item.destination,
+                  'airline': item.airline,
+                  'flightNumber': item.flightNumber,
+                  'departureTime': item.departureTime,
+                  'arrivalTime': item.arrivalTime,
+                  'hotelName': item.hotelName,
+                  'initialBudget': item.initialBudget,
+                  'tripMember': item.tripMember,
+                  'isFavorite': item.isFavorite ? 1 : 0,
+                  'selectedAttractions':
+                      _stringListConverter.encode(item.selectedAttractions),
+                  'expenses': _expenseListConverter.encode(item.expenses)
+                }),
+        _travelDetailsUpdateAdapter = UpdateAdapter(
+            database,
+            'TravelDetails',
+            ['id'],
+            (TravelDetails item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'source': item.source,
+                  'destination': item.destination,
+                  'airline': item.airline,
+                  'flightNumber': item.flightNumber,
+                  'departureTime': item.departureTime,
+                  'arrivalTime': item.arrivalTime,
+                  'hotelName': item.hotelName,
+                  'initialBudget': item.initialBudget,
+                  'tripMember': item.tripMember,
+                  'isFavorite': item.isFavorite ? 1 : 0,
+                  'selectedAttractions':
+                      _stringListConverter.encode(item.selectedAttractions),
+                  'expenses': _expenseListConverter.encode(item.expenses)
+                }),
+        _travelDetailsDeletionAdapter = DeletionAdapter(
+            database,
+            'TravelDetails',
+            ['id'],
+            (TravelDetails item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'source': item.source,
+                  'destination': item.destination,
+                  'airline': item.airline,
+                  'flightNumber': item.flightNumber,
+                  'departureTime': item.departureTime,
+                  'arrivalTime': item.arrivalTime,
+                  'hotelName': item.hotelName,
+                  'initialBudget': item.initialBudget,
+                  'tripMember': item.tripMember,
+                  'isFavorite': item.isFavorite ? 1 : 0,
+                  'selectedAttractions':
+                      _stringListConverter.encode(item.selectedAttractions),
+                  'expenses': _expenseListConverter.encode(item.expenses)
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<TravelDetails> _travelDetailsInsertionAdapter;
+
+  final UpdateAdapter<TravelDetails> _travelDetailsUpdateAdapter;
+
+  final DeletionAdapter<TravelDetails> _travelDetailsDeletionAdapter;
+
+  @override
+  Future<TravelDetails?> getTravelDetailByName(String name) async {
+    return _queryAdapter.query('SELECT * FROM TravelDetails WHERE name = ?1',
+        mapper: (Map<String, Object?> row) => TravelDetails(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            source: row['source'] as String,
+            destination: row['destination'] as String,
+            airline: row['airline'] as String,
+            flightNumber: row['flightNumber'] as String,
+            departureTime: row['departureTime'] as String,
+            arrivalTime: row['arrivalTime'] as String,
+            hotelName: row['hotelName'] as String,
+            initialBudget: row['initialBudget'] as double,
+            tripMember: row['tripMember'] as int,
+            selectedAttractions: _stringListConverter
+                .decode(row['selectedAttractions'] as String),
+            isFavorite: (row['isFavorite'] as int) != 0,
+            expenses: _expenseListConverter.decode(row['expenses'] as String)),
+        arguments: [name]);
+  }
+
+  @override
+  Future<List<TravelDetails>> getAllTravelDetails() async {
+    return _queryAdapter.queryList('SELECT * FROM TravelDetails',
+        mapper: (Map<String, Object?> row) => TravelDetails(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            source: row['source'] as String,
+            destination: row['destination'] as String,
+            airline: row['airline'] as String,
+            flightNumber: row['flightNumber'] as String,
+            departureTime: row['departureTime'] as String,
+            arrivalTime: row['arrivalTime'] as String,
+            hotelName: row['hotelName'] as String,
+            initialBudget: row['initialBudget'] as double,
+            tripMember: row['tripMember'] as int,
+            selectedAttractions: _stringListConverter
+                .decode(row['selectedAttractions'] as String),
+            isFavorite: (row['isFavorite'] as int) != 0,
+            expenses: _expenseListConverter.decode(row['expenses'] as String)));
+  }
+
+  @override
+  Future<void> insertTravelDetail(TravelDetails travelDetail) async {
+    await _travelDetailsInsertionAdapter.insert(
+        travelDetail, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateTravelDetail(TravelDetails travelDetail) async {
+    await _travelDetailsUpdateAdapter.update(
+        travelDetail, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTravelDetail(TravelDetails travelDetail) async {
+    await _travelDetailsDeletionAdapter.delete(travelDetail);
+  }
+}
+
 // ignore_for_file: unused_element
+final _expenseListConverter = ExpenseListConverter();
 final _dateTimeConverter = DateTimeConverter();
+final _stringListConverter = StringListConverter();

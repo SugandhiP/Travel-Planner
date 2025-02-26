@@ -1,8 +1,13 @@
-import 'dart:io';
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:floor/floor.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sqflite_common/sqlite_api.dart';
+import 'package:travel_planner_project/itinerary/itineraries_home_page.dart';
 import 'package:travel_planner_project/travel_details_provider.dart';
 import 'data/populate_data.dart';
 import 'database/database.dart';
@@ -24,10 +29,10 @@ Future<void> main() async {
   await deleteDatabaseFile();
 
   // Initialize the database
-  database = await $FloorAppDatabase
+  final database = (await $FloorAppDatabase
       .databaseBuilder('app_database.db')
-      .addMigrations([AppDatabase.migration1to2])
-      .build();
+      .addMigrations([AppDatabase.migration1to2, AppDatabase.migration2to3]) // Access the static migration variable
+      .build());
 
   await populateDatabase(database);
 
@@ -36,24 +41,28 @@ Future<void> main() async {
   runApp(
     ChangeNotifierProvider(
       create: (context) => TravelDetailsProvider("DEFAULT_TRAVEL_ID"),
-      child: const MyApp(),
+      child: MyApp(database: database),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  AppDatabase database;
+  MyApp({super.key, required this.database});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Travel Planner',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      //home: ItinerariesHomePage(),
-      home:const HomePage(),
+    return Provider<AppDatabase>.value(
+        value: database,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Travel Planner',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          //home: ItinerariesHomePage(),
+          home: HomePage(),
+        )
     );
   }
 }

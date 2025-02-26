@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../model/travel_details.dart';
 import '../../data/country_list.dart';
 import '../../model/attraction.dart';
+import '../model/expense.dart';
 import 'itineraries_data_recorded_page.dart';
 import 'package:provider/provider.dart';
 import '../../travel_details_provider.dart';
@@ -41,6 +42,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
   double? _initialBudget;
   int? _tripMembers;
   List<String> _selectedAttractions = [];
+  List<Expense> _expenses = [];
 
   @override
   void initState() {
@@ -62,6 +64,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
 
       _departureController.text = widget.travelDetails!.departureTime;
       _arrivalController.text = widget.travelDetails!.arrivalTime;
+      _expenses = widget.travelDetails!.expenses;
     }
   }
 
@@ -465,6 +468,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           tripMember: _tripMembers ?? 0,
                           selectedAttractions: _selectedAttractions,
                           isFavorite: false,
+                          expenses: _expenses,
                         );
 
                         if (widget.travelDetails != null &&
