@@ -9,7 +9,7 @@ void main() {
   testWidgets(
     'Test to add itinerary  , and checking if the delete button is working properly ',
         (WidgetTester tester) async {
-      final mockProvider = TravelDetailsProvider();
+      final mockProvider = TravelDetailsProvider("test_travel_id");
       mockProvider.addTravelDetails(
         TravelDetails(
           name: "Test Itinerary",
