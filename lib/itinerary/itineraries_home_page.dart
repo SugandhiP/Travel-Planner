@@ -21,10 +21,10 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     database = Provider.of<AppDatabase>(context, listen: false);
   }
 
-  // Future<void> _deleteItinerary(int id) async {
-  //   await database.travelDetailsDao.deleteTravelDetail(id);
-  //   setState(() {}); // Refresh UI after deletion
-  // }
+  Future<void> _deleteItinerary(TravelDetails td) async {
+    await database.travelDetailsDao.deleteTravelDetail(td.name);
+    setState(() {}); // Refresh UI after deletion
+  }
 
   Future<void> _toggleFavorite(TravelDetails travelDetail) async {
     final updatedTravelDetail = travelDetail.copyWith(isFavorite: !travelDetail.isFavorite);
@@ -156,7 +156,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                         ),
                         IconButton(
                             icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => (){}//_deleteItinerary(travelDetail.id),
+                            onPressed: () => _deleteItinerary(travelDetail),
                         ),
                       ],
                     ),
