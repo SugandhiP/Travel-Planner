@@ -385,27 +385,6 @@ class _$TravelDetailsDao extends TravelDetailsDao {
                   'selectedAttractions':
                       _stringListConverter.encode(item.selectedAttractions),
                   'expenses': _expenseListConverter.encode(item.expenses)
-                }),
-        _travelDetailsDeletionAdapter = DeletionAdapter(
-            database,
-            'TravelDetails',
-            ['id'],
-            (TravelDetails item) => <String, Object?>{
-                  'id': item.id,
-                  'name': item.name,
-                  'source': item.source,
-                  'destination': item.destination,
-                  'airline': item.airline,
-                  'flightNumber': item.flightNumber,
-                  'departureTime': item.departureTime,
-                  'arrivalTime': item.arrivalTime,
-                  'hotelName': item.hotelName,
-                  'initialBudget': item.initialBudget,
-                  'tripMember': item.tripMember,
-                  'isFavorite': item.isFavorite ? 1 : 0,
-                  'selectedAttractions':
-                      _stringListConverter.encode(item.selectedAttractions),
-                  'expenses': _expenseListConverter.encode(item.expenses)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -418,7 +397,12 @@ class _$TravelDetailsDao extends TravelDetailsDao {
 
   final UpdateAdapter<TravelDetails> _travelDetailsUpdateAdapter;
 
-  final DeletionAdapter<TravelDetails> _travelDetailsDeletionAdapter;
+  @override
+  Future<void> deleteTravelDetail(String name) async {
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM TravelDetails WHERE name = ?1',
+        arguments: [name]);
+  }
 
   @override
   Future<TravelDetails?> getTravelDetailByName(String name) async {
@@ -473,11 +457,6 @@ class _$TravelDetailsDao extends TravelDetailsDao {
   Future<void> updateTravelDetail(TravelDetails travelDetail) async {
     await _travelDetailsUpdateAdapter.update(
         travelDetail, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteTravelDetail(TravelDetails travelDetail) async {
-    await _travelDetailsDeletionAdapter.delete(travelDetail);
   }
 }
 

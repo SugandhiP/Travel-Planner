@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import '../../model/travel_details.dart';
 import '../../data/country_list.dart';
 import '../../model/attraction.dart';
+import '../database/database.dart';
+import '../main.dart';
 import '../model/expense.dart';
 import 'itineraries_data_recorded_page.dart';
 import 'package:provider/provider.dart';
 import '../../travel_details_provider.dart';
 
 class ItineraryTravelDetailsPage extends StatefulWidget {
-  static bool? isEditing;
+  static bool? isEditing = false;
   final TravelDetails? travelDetails;
   final int? index;
 
@@ -440,7 +442,7 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 25.0),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         if (_selectedSource == null ||
                             _selectedDestination == null ||
@@ -489,12 +491,27 @@ class _TravelFormState extends State<ItineraryTravelDetailsPage> {
                           widget.travelDetails!.selectedAttractions =
                               _selectedAttractions;
 
-                          context
-                              .read<TravelDetailsProvider>()
-                              .updateTravelDetails(
-                                  widget.index!, widget.travelDetails!);
+                          // context
+                          //     .read<TravelDetailsProvider>()
+                          //     .updateTravelDetails(
+                          //         widget.index!, widget.travelDetails!);
+
+                          final database = Provider.of<AppDatabase>(context, listen: false);
+                          final travelDetailsDao = database.travelDetailsDao;
+                          await travelDetailsDao.updateTravelDetail(widget.travelDetails!);
+                          // await Provider.of<TravelDetailsProvider>(context, listen: false).updateTravelDetails(widget.travelDetails!);
+                          // context.read<TravelDetailsProvider>().updateTravelDetails(widget.travelDetails!);
+
+                          // context.read<TravelDetailsProvider>().updateTravelDetails(
+                          //     widget.travelDetails! // This is the updated travel detail object
+                          // );
                           // Navigator.pushReplacement(context, MaterialPageRoute(builder:
                           // (context) => ItinerariesDataRecordedPage(travelDetails: travelDetail,)),);
+
+                          // Save the TravelDetails to the database
+                          //await context.read<TravelDetailsProvider>().addTravelDetails(widget.travelDetails);
+
+
                         } else {
                           // Adding New
                           //context.read<TravelDetailsProvider>().addTravelDetails(travelDetail);

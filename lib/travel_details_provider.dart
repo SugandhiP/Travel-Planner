@@ -89,20 +89,29 @@ class TravelDetailsProvider with ChangeNotifier {
   }
 
   // Add, update, and delete travel details
-  Future<void> addTravelDetails(TravelDetails travelDetails) async {
-    _travelDetail.add(travelDetails);
-    notifyListeners();
+  Future<void> addTravelDetails(TravelDetails travelDetail) async {
+    await _database.travelDetailsDao.insertTravelDetail(travelDetail);
+    fetchTravelDetails();
   }
 
-  Future<void> deleteTravelDetails(int index) async {
-    _travelDetail.removeAt(index);
-    notifyListeners();
+  Future<void> deleteTravelDetails(TravelDetails travelDetail) async {
+    await _database.travelDetailsDao.deleteTravelDetail(travelDetail.name);
+    fetchTravelDetails();
   }
 
-  Future<void> updateTravelDetails(int index, TravelDetails travelDetails) async {
-    _travelDetail[index] = travelDetails;
-    notifyListeners();
+  // Future<void> deleteTravelDetails(int index) async {
+  //   _travelDetail.removeAt(index);
+  //   notifyListeners();
+  // }
+  Future<void> updateTravelDetails(TravelDetails travelDetail) async {
+    await _database.travelDetailsDao.updateTravelDetail(travelDetail);
+    fetchTravelDetails(); // Refresh the list after updating the database
   }
+
+  // Future<void> updateTravelDetails(int index, TravelDetails travelDetails) async {
+  //   _travelDetail[index] = travelDetails;
+  //   notifyListeners();
+  // }
 
   Future<void> updateTravelDetailsByTravelDetails(TravelDetails updatedTravelDetails) async {
     final index = _travelDetail.indexWhere((td) => td.name == updatedTravelDetails.name);

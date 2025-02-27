@@ -41,11 +41,18 @@ class _SaveItineraryState extends State<SaveItinerary> {
 
             // Initialize the Floor database
             //final database = await $FloorAppDatabase.databaseBuilder('myuse.db').build();
-            final database = Provider.of<AppDatabase>(context, listen: false);
 
             // Save the TravelDetails to the database
-            await database.travelDetailsDao.insertTravelDetail(widget.travelDetails);
-                //.travelDetailsDao.insertTravelDetails(widget.travelDetails);
+            //await context.read<TravelDetailsProvider>().addTravelDetails(widget.travelDetails);
+            // await database.travelDetailsDao.insertTravelDetail(widget.travelDetails);
+            //
+            // context.read<TravelDetailsProvider>().addTravelDetails(widget.travelDetails);
+
+            final database = Provider.of<AppDatabase>(context, listen: false);
+            final travelDetailsDao = database.travelDetailsDao;
+            await travelDetailsDao.insertTravelDetail(widget.travelDetails);
+
+            //.travelDetailsDao.insertTravelDetails(widget.travelDetails);
 
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(

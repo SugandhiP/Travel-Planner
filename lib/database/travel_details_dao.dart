@@ -9,8 +9,8 @@ abstract class TravelDetailsDao {
   @Update()
   Future<void> updateTravelDetail(TravelDetails travelDetail);
 
-  @delete
-  Future<void> deleteTravelDetail(TravelDetails travelDetail);
+  @Query('DELETE FROM TravelDetails WHERE name = :name')
+  Future<void> deleteTravelDetail(String name);
 
   @Query('SELECT * FROM TravelDetails WHERE name = :name')
   Future<TravelDetails?> getTravelDetailByName(String name);
