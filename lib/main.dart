@@ -11,19 +11,8 @@ import 'package:path/path.dart';
 import 'itinerary/home_page.dart';
 
 late AppDatabase database;
-Future<void> deleteDatabaseFile() async {
-  final dbPath = await getDatabasesPath();
-  final filePath = join(dbPath, 'app_database1.db');
-
-  if (File(filePath).existsSync()) {
-    await File(filePath).delete();
-  }
-}
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // await deleteDatabaseFile();
-  // print("Database deleted");
 
   final database = (await $FloorAppDatabase
       .databaseBuilder('app_database1.db')

@@ -7,6 +7,12 @@ Future<void> populateDatabase(AppDatabase database) async {
   final destinationDao = database.destinationDao;
   final attractionDao = database.attractionDao;
 
+  final existingDestinations = await destinationDao.getAllDestinations();
+  if (existingDestinations.isNotEmpty) {
+    print("Database already populated. Skipping insertion.");
+    return;
+  }
+
   List<Map<String, dynamic>> destinationData = [
     {
       "name": "United States",
