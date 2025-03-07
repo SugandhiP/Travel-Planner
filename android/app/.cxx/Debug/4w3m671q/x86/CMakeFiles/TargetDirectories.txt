@@ -1,0 +1,2 @@
+/Users/anushapanta/Travel-Planner/android/app/.cxx/Debug/4w3m671q/x86/CMakeFiles/edit_cache.dir
+/Users/anushapanta/Travel-Planner/android/app/.cxx/Debug/4w3m671q/x86/CMakeFiles/rebuild_cache.dir

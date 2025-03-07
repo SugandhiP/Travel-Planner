@@ -86,7 +86,7 @@ class _$AppDatabase extends AppDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 2,
+      version: 4,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -108,7 +108,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Attraction` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `country` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `destinationId` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `TravelDetails` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `source` TEXT NOT NULL, `destination` TEXT NOT NULL, `airline` TEXT NOT NULL, `flightNumber` TEXT NOT NULL, `departureTime` TEXT NOT NULL, `arrivalTime` TEXT NOT NULL, `hotelName` TEXT NOT NULL, `initialBudget` REAL NOT NULL, `tripMember` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL, `selectedAttractions` TEXT NOT NULL, `expenses` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `TravelDetails` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `source` TEXT NOT NULL, `destination` TEXT NOT NULL, `airline` TEXT NOT NULL, `flightNumber` TEXT NOT NULL, `departureTime` TEXT NOT NULL, `arrivalTime` TEXT NOT NULL, `hotelName` TEXT NOT NULL, `initialBudget` REAL NOT NULL, `tripMember` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL, `selectedAttractions` TEXT NOT NULL, `expenses` TEXT NOT NULL, `pdfPath` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -363,7 +363,8 @@ class _$TravelDetailsDao extends TravelDetailsDao {
                   'isFavorite': item.isFavorite ? 1 : 0,
                   'selectedAttractions':
                       _stringListConverter.encode(item.selectedAttractions),
-                  'expenses': _expenseListConverter.encode(item.expenses)
+                  'expenses': _expenseListConverter.encode(item.expenses),
+                  'pdfPath': item.pdfPath
                 }),
         _travelDetailsUpdateAdapter = UpdateAdapter(
             database,
@@ -384,7 +385,8 @@ class _$TravelDetailsDao extends TravelDetailsDao {
                   'isFavorite': item.isFavorite ? 1 : 0,
                   'selectedAttractions':
                       _stringListConverter.encode(item.selectedAttractions),
-                  'expenses': _expenseListConverter.encode(item.expenses)
+                  'expenses': _expenseListConverter.encode(item.expenses),
+                  'pdfPath': item.pdfPath
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -422,7 +424,8 @@ class _$TravelDetailsDao extends TravelDetailsDao {
             selectedAttractions: _stringListConverter
                 .decode(row['selectedAttractions'] as String),
             isFavorite: (row['isFavorite'] as int) != 0,
-            expenses: _expenseListConverter.decode(row['expenses'] as String)),
+            expenses: _expenseListConverter.decode(row['expenses'] as String),
+            pdfPath: row['pdfPath'] as String?),
         arguments: [name]);
   }
 
@@ -444,7 +447,31 @@ class _$TravelDetailsDao extends TravelDetailsDao {
             selectedAttractions: _stringListConverter
                 .decode(row['selectedAttractions'] as String),
             isFavorite: (row['isFavorite'] as int) != 0,
-            expenses: _expenseListConverter.decode(row['expenses'] as String)));
+            expenses: _expenseListConverter.decode(row['expenses'] as String),
+            pdfPath: row['pdfPath'] as String?));
+  }
+
+  @override
+  Future<TravelDetails?> getTravelDetailById(int id) async {
+    return _queryAdapter.query('SELECT * FROM TravelDetails WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => TravelDetails(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            source: row['source'] as String,
+            destination: row['destination'] as String,
+            airline: row['airline'] as String,
+            flightNumber: row['flightNumber'] as String,
+            departureTime: row['departureTime'] as String,
+            arrivalTime: row['arrivalTime'] as String,
+            hotelName: row['hotelName'] as String,
+            initialBudget: row['initialBudget'] as double,
+            tripMember: row['tripMember'] as int,
+            selectedAttractions: _stringListConverter
+                .decode(row['selectedAttractions'] as String),
+            isFavorite: (row['isFavorite'] as int) != 0,
+            expenses: _expenseListConverter.decode(row['expenses'] as String),
+            pdfPath: row['pdfPath'] as String?),
+        arguments: [id]);
   }
 
   @override

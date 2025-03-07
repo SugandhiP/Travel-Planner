@@ -17,4 +17,8 @@ abstract class TravelDetailsDao {
 
   @Query('SELECT * FROM TravelDetails')
   Future<List<TravelDetails>> getAllTravelDetails();
+
+  @Query('SELECT * FROM TravelDetails WHERE id = :id')
+  Future<TravelDetails?> getTravelDetailById(int id);
+
 }

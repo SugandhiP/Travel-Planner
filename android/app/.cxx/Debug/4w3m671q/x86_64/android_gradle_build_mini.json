@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/anushapanta/Development/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/anushapanta/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/anushapanta/Travel-Planner/android/app/.cxx/Debug/4w3m671q/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/anushapanta/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/anushapanta/Travel-Planner/android/app/.cxx/Debug/4w3m671q/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

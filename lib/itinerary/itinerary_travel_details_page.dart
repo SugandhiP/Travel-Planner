@@ -8,6 +8,11 @@ import '../model/expense.dart';
 import 'itineraries_data_recorded_page.dart';
 import 'package:provider/provider.dart';
 import '../../travel_details_provider.dart';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import '../database/database.dart';
+import '../model/travel_details.dart';
+
 
 class ItineraryTravelDetailsPage extends StatefulWidget {
   static bool? isEditing = false;

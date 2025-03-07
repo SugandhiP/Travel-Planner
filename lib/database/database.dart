@@ -15,7 +15,7 @@ import 'expense_dao.dart';
 
 part 'database.g.dart';
 
-@Database(version: 2, entities: [Expense,Destination, Attraction, TravelDetails]) // Increment the version
+@Database(version: 4, entities: [Expense,Destination, Attraction, TravelDetails]) // Increment the version
 @TypeConverters([
   ExpenseListConverter,
   DateTimeConverter,
@@ -37,5 +37,11 @@ abstract class AppDatabase extends FloorDatabase {
         ' `flightNumber` TEXT NOT NULL, `departureTime` TEXT NOT NULL, `arrivalTime` TEXT NOT NULL,'
         ' `hotelName` TEXT NOT NULL, `initialBudget` REAL NOT NULL, `tripMember` INTEGER NOT NULL,'
         ' `isFavorite` INTEGER NOT NULL, `selectedAttractions` TEXT NOT NULL, `expenses` TEXT NOT NULL)');
+  });
+
+  static final Migration migration3to4 = Migration(3, 4, (database) async {
+    await database.execute(
+        'ALTER TABLE TravelDetails ADD COLUMN pdfPath TEXT'
+    );
   });
 }

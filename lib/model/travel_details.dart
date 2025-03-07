@@ -17,15 +17,12 @@ class TravelDetails{
   String hotelName;
   late final double initialBudget;
   final int tripMember;
-
   bool isFavorite;
-
-
   @TypeConverters([StringListConverter])
   List<String> selectedAttractions;
-
   @TypeConverters([ExpenseListConverter])
   List<Expense> expenses;
+  String? pdfPath;
 
   TravelDetails({
     this.id,
@@ -42,6 +39,7 @@ class TravelDetails{
     required this.selectedAttractions,
     required this.isFavorite,
     required this.expenses,
+    this.pdfPath,
   });
 
   //get id => null;
@@ -63,6 +61,7 @@ class TravelDetails{
       expenses: (json['expenses'] as List<dynamic>)
           .map((e) => Expense.fromJson(e))
           .toList(),
+      pdfPath: json['pdfPath'],
     );
   }
 
@@ -81,6 +80,7 @@ class TravelDetails{
       'selectedAttractions': selectedAttractions,
       'isFavorite': isFavorite,
       'expenses': expenses.map((e) => e.toJson()).toList(),
+      'pdfPath': pdfPath,
     };
   }
 
@@ -88,7 +88,7 @@ class TravelDetails{
   String toString() {
     return "Source: $source, Destination: $destination, Airline Name: $airline, "
         "Flight Number: $flightNumber, Departure Time: $departureTime, Arrival Time: $arrivalTime, "
-        "Hotel Name: $hotelName, Initial Budget(USD): $initialBudget, Trip Members: $tripMember, Destination Attractions: $selectedAttractions";
+        "Hotel Name: $hotelName, Initial Budget(USD): $initialBudget, Trip Members: $tripMember, Destination Attractions: $selectedAttractions,PdfPath:$pdfPath";
   }
 
   TravelDetails copyWith({
@@ -105,6 +105,7 @@ class TravelDetails{
     List<String>? selectedAttractions,
     bool? isFavorite,
     List<Expense>? expenses,
+    String? pdfPath,
   }) {
     return TravelDetails(
       name: name ?? this.name,
@@ -120,6 +121,7 @@ class TravelDetails{
       selectedAttractions: selectedAttractions ?? this.selectedAttractions,
       isFavorite: isFavorite ?? this.isFavorite,
       expenses: expenses ?? this.expenses,
+      pdfPath: pdfPath ?? this.pdfPath,
     );
   }
 }

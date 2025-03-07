@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,17 +13,21 @@ import 'itinerary/home_page.dart';
 
 late AppDatabase database;
 Future<void> main() async {
+  debugPrintGestureArenaDiagnostics = false; // Prevents rendering issues
   WidgetsFlutterBinding.ensureInitialized();
 
   final database = (await $FloorAppDatabase
       .databaseBuilder('app_database1.db')
-      .addMigrations([AppDatabase.migration1to2, AppDatabase.migration2to3]) // Access the static migration variable
+      .addMigrations([AppDatabase.migration1to2, AppDatabase.migration2to3,AppDatabase.migration3to4]) // Access the static migration variable
       .build());
 
   await populateDatabase(database);
 
   String dbPath = await getDatabasesPath();
-  print("Database Path: $dbPath");
+  print("Database Path: $dbPath/app_database1.db");
+
+  final travelDetails = await database.travelDetailsDao.getAllTravelDetails();
+  print("Database Entries: ${travelDetails.length}");
 
   runApp(
     ChangeNotifierProvider(

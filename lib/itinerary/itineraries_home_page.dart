@@ -1,7 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:provider/provider.dart';
 import 'package:travel_planner_project/database/database.dart';
 import 'package:travel_planner_project/itinerary/itinerary_travel_details_page.dart';
+import 'package:travel_planner_project/itinerary/pdf_viewer_screen.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
 import 'itineraries_data_recorded_page.dart';
 
@@ -58,6 +63,72 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     );
   }
 
+  Future<void> _generatePDF(int travelDetailId) async {
+    try {
+      // ✅ Fetch the correct itinerary by ID
+      TravelDetails? travelDetail = await database.travelDetailsDao.getTravelDetailById(travelDetailId);
+
+      if (travelDetail == null) {
+        print("Error: Travel details not found for ID $travelDetailId!");
+        return;
+      }
+
+      final pdf = pw.Document();
+
+      // ✅ Load the font for better styling
+      final fontData = await rootBundle.load("assets/fonts/Roboto-VariableFont_wdth,wght.ttf");
+      final boldFontData = await rootBundle.load("assets/fonts/Roboto-Italic-VariableFont_wdth,wght.ttf");
+
+      final ttf = pw.Font.ttf(fontData.buffer.asByteData());
+      final ttfBold = pw.Font.ttf(boldFontData.buffer.asByteData());
+
+      // ✅ Create the PDF layout
+      pdf.addPage(
+        pw.Page(
+          build: (pw.Context context) {
+            return pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text("Travel Itinerary", style: pw.TextStyle(font: ttfBold, fontSize: 24)),
+                pw.SizedBox(height: 20),
+                pw.Text("Destination: ${travelDetail.destination}", style: pw.TextStyle(font: ttf, fontSize: 18)),
+                pw.Text("Departure: ${travelDetail.departureTime}", style: pw.TextStyle(font: ttf, fontSize: 16)),
+              ],
+            );
+          },
+        ),
+      );
+
+      // ✅ Save the PDF file
+      final output = await getApplicationDocumentsDirectory();
+      final file = File("${output.path}/itinerary_${travelDetail.id}.pdf");
+      await file.writeAsBytes(await pdf.save());
+
+      // ✅ Update the PDF path in the database
+      travelDetail.pdfPath = file.path;
+      print('trvael path : $travelDetail.pdfPath');
+      await database.travelDetailsDao.updateTravelDetail(travelDetail);
+
+      setState(() {}); // Refresh UI after saving
+
+      print("PDF successfully saved at: ${file.path}");
+    } catch (e) {
+      print("Error generating PDF: $e");
+    }
+  }
+
+
+
+  void _viewPDF(TravelDetails travelDetail) {
+    if (travelDetail.pdfPath != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PDFViewerScreen(pdfPath: travelDetail.pdfPath!),
+        ),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,44 +199,86 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                 return Card(
                   elevation: 5,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  margin: EdgeInsets.symmetric(vertical: 8),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.all(12),
-                    leading: Icon(Icons.flight_outlined, color: Colors.blueAccent, size: 35),
-                    title: Text(
-                      travelDetail.name,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      travelDetail.destination,
-                      style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
+                  margin: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        IconButton(
-                          icon: Icon(
-                            travelDetail.isFavorite ? Icons.star : Icons.star_border,
-                            color: travelDetail.isFavorite ? Colors.amber : Colors.grey,
+                        Row(
+                          children: [
+                            Icon(Icons.flight_outlined, color: Colors.blueAccent, size: 35),
+                            SizedBox(width: 10), // Adds spacing between icon and text
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    travelDetail.name,
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis, // Prevents text from overflowing
+                                  ),
+                                  Text(
+                                    travelDetail.destination,
+                                    style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10), // Adds space between text and icons
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    travelDetail.isFavorite ? Icons.star : Icons.star_border,
+                                    color: travelDetail.isFavorite ? Colors.amber : Colors.grey,
+                                  ),
+                                  onPressed: () => _toggleFavorite(travelDetail),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.edit, color: Colors.blueAccent),
+                                  onPressed: () => _editItinerary(travelDetail),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.remove_red_eye, color: Colors.green),
+                                  onPressed: () => _viewItinerary(travelDetail),
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => _deleteItinerary(travelDetail),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: travelDetail.pdfPath == null
+                              ? ElevatedButton(
+                            onPressed: () => _generatePDF(travelDetail.id!),
+                            child: Text("Generate PDF"),
+                            style: ElevatedButton.styleFrom(minimumSize: Size(150, 45)),
+                          )
+                              : ElevatedButton(
+                            onPressed: () => _viewPDF(travelDetail),
+                            child: Text("View PDF"),
+                            style: ElevatedButton.styleFrom(minimumSize: Size(150, 45)),
                           ),
-                          onPressed: () => _toggleFavorite(travelDetail),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.edit, color: Colors.blueAccent),
-                          onPressed: () => _editItinerary(travelDetail),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.remove_red_eye, color: Colors.green),
-                          onPressed: () => _viewItinerary(travelDetail),
-                        ),
-                        IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => _deleteItinerary(travelDetail),
                         ),
                       ],
                     ),
                   ),
                 );
+
+
+
+
               },
             ),
           );
