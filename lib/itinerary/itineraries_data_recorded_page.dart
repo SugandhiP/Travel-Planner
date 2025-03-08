@@ -62,30 +62,6 @@ class ItinerariesDataRecordedPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green, // Choose an appropriate color
-                padding: EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              onPressed: () {
-                // Access the TravelDetailsProvider and set the new travelDetailsId
-                Provider.of<TravelDetailsProvider>(context, listen: false)
-                    .setTravelDetailsId(travelDetails.name);
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ExpenseTrackerPage(travelDetails: travelDetails),
-                  ),
-                );
-              },
-              child: Text(
-                "Go to Expense Tracker",
-                style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-
             SizedBox(height: 8),
             isViewing == true
                 ? ElevatedButton(
