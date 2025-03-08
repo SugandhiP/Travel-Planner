@@ -41,7 +41,7 @@ class TravelDetailsProvider with ChangeNotifier {
     _travelDetailsDao = _database.travelDetailsDao;
     await fetchTravelDetails();
     await fetchDestinations();
-    await loadExpenses(); // Load initial expenses
+    //await loadExpenses(); // Load initial expenses
   }
 
   List<Destination> get destinations => _destinations;
@@ -84,7 +84,7 @@ class TravelDetailsProvider with ChangeNotifier {
   // Set a new travelDetailsId and load associated expenses
   Future<void> setTravelDetailsId(String travelDetailsId) async {
     _travelDetailsId = travelDetailsId;
-    await loadExpenses();
+    //await loadExpenses();
     notifyListeners();
   }
 
@@ -121,39 +121,30 @@ class TravelDetailsProvider with ChangeNotifier {
     }
   }
 
-  // Load expenses from the database
-  Future<void> loadExpenses() async {
-    _expenses = await _expenseDao.findExpensesByTravelDetailsId(_travelDetailsId);
+  // Method to load expenses from the database
+  Future<void> loadExpenses(String travelDetailsId) async {
+    _expenses = await _expenseDao.findExpensesByTravelDetailsId(travelDetailsId);
     notifyListeners();
   }
 
-  // Add an expense and save it to the database
+  // Method to add an expense to the database
   Future<void> addExpense(Expense expense) async {
     await _expenseDao.insertExpense(expense);
-    _expenses.add(expense);
-    _budget -= expense.amount; // Deduct expense amount from budget
-    await loadExpenses(); // Reload expenses to keep the list up-to-date
-    notifyListeners();
+    await loadExpenses(expense.travelDetailsId); // Reload expenses from DB
   }
 
-  // Delete an expense and remove it from the database
+  // Method to delete an expense from the database
   Future<void> deleteExpense(Expense expense) async {
     await _expenseDao.deleteExpense(expense);
-    _expenses.remove(expense);
-    await loadExpenses(); // Reload expenses to keep the list up-to-date
-    notifyListeners();
+    await loadExpenses(expense.travelDetailsId); // Reload expenses from DB
   }
 
-  // Update an expense in both the local list and the database
+  // Method to update an expense
   Future<void> updateExpense(Expense expense) async {
     await _expenseDao.updateExpense(expense);
-    final index = _expenses.indexWhere((e) => e.id == expense.id);
-    if (index != -1) {
-      _expenses[index] = expense; // Update in the local list
-      await loadExpenses(); // Reload expenses to keep the list up-to-date
-      notifyListeners();
-    }
+    await loadExpenses(expense.travelDetailsId); // Reload expenses from DB
   }
+
 
   // Method to update the budget value
   void updateBudget(double newBudget) {
