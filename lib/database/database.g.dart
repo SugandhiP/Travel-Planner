@@ -334,6 +334,30 @@ class _$AttractionDao extends AttractionDao {
   }
 
   @override
+  Future<Attraction?> getAttractionById(int id) async {
+    return _queryAdapter.query('SELECT * FROM Attraction WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => Attraction(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            country: row['country'] as String,
+            imageUrl: row['imageUrl'] as String,
+            destinationId: row['destinationId'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<Attraction?> getAttractionByName(String name) async {
+    return _queryAdapter.query('SELECT * FROM Attraction WHERE name = ?1',
+        mapper: (Map<String, Object?> row) => Attraction(
+            id: row['id'] as int?,
+            name: row['name'] as String,
+            country: row['country'] as String,
+            imageUrl: row['imageUrl'] as String,
+            destinationId: row['destinationId'] as int),
+        arguments: [name]);
+  }
+
+  @override
   Future<void> insertAttraction(Attraction attraction) async {
     await _attractionInsertionAdapter.insert(
         attraction, OnConflictStrategy.abort);

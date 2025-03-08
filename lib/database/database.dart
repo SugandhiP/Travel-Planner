@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:travel_planner_project/database/travel_details_dao.dart';
 import 'package:travel_planner_project/model/expense.dart';
 import '../model/attraction.dart';
+import '../model/attraction_details.dart';
 import '../model/destination.dart';
 import '../model/expense_type_converters.dart';
 import '../model/string_type_converters.dart';
@@ -15,7 +16,8 @@ import 'expense_dao.dart';
 
 part 'database.g.dart';
 
-@Database(version: 4, entities: [Expense,Destination, Attraction, TravelDetails]) // Increment the version
+@Database(version: 4, entities: [Expense,Destination, Attraction, TravelDetails
+]) // Increment the version
 @TypeConverters([
   ExpenseListConverter,
   DateTimeConverter,
@@ -26,9 +28,10 @@ abstract class AppDatabase extends FloorDatabase {
   DestinationDao get destinationDao;
   AttractionDao get attractionDao;
   TravelDetailsDao get travelDetailsDao;
+  //AttractionDetailsDao get attractionDetailsDao;
 
  static final migration1to2 = Migration(1, 2, (database) async {
-  await database.execute('ALTER TABLE Expense ADD COLUMN travelDetailsId TEXT NOT NULL DEFAULT \'\''); // Change type to TEXT and add default value
+  await database.execute('ALTER TABLE Expense ADD COLUMN travelDetailsId TEXT NOT NULL DEFAULT \'\'');
  });
 
   static final Migration migration2to3 = Migration(2, 3, (database) async {

@@ -7,16 +7,15 @@ class Attraction {
   final String name;
   final String country;
   final String imageUrl;
-  //final DateTime date;
-  final int destinationId; // Foreign key reference
+  final int destinationId;
+
 
   Attraction({
     this.id,
     required this.name,
-    //required this.date,
     required this.country,
     required this.imageUrl,
-    required this.destinationId
+    required this.destinationId,
 
   });
 
@@ -26,7 +25,8 @@ class Attraction {
     'name': name,
     'country': country,
     'imageUrl': imageUrl,
-    'destinationId':destinationId,
+    'destinationId': destinationId,
+
   };
 
   // Convert JSON to Attraction object
@@ -35,15 +35,16 @@ class Attraction {
     name: json['name'],
     country: json['country'],
     imageUrl: json['imageUrl'],
-    destinationId: json['destinationId']  ?? 0,
+    destinationId: json['destinationId'] ?? 0,
+
   );
 
   @override
   String toString() {
-    //return "Attraction: $name, Country:$country,Date: $date";
-    return "Attraction: $name, Country:$country ,ImageUrl:$imageUrl ,DestinationId:$destinationId";
+    return "Attraction: $name, Country: $country, ImageUrl: $imageUrl, DestinationId: $destinationId" ;
   }
 }
+
 
 
 const Map<String, List<String>> attractionsList = {

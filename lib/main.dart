@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:travel_planner_project/travel_details_provider.dart';
+import 'data/attraction_data.dart';
 import 'data/populate_data.dart';
 import 'database/database.dart';
 import 'dart:async';
 import 'package:path/path.dart';
 import 'itinerary/home_page.dart';
+import 'model/attraction_details.dart';
 
 late AppDatabase database;
 Future<void> main() async {
@@ -29,6 +31,8 @@ Future<void> main() async {
   final travelDetails = await database.travelDetailsDao.getAllTravelDetails();
   print("Database Entries: ${travelDetails.length}");
 
+  //await populateAttractionDetails(database);
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => TravelDetailsProvider('DEFAULT_TRAVEL_ID'),
@@ -36,6 +40,25 @@ Future<void> main() async {
     ),
   );
 }
+
+// Future<void> populateAttractionDetails(AppDatabase database) async {
+//   final attractionDetailsDao = database.attractionDetailsDao;
+//   for (var entry in attractionDetailsMap.entries) {
+//     final attractionName = entry.key;
+//     final details = entry.value;
+//     // You might want to add an ID or some unique identifier to link
+//     // the AttractionDetails to the Attraction.
+//     // Here, I'm assuming you'll add a field named 'attractionName' to
+//     // AttractionDetails to store the attraction's name.
+//     final attractionDetails = AttractionDetails(
+//       openingHours: details.openingHours,
+//       closingTime: details.closingTime,
+//       officialWebsite: details.officialWebsite,
+//     );
+//     await attractionDetailsDao.insertAttractionDetails(attractionDetails);
+//     print('Inserted details for $attractionName');
+//   }
+// }
 
 class MyApp extends StatelessWidget {
   AppDatabase database;

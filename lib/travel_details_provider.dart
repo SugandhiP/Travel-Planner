@@ -10,6 +10,8 @@ import '../model/travel_details.dart';
 import 'database/destination_dao.dart';
 import 'database/travel_details_dao.dart';
 import 'main.dart';
+import 'model/attraction.dart';
+import 'model/attraction_details.dart';
 
 class TravelDetailsProvider with ChangeNotifier {
   late AppDatabase _database;
@@ -17,9 +19,11 @@ class TravelDetailsProvider with ChangeNotifier {
   late DestinationDao _destinationDao;
   late AttractionDao _attractionDao;
   late TravelDetailsDao _travelDetailsDao;
+  //late AttractionDetailsDao _attractionDetailsDao;
 
   List<Destination> _destinations = [];
   List<TravelDetails> _travelDetail = [];
+  List<Attraction> _attractions = [];
   List<Expense> _expenses = []; // Private expenses list
 
   double _budget = 0.0;
@@ -39,6 +43,7 @@ class TravelDetailsProvider with ChangeNotifier {
     _destinationDao = _database.destinationDao;
     _attractionDao = _database.attractionDao;
     _travelDetailsDao = _database.travelDetailsDao;
+   // _attractionDetailsDao = _database.attractionDetailsDao;
     await fetchTravelDetails();
     await fetchDestinations();
     //await loadExpenses(); // Load initial expenses
@@ -151,4 +156,37 @@ class TravelDetailsProvider with ChangeNotifier {
     _budget = newBudget;
     notifyListeners();
   }
+  Future<Attraction?> getAttractionDetails(int attractionId) async {
+    return await _attractionDao.getAttractionById(attractionId);
+  }
+
+// Fetch Attraction Details by ID
+//   Future<void> fetchAttractionDetails(int attractionId) async {
+//
+//     // Fetch attraction from AttractionDao
+//     Attraction? attraction = await _attractionDao.getAttractionById(attractionId);
+//
+//     if (attraction != null) {
+//       // Check if attraction.id is null before proceeding
+//       if (attraction.id != null) {
+//         // Fetch the attraction details using AttractionDetailsDao
+//         AttractionDetails? attractionDetails = await _attractionDetailsDao.getAttractionDetailsById(attraction.id!);
+//
+//         if (attractionDetails != null) {
+//           // Process the attractionDetails
+//           print("Fetched Attraction Details: $attractionDetails");
+//         } else {
+//           print("No attraction details found for this attraction.");
+//         }
+//       } else {
+//         print("Attraction ID is null.");
+//       }
+//     } else {
+//       print("Attraction not found!");
+//     }
+//   }
+
+
+
 }
+

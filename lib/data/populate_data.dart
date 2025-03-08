@@ -104,4 +104,7 @@ Future<void> populateDatabase(AppDatabase database) async {
       await attractionDao.insertAttraction(attraction);
     }
   }
+
+
 }
+
