@@ -10,9 +10,11 @@ import 'package:travel_planner_project/itinerary/pdf_viewer_screen.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
 import '../expense_tracker/expense_tracker_page.dart';
 import 'itineraries_data_recorded_page.dart';
+import 'package:nfc_manager/nfc_manager.dart';
+import 'dart:typed_data';
 
 class ItinerariesHomePage extends StatefulWidget {
-  ItinerariesHomePage({super.key});
+  ItinerariesHomePage({Key? key}) : super(key: key);
 
   @override
   State<ItinerariesHomePage> createState() => _TravelPlannerAState();
@@ -29,9 +31,8 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
 
   Future<void> _deleteItinerary(TravelDetails td) async {
     await database.travelDetailsDao.deleteTravelDetail(td.name);
-    setState(() {}); // Refresh UI after deletion
+    setState(() {});
   }
-
 
   Future<void> _toggleFavorite(TravelDetails travelDetail) async {
     bool isFav = travelDetail.isFavorite;
@@ -41,7 +42,6 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     await database.travelDetailsDao.insertTravelDetail(newTravelDetails);
     setState(() {});
   }
-
 
   void _editItinerary(TravelDetails travelDetail) {
     Navigator.push(
@@ -75,7 +75,6 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
 
   Future<void> _generatePDF(int travelDetailId) async {
     try {
-      // ✅ Fetch the correct itinerary by ID
       TravelDetails? travelDetail = await database.travelDetailsDao.getTravelDetailById(travelDetailId);
 
       if (travelDetail == null) {
@@ -85,14 +84,12 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
 
       final pdf = pw.Document();
 
-      // ✅ Load the font for better styling
       final fontData = await rootBundle.load("assets/fonts/Roboto-VariableFont_wdth,wght.ttf");
       final boldFontData = await rootBundle.load("assets/fonts/Roboto-Italic-VariableFont_wdth,wght.ttf");
 
       final ttf = pw.Font.ttf(fontData.buffer.asByteData());
       final ttfBold = pw.Font.ttf(boldFontData.buffer.asByteData());
 
-      // ✅ Create the PDF layout
       pdf.addPage(
         pw.Page(
           build: (pw.Context context) {
@@ -109,25 +106,20 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
         ),
       );
 
-      // ✅ Save the PDF file
       final output = await getApplicationDocumentsDirectory();
       final file = File("${output.path}/itinerary_${travelDetail.id}.pdf");
       await file.writeAsBytes(await pdf.save());
 
-      // ✅ Update the PDF path in the database
       travelDetail.pdfPath = file.path;
-      print('trvael path : $travelDetail.pdfPath');
+      print('travel path: ${travelDetail.pdfPath}');
       await database.travelDetailsDao.updateTravelDetail(travelDetail);
 
-      setState(() {}); // Refresh UI after saving
-
+      setState(() {});
       print("PDF successfully saved at: ${file.path}");
     } catch (e) {
       print("Error generating PDF: $e");
     }
   }
-
-
 
   void _viewPDF(TravelDetails travelDetail) {
     if (travelDetail.pdfPath != null) {
@@ -139,6 +131,56 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
       );
     }
   }
+
+  Future<void> _sharePdfViaNfc(BuildContext context, String? pdfPath) async {
+    if (pdfPath == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('PDF not generated yet')),
+      );
+      return;
+    }
+
+    Uint8List pdfBytes = await File(pdfPath).readAsBytes();
+
+    NfcManager nfcManager = NfcManager.instance;
+    bool isAvailable = await nfcManager.isAvailable();
+
+    if (!isAvailable) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('NFC is not available on this device')),
+      );
+      return;
+    }
+
+    nfcManager.startSession(onDiscovered: (NfcTag tag) async {
+      var ndef = Ndef.from(tag);
+      if (ndef == null || !ndef.isWritable) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Tag is not ndef writable')),
+        );
+        nfcManager.stopSession();
+        return;
+      }
+
+      NdefMessage message = NdefMessage([
+        NdefRecord.createMime('application/pdf', pdfBytes),
+      ]);
+
+      try {
+        await ndef.write(message);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('PDF shared successfully')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to share PDF: $e')),
+        );
+      } finally {
+        nfcManager.stopSession();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,7 +199,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Takes the user back to HomePage
+            Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.blueAccent,
@@ -176,16 +218,6 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
 
           List<TravelDetails> myTravelDetails = snapshot.data!;
 
-          // void _toggleFavorite(TravelDetails myTravelDetails) {
-          //   setState(() {
-          //     if(myTravelDetails.isFavorite)
-          //       myTravelDetails.isFavorite = false;
-          //     myTravelDetails.isFavorite = true;
-          //     //myTravelDetails.isFavorite = !myTravelDetails.isFavorite;
-          //   });
-          // }
-
-          // Sort itineraries: Favorites first, then by departure time
           myTravelDetails.sort((a, b) {
             if (a.isFavorite && !b.isFavorite) return -1;
             if (!a.isFavorite && b.isFavorite) return 1;
@@ -205,7 +237,6 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
               padding: EdgeInsets.all(12),
               itemBuilder: (context, index) {
                 final travelDetail = myTravelDetails[index];
-
                 return Card(
                   elevation: 5,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -218,7 +249,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                         Row(
                           children: [
                             Icon(Icons.flight_outlined, color: Colors.blueAccent, size: 35),
-                            SizedBox(width: 10), // Adds spacing between icon and text
+                            SizedBox(width: 10),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,7 +257,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                                   Text(
                                     travelDetail.name,
                                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                    overflow: TextOverflow.ellipsis, // Prevents text from overflowing
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
                                     travelDetail.destination,
@@ -238,7 +269,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10), // Adds space between text and icons
+                        SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -269,48 +300,46 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                         ),
                         SizedBox(height: 10),
                         Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Column(
                             children: [
-                              // Generate PDF / View PDF Button
-                              ElevatedButton(
-                                onPressed: travelDetail.pdfPath == null
-                                    ? () => _generatePDF(travelDetail.id!)
-                                    : () => _viewPDF(travelDetail),
-                                child: Text(travelDetail.pdfPath == null ? "Generate PDF" : "View PDF"),
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(150, 45),
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: travelDetail.pdfPath == null
+                                          ? () => _generatePDF(travelDetail.id!)
+                                          : () => _viewPDF(travelDetail),
+                                      child: Text(travelDetail.pdfPath == null ? "Generate PDF" : "View PDF"),
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(150, 45),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 12),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () => _openExpenseTracker(travelDetail),
+                                      child: Text("Expense Tracker"),
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(150, 45),
+                                        backgroundColor: Colors.orange,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 12), // Space between buttons
-
-                              // Expense Tracker Button
-                              ElevatedButton(
-                                onPressed: () => _openExpenseTracker(travelDetail),
-                                child: Text("Expense Tracker"),
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(150, 45),
-                                  backgroundColor: Colors.orange, // Different color for differentiation
+                              if (travelDetail.pdfPath != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: IconButton(
+                                    icon: Icon(Icons.nfc),
+                                    onPressed: () => _sharePdfViaNfc(context, travelDetail.pdfPath),
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),
-
-                        // SizedBox(height: 10),
-                        // Center(
-                        //   child: travelDetail.pdfPath == null
-                        //       ? ElevatedButton(
-                        //     onPressed: () => _generatePDF(travelDetail.id!),
-                        //     child: Text("Generate PDF"),
-                        //     style: ElevatedButton.styleFrom(minimumSize: Size(150, 45)),
-                        //   )
-                        //       : ElevatedButton(
-                        //     onPressed: () => _viewPDF(travelDetail),
-                        //     child: Text("View PDF"),
-                        //     style: ElevatedButton.styleFrom(minimumSize: Size(150, 45)),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -338,3 +367,4 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     );
   }
 }
+
