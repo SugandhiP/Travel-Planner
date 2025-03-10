@@ -53,6 +53,7 @@
     <uses-feature android:name="android.hardware.nfc"
         android:required="true" />
 
+
     <application
         android:enableOnBackInvokedCallback="true"
         android:label="travel_planner_project"

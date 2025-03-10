@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
+import '../nfc_service.dart';
+
 class PDFViewerScreen extends StatelessWidget {
   final String pdfPath;
 
@@ -9,7 +11,15 @@ class PDFViewerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("View Itinerary")),
+      appBar: AppBar(
+        title: Text("View Itinerary"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.nfc, color: Colors.red),
+            onPressed: () => NfcService.sendPdfViaNfc(context, pdfPath),
+          ),
+        ],
+      ),
       body: PDFView(
         filePath: pdfPath,
       ),

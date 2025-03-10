@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">6</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-02-26 21:28:57</td>
+            <td class="headerValue">2025-03-10 13:24:49</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -66,41 +66,50 @@
 <span id="L4"><span class="lineNum">       4</span>              : import 'package:travel_planner_project/database/travel_details_dao.dart';</span>
 <span id="L5"><span class="lineNum">       5</span>              : import 'package:travel_planner_project/model/expense.dart';</span>
 <span id="L6"><span class="lineNum">       6</span>              : import '../model/attraction.dart';</span>
-<span id="L7"><span class="lineNum">       7</span>              : import '../model/destination.dart';</span>
-<span id="L8"><span class="lineNum">       8</span>              : import '../model/expense_type_converters.dart';</span>
-<span id="L9"><span class="lineNum">       9</span>              : import '../model/string_type_converters.dart';</span>
-<span id="L10"><span class="lineNum">      10</span>              : import '../model/travel_details.dart';</span>
-<span id="L11"><span class="lineNum">      11</span>              : import '../model/type_converters.dart';</span>
-<span id="L12"><span class="lineNum">      12</span>              : import 'attraction_dao.dart';</span>
-<span id="L13"><span class="lineNum">      13</span>              : import 'destination_dao.dart';</span>
-<span id="L14"><span class="lineNum">      14</span>              : import 'expense_dao.dart';</span>
-<span id="L15"><span class="lineNum">      15</span>              : </span>
-<span id="L16"><span class="lineNum">      16</span>              : part 'database.g.dart';</span>
-<span id="L17"><span class="lineNum">      17</span>              : </span>
-<span id="L18"><span class="lineNum">      18</span>              : @Database(version: 2, entities: [Expense,Destination, Attraction, TravelDetails]) // Increment the version</span>
-<span id="L19"><span class="lineNum">      19</span>              : @TypeConverters([</span>
-<span id="L20"><span class="lineNum">      20</span>              :   ExpenseListConverter,</span>
-<span id="L21"><span class="lineNum">      21</span>              :   DateTimeConverter,</span>
-<span id="L22"><span class="lineNum">      22</span>              :   StringListConverter</span>
-<span id="L23"><span class="lineNum">      23</span>              : ])</span>
-<span id="L24"><span class="lineNum">      24</span>              : abstract class AppDatabase extends FloorDatabase {</span>
-<span id="L25"><span class="lineNum">      25</span>              :   ExpenseDao get expenseDao;</span>
-<span id="L26"><span class="lineNum">      26</span>              :   DestinationDao get destinationDao;</span>
-<span id="L27"><span class="lineNum">      27</span>              :   AttractionDao get attractionDao;</span>
-<span id="L28"><span class="lineNum">      28</span>              :   TravelDetailsDao get travelDetailsDao;</span>
-<span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :  static final migration1to2 = Migration(1, 2, (database) async {</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   await database.execute('ALTER TABLE Expense ADD COLUMN travelDetailsId TEXT NOT NULL DEFAULT \'\''); // Change type to TEXT and add default value</span></span>
-<span id="L32"><span class="lineNum">      32</span>              :  });</span>
-<span id="L33"><span class="lineNum">      33</span>              : </span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   static final Migration migration2to3 = Migration(2, 3, (database) async {</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :     await database.execute('CREATE TABLE IF NOT EXISTS `TravelDetails` (`name` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL,'</span></span>
-<span id="L36"><span class="lineNum">      36</span>              :         ' `source` TEXT NOT NULL, `destination` TEXT NOT NULL, `airline` TEXT NOT NULL,'</span>
-<span id="L37"><span class="lineNum">      37</span>              :         ' `flightNumber` TEXT NOT NULL, `departureTime` TEXT NOT NULL, `arrivalTime` TEXT NOT NULL,'</span>
-<span id="L38"><span class="lineNum">      38</span>              :         ' `hotelName` TEXT NOT NULL, `initialBudget` REAL NOT NULL, `tripMember` INTEGER NOT NULL,'</span>
-<span id="L39"><span class="lineNum">      39</span>              :         ' `isFavorite` INTEGER NOT NULL, `selectedAttractions` TEXT NOT NULL, `expenses` TEXT NOT NULL)');</span>
-<span id="L40"><span class="lineNum">      40</span>              :   });</span>
-<span id="L41"><span class="lineNum">      41</span>              : }</span>
+<span id="L7"><span class="lineNum">       7</span>              : import '../model/attraction_details.dart';</span>
+<span id="L8"><span class="lineNum">       8</span>              : import '../model/destination.dart';</span>
+<span id="L9"><span class="lineNum">       9</span>              : import '../model/expense_type_converters.dart';</span>
+<span id="L10"><span class="lineNum">      10</span>              : import '../model/string_type_converters.dart';</span>
+<span id="L11"><span class="lineNum">      11</span>              : import '../model/travel_details.dart';</span>
+<span id="L12"><span class="lineNum">      12</span>              : import '../model/type_converters.dart';</span>
+<span id="L13"><span class="lineNum">      13</span>              : import 'attraction_dao.dart';</span>
+<span id="L14"><span class="lineNum">      14</span>              : import 'destination_dao.dart';</span>
+<span id="L15"><span class="lineNum">      15</span>              : import 'expense_dao.dart';</span>
+<span id="L16"><span class="lineNum">      16</span>              : </span>
+<span id="L17"><span class="lineNum">      17</span>              : part 'database.g.dart';</span>
+<span id="L18"><span class="lineNum">      18</span>              : </span>
+<span id="L19"><span class="lineNum">      19</span>              : @Database(version: 4, entities: [Expense,Destination, Attraction, TravelDetails</span>
+<span id="L20"><span class="lineNum">      20</span>              : ]) // Increment the version</span>
+<span id="L21"><span class="lineNum">      21</span>              : @TypeConverters([</span>
+<span id="L22"><span class="lineNum">      22</span>              :   ExpenseListConverter,</span>
+<span id="L23"><span class="lineNum">      23</span>              :   DateTimeConverter,</span>
+<span id="L24"><span class="lineNum">      24</span>              :   StringListConverter</span>
+<span id="L25"><span class="lineNum">      25</span>              : ])</span>
+<span id="L26"><span class="lineNum">      26</span>              : abstract class AppDatabase extends FloorDatabase {</span>
+<span id="L27"><span class="lineNum">      27</span>              :   ExpenseDao get expenseDao;</span>
+<span id="L28"><span class="lineNum">      28</span>              :   DestinationDao get destinationDao;</span>
+<span id="L29"><span class="lineNum">      29</span>              :   AttractionDao get attractionDao;</span>
+<span id="L30"><span class="lineNum">      30</span>              :   TravelDetailsDao get travelDetailsDao;</span>
+<span id="L31"><span class="lineNum">      31</span>              :   //AttractionDetailsDao get attractionDetailsDao;</span>
+<span id="L32"><span class="lineNum">      32</span>              : </span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :  static final migration1to2 = Migration(1, 2, (database) async {</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   await database.execute('ALTER TABLE Expense ADD COLUMN travelDetailsId TEXT NOT NULL DEFAULT \'\'');</span></span>
+<span id="L35"><span class="lineNum">      35</span>              :  });</span>
+<span id="L36"><span class="lineNum">      36</span>              : </span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :   static final Migration migration2to3 = Migration(2, 3, (database) async {</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :     await database.execute('CREATE TABLE IF NOT EXISTS `TravelDetails` (`name` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL,'</span></span>
+<span id="L39"><span class="lineNum">      39</span>              :         ' `source` TEXT NOT NULL, `destination` TEXT NOT NULL, `airline` TEXT NOT NULL,'</span>
+<span id="L40"><span class="lineNum">      40</span>              :         ' `flightNumber` TEXT NOT NULL, `departureTime` TEXT NOT NULL, `arrivalTime` TEXT NOT NULL,'</span>
+<span id="L41"><span class="lineNum">      41</span>              :         ' `hotelName` TEXT NOT NULL, `initialBudget` REAL NOT NULL, `tripMember` INTEGER NOT NULL,'</span>
+<span id="L42"><span class="lineNum">      42</span>              :         ' `isFavorite` INTEGER NOT NULL, `selectedAttractions` TEXT NOT NULL, `expenses` TEXT NOT NULL)');</span>
+<span id="L43"><span class="lineNum">      43</span>              :   });</span>
+<span id="L44"><span class="lineNum">      44</span>              : </span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :   static final Migration migration3to4 = Migration(3, 4, (database) async {</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :     await database.execute(</span></span>
+<span id="L47"><span class="lineNum">      47</span>              :         'ALTER TABLE TravelDetails ADD COLUMN pdfPath TEXT'</span>
+<span id="L48"><span class="lineNum">      48</span>              :     );</span>
+<span id="L49"><span class="lineNum">      49</span>              :   });</span>
+<span id="L50"><span class="lineNum">      50</span>              : }</span>
         </pre>
               </td>
             </tr>
