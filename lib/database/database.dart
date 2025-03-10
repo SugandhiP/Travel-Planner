@@ -16,7 +16,7 @@ import 'expense_dao.dart';
 
 part 'database.g.dart';
 
-@Database(version: 4, entities: [Expense,Destination, Attraction, TravelDetails
+@Database(version: 6, entities: [Expense,Destination, Attraction, TravelDetails
 ]) // Increment the version
 @TypeConverters([
   ExpenseListConverter,
@@ -47,4 +47,19 @@ abstract class AppDatabase extends FloorDatabase {
         'ALTER TABLE TravelDetails ADD COLUMN pdfPath TEXT'
     );
   });
+
+
+
+  static final Migration migration4to5 = Migration(4, 5, (database) async {
+    await database.execute(
+        'ALTER TABLE TravelDetails ADD COLUMN imagePaths TEXT NOT NULL DEFAULT \'[]\'');
+  });
+
+
+  static final Migration migration5to6 = Migration(5, 6, (database) async {
+    await database.execute(
+        'ALTER TABLE TravelDetails ADD COLUMN imagePaths TEXT'
+    );
+  });
 }
+

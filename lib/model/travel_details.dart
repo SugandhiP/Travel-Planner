@@ -3,6 +3,7 @@ import 'package:travel_planner_project/model/string_type_converters.dart';
 import 'expense.dart';
 import 'expense_type_converters.dart';
 
+@TypeConverters([StringListConverter, ExpenseListConverter])
 @Entity(tableName: 'TravelDetails')
 class TravelDetails{
   @PrimaryKey(autoGenerate: true)
@@ -24,6 +25,10 @@ class TravelDetails{
   List<Expense> expenses;
   String? pdfPath;
 
+  @TypeConverters([StringListConverter])
+  List<String> imagePaths;
+
+
   TravelDetails({
     this.id,
     required this.name,
@@ -40,6 +45,7 @@ class TravelDetails{
     required this.isFavorite,
     required this.expenses,
     this.pdfPath,
+    this.imagePaths = const [],
   });
 
   //get id => null;
@@ -62,6 +68,10 @@ class TravelDetails{
           .map((e) => Expense.fromJson(e))
           .toList(),
       pdfPath: json['pdfPath'],
+
+      imagePaths: json['imagePath'] != null
+          ? List<String>.from(json['imagePath'])
+          : [],
     );
   }
 
@@ -81,6 +91,7 @@ class TravelDetails{
       'isFavorite': isFavorite,
       'expenses': expenses.map((e) => e.toJson()).toList(),
       'pdfPath': pdfPath,
+      'imagePath': imagePaths,
     };
   }
 
@@ -88,7 +99,7 @@ class TravelDetails{
   String toString() {
     return "Source: $source, Destination: $destination, Airline Name: $airline, "
         "Flight Number: $flightNumber, Departure Time: $departureTime, Arrival Time: $arrivalTime, "
-        "Hotel Name: $hotelName, Initial Budget(USD): $initialBudget, Trip Members: $tripMember, Destination Attractions: $selectedAttractions,PdfPath:$pdfPath";
+        "Hotel Name: $hotelName, Initial Budget(USD): $initialBudget, Trip Members: $tripMember, Destination Attractions: $selectedAttractions,PdfPath:$pdfPath, ImagePath: $imagePaths";
   }
 
   TravelDetails copyWith({
@@ -106,6 +117,7 @@ class TravelDetails{
     bool? isFavorite,
     List<Expense>? expenses,
     String? pdfPath,
+    List<String>? imagePaths,
   }) {
     return TravelDetails(
       name: name ?? this.name,
@@ -122,6 +134,7 @@ class TravelDetails{
       isFavorite: isFavorite ?? this.isFavorite,
       expenses: expenses ?? this.expenses,
       pdfPath: pdfPath ?? this.pdfPath,
+      imagePaths: imagePaths ?? this.imagePaths,
     );
   }
 }

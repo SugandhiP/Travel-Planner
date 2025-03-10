@@ -254,4 +254,21 @@ class MockTravelDetailsDao extends _i1.Mock implements _i5.TravelDetailsDao {
         ),
         returnValue: _i6.Future<_i9.TravelDetails?>.value(),
       ) as _i6.Future<_i9.TravelDetails?>);
+
+  @override
+  _i6.Future<void> updateImagePaths(
+    int? id,
+    String? imagePaths,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateImagePaths,
+          [
+            id,
+            imagePaths,
+          ],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
 }

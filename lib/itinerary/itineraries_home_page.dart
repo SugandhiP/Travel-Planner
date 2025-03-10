@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -12,6 +13,7 @@ import 'package:travel_planner_project/itinerary/itinerary_travel_details_page.d
 import 'package:travel_planner_project/itinerary/pdf_viewer_screen.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
 import '../expense_tracker/expense_tracker_page.dart';
+import 'image_viewer_screen.dart';
 import 'itineraries_data_recorded_page.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'dart:typed_data';
@@ -76,6 +78,30 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     );
   }
 
+  Future<void> _takePhoto(TravelDetails travelDetail) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+
+      List<String> existingImages = travelDetail.imagePaths ?? [];
+
+      existingImages.add(pickedFile.path);
+
+      travelDetail.imagePaths = existingImages;
+
+      await database.travelDetailsDao.updateTravelDetail(travelDetail);
+
+      setState(() {});
+    }
+  }
+
+  Widget _buildPhotoViewButton(TravelDetails travelDetail) {
+    return IconButton(
+      icon: Icon(Icons.camera_alt, color: Colors.blue),
+      onPressed: () => _takePhoto(travelDetail),
+    );
+  }
 
   String formatDateTime(String dateTimeString) {
     try {
@@ -445,6 +471,30 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                                   icon: Icon(Icons.remove_red_eye, color: Colors.green),
                                   onPressed: () => _viewItinerary(travelDetail),
                                 ),
+                                _buildPhotoViewButton(travelDetail),
+                                IconButton(
+                                  icon: Icon(Icons.photo_library, color: Colors.deepPurple),
+                                  onPressed: () {
+                                    if (travelDetail.imagePaths != null &&
+                                        travelDetail.imagePaths!.isNotEmpty) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ImageViewerScreen(
+                                            imagePaths: travelDetail.imagePaths!,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text('No photos available.')),
+                                      );
+                                    }
+                                  },
+                                ),
+
+
+
                               ],
                             ),
                             IconButton(

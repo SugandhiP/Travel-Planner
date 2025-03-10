@@ -20,7 +20,7 @@ Future<void> main() async {
 
   final database = (await $FloorAppDatabase
       .databaseBuilder('app_database1.db')
-      .addMigrations([AppDatabase.migration1to2, AppDatabase.migration2to3,AppDatabase.migration3to4]) // Access the static migration variable
+      .addMigrations([AppDatabase.migration1to2, AppDatabase.migration2to3,AppDatabase.migration3to4, AppDatabase.migration4to5, AppDatabase.migration5to6]) // Access the static migration variable
       .build());
 
   await populateDatabase(database);

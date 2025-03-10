@@ -86,7 +86,7 @@ class _$AppDatabase extends AppDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 4,
+      version: 6,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -108,7 +108,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Attraction` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `country` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `destinationId` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `TravelDetails` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `source` TEXT NOT NULL, `destination` TEXT NOT NULL, `airline` TEXT NOT NULL, `flightNumber` TEXT NOT NULL, `departureTime` TEXT NOT NULL, `arrivalTime` TEXT NOT NULL, `hotelName` TEXT NOT NULL, `initialBudget` REAL NOT NULL, `tripMember` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL, `selectedAttractions` TEXT NOT NULL, `expenses` TEXT NOT NULL, `pdfPath` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `TravelDetails` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `source` TEXT NOT NULL, `destination` TEXT NOT NULL, `airline` TEXT NOT NULL, `flightNumber` TEXT NOT NULL, `departureTime` TEXT NOT NULL, `arrivalTime` TEXT NOT NULL, `hotelName` TEXT NOT NULL, `initialBudget` REAL NOT NULL, `tripMember` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL, `selectedAttractions` TEXT NOT NULL, `expenses` TEXT NOT NULL, `pdfPath` TEXT, `imagePaths` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -388,7 +388,8 @@ class _$TravelDetailsDao extends TravelDetailsDao {
                   'selectedAttractions':
                       _stringListConverter.encode(item.selectedAttractions),
                   'expenses': _expenseListConverter.encode(item.expenses),
-                  'pdfPath': item.pdfPath
+                  'pdfPath': item.pdfPath,
+                  'imagePaths': _stringListConverter.encode(item.imagePaths)
                 }),
         _travelDetailsUpdateAdapter = UpdateAdapter(
             database,
@@ -410,7 +411,8 @@ class _$TravelDetailsDao extends TravelDetailsDao {
                   'selectedAttractions':
                       _stringListConverter.encode(item.selectedAttractions),
                   'expenses': _expenseListConverter.encode(item.expenses),
-                  'pdfPath': item.pdfPath
+                  'pdfPath': item.pdfPath,
+                  'imagePaths': _stringListConverter.encode(item.imagePaths)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -449,7 +451,9 @@ class _$TravelDetailsDao extends TravelDetailsDao {
                 .decode(row['selectedAttractions'] as String),
             isFavorite: (row['isFavorite'] as int) != 0,
             expenses: _expenseListConverter.decode(row['expenses'] as String),
-            pdfPath: row['pdfPath'] as String?),
+            pdfPath: row['pdfPath'] as String?,
+            imagePaths:
+                _stringListConverter.decode(row['imagePaths'] as String)),
         arguments: [name]);
   }
 
@@ -472,7 +476,9 @@ class _$TravelDetailsDao extends TravelDetailsDao {
                 .decode(row['selectedAttractions'] as String),
             isFavorite: (row['isFavorite'] as int) != 0,
             expenses: _expenseListConverter.decode(row['expenses'] as String),
-            pdfPath: row['pdfPath'] as String?));
+            pdfPath: row['pdfPath'] as String?,
+            imagePaths:
+                _stringListConverter.decode(row['imagePaths'] as String)));
   }
 
   @override
@@ -494,8 +500,20 @@ class _$TravelDetailsDao extends TravelDetailsDao {
                 .decode(row['selectedAttractions'] as String),
             isFavorite: (row['isFavorite'] as int) != 0,
             expenses: _expenseListConverter.decode(row['expenses'] as String),
-            pdfPath: row['pdfPath'] as String?),
+            pdfPath: row['pdfPath'] as String?,
+            imagePaths:
+                _stringListConverter.decode(row['imagePaths'] as String)),
         arguments: [id]);
+  }
+
+  @override
+  Future<void> updateImagePaths(
+    int id,
+    String imagePaths,
+  ) async {
+    await _queryAdapter.queryNoReturn(
+        'UPDATE TravelDetails      SET imagePaths = ?2      WHERE id = ?1',
+        arguments: [id, imagePaths]);
   }
 
   @override

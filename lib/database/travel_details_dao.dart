@@ -1,6 +1,9 @@
 import 'package:floor/floor.dart';
 import '../model/travel_details.dart';
+import '../model/string_type_converters.dart';
 
+
+@TypeConverters([StringListConverter])
 @dao
 abstract class TravelDetailsDao {
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -21,4 +24,13 @@ abstract class TravelDetailsDao {
   @Query('SELECT * FROM TravelDetails WHERE id = :id')
   Future<TravelDetails?> getTravelDetailById(int id);
 
+
+  @Query('''
+    UPDATE TravelDetails 
+    SET imagePaths = :imagePaths 
+    WHERE id = :id
+  ''')
+  Future<void> updateImagePaths(int id, String imagePaths);
 }
+
+
