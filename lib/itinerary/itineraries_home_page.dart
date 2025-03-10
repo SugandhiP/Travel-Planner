@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -75,6 +76,15 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
     );
   }
 
+
+  String formatDateTime(String dateTimeString) {
+    try {
+      DateTime parsedDate = DateTime.parse(dateTimeString);
+      return DateFormat('MMMM dd, yyyy - HH:mm').format(parsedDate);
+    } catch (e) {
+      return dateTimeString;
+    }
+  }
   Future<void> _generatePDF(int travelDetailId) async {
     try {
       TravelDetails? travelDetail = await database.travelDetailsDao.getTravelDetailById(travelDetailId);
@@ -148,8 +158,8 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                     backgroundColor: greyBackground,
                     ttfBold: ttfBold,
                     children: [
-                      _buildDetailRow("Departure:", travelDetail.departureTime, ttf, ttfBold, black),
-                      _buildDetailRow("Arrival:", travelDetail.arrivalTime, ttf, ttfBold, black),
+                      _buildDetailRow("Departure:", formatDateTime(travelDetail.departureTime), ttf, ttfBold, black),
+                      _buildDetailRow("Arrival:", formatDateTime(travelDetail.arrivalTime), ttf, ttfBold, black),
                     ],
                   ),
 
