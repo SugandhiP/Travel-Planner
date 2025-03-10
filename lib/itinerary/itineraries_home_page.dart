@@ -9,6 +9,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:provider/provider.dart';
 import 'package:travel_planner_project/database/database.dart';
+import 'package:travel_planner_project/itinerary/home_page.dart';
 import 'package:travel_planner_project/itinerary/itinerary_travel_details_page.dart';
 import 'package:travel_planner_project/itinerary/pdf_viewer_screen.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
@@ -372,9 +373,19 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
             Icon(Icons.flight_takeoff, color: Colors.white),
             SizedBox(width: 8),
             Text(
-              "Your Itineraries",
+              "Your Itineraries               ",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
+            IconButton(
+              icon: const Icon(Icons.home),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                  );
+                }
+            )
           ],
         ),
         leading: IconButton(
