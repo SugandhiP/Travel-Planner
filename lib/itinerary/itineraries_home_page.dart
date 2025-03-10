@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:provider/provider.dart';
 import 'package:travel_planner_project/database/database.dart';
@@ -83,35 +85,131 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
       }
 
       final pdf = pw.Document();
-
       final fontData = await rootBundle.load("assets/fonts/Roboto-VariableFont_wdth,wght.ttf");
       final boldFontData = await rootBundle.load("assets/fonts/Roboto-Italic-VariableFont_wdth,wght.ttf");
 
       final ttf = pw.Font.ttf(fontData.buffer.asByteData());
       final ttfBold = pw.Font.ttf(boldFontData.buffer.asByteData());
 
+      final darkBlue = PdfColor.fromInt(0xFF0A3D62);
+      final royalBlue = PdfColor.fromInt(0xFF1E3799);
+      final greyBackground = PdfColor.fromInt(0xFFF5F6FA);
+      final white =PdfColor.fromInt(0xFFFFFFFF);
+      final black = PdfColor.fromInt(0xFF000000);
+      final darkGrey = PdfColor.fromInt(0xFF3C3C3C);
+
       pdf.addPage(
         pw.Page(
+          margin: pw.EdgeInsets.zero,
           build: (pw.Context context) {
-            return pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text("Travel Itinerary", style: pw.TextStyle(font: ttfBold, fontSize: 24)),
-                pw.SizedBox(height: 20),
-                pw.Text("Destination: ${travelDetail.destination}", style: pw.TextStyle(font: ttf, fontSize: 18)),
-                pw.Text("Departure: ${travelDetail.departureTime}", style: pw.TextStyle(font: ttf, fontSize: 16)),
-              ],
+            return pw.Container(
+              padding: pw.EdgeInsets.all(16),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+                children: [
+                  pw.Container(
+                    width: double.infinity,
+                    padding: pw.EdgeInsets.symmetric(vertical: 14),
+                    decoration: pw.BoxDecoration(
+                      color: darkBlue,
+                      borderRadius: pw.BorderRadius.circular(10),
+                    ),
+                    child: pw.Center(
+                      child: pw.Text(
+                        "TRAVEL ITINERARY",
+                        style: pw.TextStyle(
+                          font: ttfBold,
+                          fontSize: 28,
+                          color: white,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  pw.SizedBox(height: 20),
+                  _buildSectionContainer(
+                    title: "Trip Details",
+                    titleColor: white,
+                    backgroundColor: royalBlue,
+                    ttfBold: ttfBold,
+                    children: [
+                      _buildDetailRow("Name:", travelDetail.name, ttf, ttfBold, white),
+                      _buildDetailRow("Source:", travelDetail.source, ttf, ttfBold, white),
+                      _buildDetailRow("Destination:", travelDetail.destination, ttf, ttfBold, white),
+                      _buildDetailRow("Airline:", travelDetail.airline, ttf, ttfBold, white),
+                      _buildDetailRow("Flight Number:", travelDetail.flightNumber, ttf, ttfBold, white),
+                    ],
+                  ),
+
+                  pw.SizedBox(height: 16),
+                  _buildSectionContainer(
+                    title: "Flight Timings",
+                    titleColor: darkGrey,
+                    backgroundColor: greyBackground,
+                    ttfBold: ttfBold,
+                    children: [
+                      _buildDetailRow("Departure:", travelDetail.departureTime, ttf, ttfBold, black),
+                      _buildDetailRow("Arrival:", travelDetail.arrivalTime, ttf, ttfBold, black),
+                    ],
+                  ),
+
+                  pw.SizedBox(height: 16),
+                  _buildSectionContainer(
+                    title: "Accommodation",
+                    titleColor: darkGrey,
+                    backgroundColor: white,
+                    ttfBold: ttfBold,
+                    children: [
+                      _buildDetailRow("Hotel Name:", travelDetail.hotelName, ttf, ttfBold, black),
+                    ],
+                  ),
+
+                  pw.SizedBox(height: 16),
+                  _buildSectionContainer(
+                    title: "Budget & Travelers",
+                    titleColor: white,
+                    backgroundColor: darkBlue,
+                    ttfBold: ttfBold,
+                    children: [
+                      _buildDetailRow("Budget (USD):", "\$${travelDetail.initialBudget}", ttf, ttfBold, white),
+                      _buildDetailRow("Trip Members:", travelDetail.tripMember.toString(), ttf, ttfBold, white),
+                    ],
+                  ),
+
+                  pw.SizedBox(height: 16),
+                  _buildSectionContainer(
+                    title: "Attractions to Visit",
+                    titleColor: black,
+                    backgroundColor: greyBackground,
+                    ttfBold: ttfBold,
+                    children: [
+                      pw.Text(
+                        travelDetail.selectedAttractions.isNotEmpty
+                            ? travelDetail.selectedAttractions.join(", ")
+                            : "No attractions selected",
+                        style: pw.TextStyle(font: ttf, fontSize: 16, color: black),
+                      ),
+                    ],
+                  ),
+
+                  pw.SizedBox(height: 30),
+
+                  pw.Center(
+                    child: pw.Text(
+                      "Happy Travels!",
+                      style: pw.TextStyle(font: ttfBold, fontSize: 20, color: darkBlue),
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
       );
-
       final output = await getApplicationDocumentsDirectory();
       final file = File("${output.path}/itinerary_${travelDetail.id}.pdf");
       await file.writeAsBytes(await pdf.save());
-
       travelDetail.pdfPath = file.path;
-      print('travel path: ${travelDetail.pdfPath}');
       await database.travelDetailsDao.updateTravelDetail(travelDetail);
 
       setState(() {});
@@ -120,6 +218,53 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
       print("Error generating PDF: $e");
     }
   }
+
+  pw.Widget _buildSectionContainer({
+    required String title,
+    required pw.Font ttfBold,
+    required PdfColor titleColor,
+    required PdfColor backgroundColor,
+    required List<pw.Widget> children,
+  }) {
+    return pw.Container(
+      padding: pw.EdgeInsets.all(12),
+      decoration: pw.BoxDecoration(
+        color: backgroundColor,
+        borderRadius: pw.BorderRadius.circular(10),
+      ),
+      child: pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Text(title, style: pw.TextStyle(font: ttfBold, fontSize: 22, color: titleColor)),
+          pw.SizedBox(height: 6),
+          ...children,
+        ],
+      ),
+    );
+  }
+// 📌 Key-Value Row Styling for PDF
+  pw.Widget _buildDetailRow(
+      String key, String value, pw.Font font, pw.Font fontBold, PdfColor color) {
+    return pw.Padding(
+      padding: pw.EdgeInsets.symmetric(vertical: 4), // Adjust spacing
+      child: pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+        children: [
+          pw.Text(
+            key,
+            style: pw.TextStyle(font: fontBold, fontSize: 16, color: color),
+          ),
+          pw.Text(
+            value,
+            style: pw.TextStyle(font: font, fontSize: 16, color: color),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
 
   void _viewPDF(TravelDetails travelDetail) {
     if (travelDetail.pdfPath != null) {
