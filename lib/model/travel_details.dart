@@ -15,7 +15,7 @@ class TravelDetails{
   String departureTime;
   String arrivalTime;
   String hotelName;
-  late final double initialBudget;
+  late double initialBudget;
   final int tripMember;
   bool isFavorite;
   @TypeConverters([StringListConverter])

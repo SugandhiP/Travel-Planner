@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_planner_project/model/travel_details.dart';
+import '../database/database.dart';
 import '../model/expense.dart';
 import '../travel_details_provider.dart';
 
@@ -61,7 +62,7 @@ class ExpenseTrackerPage extends StatelessWidget {
             ),
             if (travelDetails.initialBudget == 0.0)
               ElevatedButton(
-                onPressed: () => _setBudget(context),
+                onPressed: () => _setBudget(context,travelDetails),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightBlue,
                   padding:
@@ -223,14 +224,19 @@ class ExpenseTrackerPage extends StatelessWidget {
     }
   }
 
-  void _setBudget(BuildContext context) async {
+  void _setBudget(BuildContext context, TravelDetails td) async {
     final result = await showDialog<double>(
       context: context,
       builder: (context) => const _BudgetDialog(),
     );
 
     if (result != null) {
-      Provider.of<TravelDetailsProvider>(context, listen: false).updateBudget(result);
+      final database = Provider.of<AppDatabase>(context, listen: false);
+      final travelDetailsDao = database.travelDetailsDao;
+      TravelDetails newTravelDetails = travelDetails;
+      newTravelDetails.initialBudget = result;
+      await travelDetailsDao.deleteTravelDetail(travelDetails.name);
+      await travelDetailsDao.insertTravelDetail(travelDetails);
     }
   }
 
