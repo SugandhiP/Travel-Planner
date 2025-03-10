@@ -13,12 +13,6 @@ class PDFViewerScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("View Itinerary"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.nfc, color: Colors.red),
-            onPressed: () => NfcService.sendPdfViaNfc(context, pdfPath),
-          ),
-        ],
       ),
       body: PDFView(
         filePath: pdfPath,

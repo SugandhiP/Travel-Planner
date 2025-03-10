@@ -534,14 +534,6 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
                                   ),
                                 ],
                               ),
-                              if (travelDetail.pdfPath != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: IconButton(
-                                    icon: Icon(Icons.nfc),
-                                    onPressed: () => _sharePdfViaNfc(context, travelDetail.pdfPath),
-                                  ),
-                                ),
                             ],
                           ),
                         ),
