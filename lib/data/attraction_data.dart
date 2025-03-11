@@ -85,4 +85,10 @@ final Map<String, AttractionDetails> attractionDetailsMap = {
     officialWebsite: "https://www.english-heritage.org.uk/visit/places/stonehenge/",
 
   ),
+  "Test Attraction": AttractionDetails(
+    openingHours: "9:30 AM - 5:00 PM",
+    closingTime: "5:00 PM",
+    officialWebsite: "https://www.english-heritage.org.uk/visit/places/stonehenge/",
+
+  ),
 };

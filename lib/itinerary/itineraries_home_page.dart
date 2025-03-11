@@ -373,7 +373,7 @@ class _TravelPlannerAState extends State<ItinerariesHomePage> {
             Icon(Icons.flight_takeoff, color: Colors.white),
             SizedBox(width: 8),
             Text(
-              "Your Itineraries               ",
+              "Your Itineraries",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             IconButton(
