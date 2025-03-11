@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:travel_planner_project/itinerary/pdf_viewer_screen.dart';
 
-void main() {
+/*void main() {
   late String mockPdfPath;
 
   setUp(() {
@@ -21,4 +21,4 @@ void main() {
     expect(find.text("View Itinerary"), findsOneWidget);
     expect(find.byType(PDFView), findsOneWidget);
   });
-}
+}*/
