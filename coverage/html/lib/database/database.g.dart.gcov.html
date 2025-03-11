@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">17.2&nbsp;%</td>
+            <td class="headerCovTableEntryLo">6.8&nbsp;%</td>
             <td class="headerCovTableEntry">279</td>
-            <td class="headerCovTableEntry">48</td>
+            <td class="headerCovTableEntry">19</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-03-10 18:08:45</td>
+            <td class="headerValue">2025-03-10 22:50:03</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -119,19 +119,19 @@
 <span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           3 :     final path = name != null</span></span>
 <span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           9 :         ? await sqfliteDatabaseFactory.getDatabasePath(name!)</span></span>
 <span id="L59"><span class="lineNum">      59</span>              :         : ':memory:';</span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           2 :     final database = _$AppDatabase();</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           3 :     final database = _$AppDatabase();</span></span>
 <span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           3 :     database.database = await database.open(</span></span>
 <span id="L62"><span class="lineNum">      62</span>              :       path,</span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           2 :       _migrations,</span></span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           2 :       _callback,</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           3 :       _migrations,</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           3 :       _callback,</span></span>
 <span id="L65"><span class="lineNum">      65</span>              :     );</span>
 <span id="L66"><span class="lineNum">      66</span>              :     return database;</span>
 <span id="L67"><span class="lineNum">      67</span>              :   }</span>
 <span id="L68"><span class="lineNum">      68</span>              : }</span>
 <span id="L69"><span class="lineNum">      69</span>              : </span>
 <span id="L70"><span class="lineNum">      70</span>              : class _$AppDatabase extends AppDatabase {</span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">           2 :   _$AppDatabase([StreamController&lt;String&gt;? listener]) {</span></span>
-<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">           4 :     changeListener = listener ?? StreamController&lt;String&gt;.broadcast();</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">           3 :   _$AppDatabase([StreamController&lt;String&gt;? listener]) {</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">           6 :     changeListener = listener ?? StreamController&lt;String&gt;.broadcast();</span></span>
 <span id="L73"><span class="lineNum">      73</span>              :   }</span>
 <span id="L74"><span class="lineNum">      74</span>              : </span>
 <span id="L75"><span class="lineNum">      75</span>              :   ExpenseDao? _expenseDaoInstance;</span>
@@ -142,22 +142,22 @@
 <span id="L80"><span class="lineNum">      80</span>              : </span>
 <span id="L81"><span class="lineNum">      81</span>              :   TravelDetailsDao? _travelDetailsDaoInstance;</span>
 <span id="L82"><span class="lineNum">      82</span>              : </span>
-<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           2 :   Future&lt;sqflite.Database&gt; open(</span></span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           3 :   Future&lt;sqflite.Database&gt; open(</span></span>
 <span id="L84"><span class="lineNum">      84</span>              :     String path,</span>
 <span id="L85"><span class="lineNum">      85</span>              :     List&lt;Migration&gt; migrations, [</span>
 <span id="L86"><span class="lineNum">      86</span>              :     Callback? callback,</span>
 <span id="L87"><span class="lineNum">      87</span>              :   ]) async {</span>
-<span id="L88"><span class="lineNum">      88</span> <span class="tlaGNC">           2 :     final databaseOptions = sqflite.OpenDatabaseOptions(</span></span>
+<span id="L88"><span class="lineNum">      88</span> <span class="tlaGNC">           3 :     final databaseOptions = sqflite.OpenDatabaseOptions(</span></span>
 <span id="L89"><span class="lineNum">      89</span>              :       version: 6,</span>
-<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">           1 :       onConfigure: (database) async {</span></span>
-<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">           1 :         await database.execute('PRAGMA foreign_keys = ON');</span></span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">           3 :       onConfigure: (database) async {</span></span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">           3 :         await database.execute('PRAGMA foreign_keys = ON');</span></span>
 <span id="L92"><span class="lineNum">      92</span> <span class="tlaUNC">           0 :         await callback?.onConfigure?.call(database);</span></span>
 <span id="L93"><span class="lineNum">      93</span>              :       },</span>
-<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">           1 :       onOpen: (database) async {</span></span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaUNC">           0 :       onOpen: (database) async {</span></span>
 <span id="L95"><span class="lineNum">      95</span> <span class="tlaUNC">           0 :         await callback?.onOpen?.call(database);</span></span>
 <span id="L96"><span class="lineNum">      96</span>              :       },</span>
-<span id="L97"><span class="lineNum">      97</span> <span class="tlaUNC">           0 :       onUpgrade: (database, startVersion, endVersion) async {</span></span>
-<span id="L98"><span class="lineNum">      98</span> <span class="tlaUNC">           0 :         await MigrationAdapter.runMigrations(</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC">           2 :       onUpgrade: (database, startVersion, endVersion) async {</span></span>
+<span id="L98"><span class="lineNum">      98</span> <span class="tlaGNC">           2 :         await MigrationAdapter.runMigrations(</span></span>
 <span id="L99"><span class="lineNum">      99</span>              :             database, startVersion, endVersion, migrations);</span>
 <span id="L100"><span class="lineNum">     100</span>              : </span>
 <span id="L101"><span class="lineNum">     101</span> <span class="tlaUNC">           0 :         await callback?.onUpgrade?.call(database, startVersion, endVersion);</span></span>
@@ -175,38 +175,38 @@
 <span id="L113"><span class="lineNum">     113</span> <span class="tlaUNC">           0 :         await callback?.onCreate?.call(database, version);</span></span>
 <span id="L114"><span class="lineNum">     114</span>              :       },</span>
 <span id="L115"><span class="lineNum">     115</span>              :     );</span>
-<span id="L116"><span class="lineNum">     116</span> <span class="tlaGNC">           4 :     return sqfliteDatabaseFactory.openDatabase(path, options: databaseOptions);</span></span>
+<span id="L116"><span class="lineNum">     116</span> <span class="tlaGNC">           6 :     return sqfliteDatabaseFactory.openDatabase(path, options: databaseOptions);</span></span>
 <span id="L117"><span class="lineNum">     117</span>              :   }</span>
 <span id="L118"><span class="lineNum">     118</span>              : </span>
-<span id="L119"><span class="lineNum">     119</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L119"><span class="lineNum">     119</span> <span class="tlaUNC">           0 :   @override</span></span>
 <span id="L120"><span class="lineNum">     120</span>              :   ExpenseDao get expenseDao {</span>
-<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">           4 :     return _expenseDaoInstance ??= _$ExpenseDao(database, changeListener);</span></span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaUNC">           0 :     return _expenseDaoInstance ??= _$ExpenseDao(database, changeListener);</span></span>
 <span id="L122"><span class="lineNum">     122</span>              :   }</span>
 <span id="L123"><span class="lineNum">     123</span>              : </span>
-<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaUNC">           0 :   @override</span></span>
 <span id="L125"><span class="lineNum">     125</span>              :   DestinationDao get destinationDao {</span>
-<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">           1 :     return _destinationDaoInstance ??=</span></span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">           3 :         _$DestinationDao(database, changeListener);</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaUNC">           0 :     return _destinationDaoInstance ??=</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaUNC">           0 :         _$DestinationDao(database, changeListener);</span></span>
 <span id="L128"><span class="lineNum">     128</span>              :   }</span>
 <span id="L129"><span class="lineNum">     129</span>              : </span>
-<span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaUNC">           0 :   @override</span></span>
 <span id="L131"><span class="lineNum">     131</span>              :   AttractionDao get attractionDao {</span>
-<span id="L132"><span class="lineNum">     132</span> <span class="tlaGNC">           4 :     return _attractionDaoInstance ??= _$AttractionDao(database, changeListener);</span></span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :     return _attractionDaoInstance ??= _$AttractionDao(database, changeListener);</span></span>
 <span id="L133"><span class="lineNum">     133</span>              :   }</span>
 <span id="L134"><span class="lineNum">     134</span>              : </span>
-<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaUNC">           0 :   @override</span></span>
 <span id="L136"><span class="lineNum">     136</span>              :   TravelDetailsDao get travelDetailsDao {</span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">           1 :     return _travelDetailsDaoInstance ??=</span></span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">           3 :         _$TravelDetailsDao(database, changeListener);</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :     return _travelDetailsDaoInstance ??=</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :         _$TravelDetailsDao(database, changeListener);</span></span>
 <span id="L139"><span class="lineNum">     139</span>              :   }</span>
 <span id="L140"><span class="lineNum">     140</span>              : }</span>
 <span id="L141"><span class="lineNum">     141</span>              : </span>
 <span id="L142"><span class="lineNum">     142</span>              : class _$ExpenseDao extends ExpenseDao {</span>
-<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">           1 :   _$ExpenseDao(</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :   _$ExpenseDao(</span></span>
 <span id="L144"><span class="lineNum">     144</span>              :     this.database,</span>
 <span id="L145"><span class="lineNum">     145</span>              :     this.changeListener,</span>
-<span id="L146"><span class="lineNum">     146</span> <span class="tlaGNC">           1 :   )   : _queryAdapter = QueryAdapter(database, changeListener),</span></span>
-<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">           1 :         _expenseInsertionAdapter = InsertionAdapter(</span></span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 :   )   : _queryAdapter = QueryAdapter(database, changeListener),</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC">           0 :         _expenseInsertionAdapter = InsertionAdapter(</span></span>
 <span id="L148"><span class="lineNum">     148</span>              :             database,</span>
 <span id="L149"><span class="lineNum">     149</span>              :             'Expense',</span>
 <span id="L150"><span class="lineNum">     150</span> <span class="tlaUNC">           0 :             (Expense item) =&gt; &lt;String, Object?&gt;{</span></span>
@@ -218,10 +218,10 @@
 <span id="L156"><span class="lineNum">     156</span> <span class="tlaUNC">           0 :                   'date': _dateTimeConverter.encode(item.date)</span></span>
 <span id="L157"><span class="lineNum">     157</span>              :                 },</span>
 <span id="L158"><span class="lineNum">     158</span>              :             changeListener),</span>
-<span id="L159"><span class="lineNum">     159</span> <span class="tlaGNC">           1 :         _expenseUpdateAdapter = UpdateAdapter(</span></span>
+<span id="L159"><span class="lineNum">     159</span> <span class="tlaUNC">           0 :         _expenseUpdateAdapter = UpdateAdapter(</span></span>
 <span id="L160"><span class="lineNum">     160</span>              :             database,</span>
 <span id="L161"><span class="lineNum">     161</span>              :             'Expense',</span>
-<span id="L162"><span class="lineNum">     162</span> <span class="tlaGNC">           1 :             ['id'],</span></span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaUNC">           0 :             ['id'],</span></span>
 <span id="L163"><span class="lineNum">     163</span> <span class="tlaUNC">           0 :             (Expense item) =&gt; &lt;String, Object?&gt;{</span></span>
 <span id="L164"><span class="lineNum">     164</span> <span class="tlaUNC">           0 :                   'id': item.id,</span></span>
 <span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :                   'category': item.category,</span></span>
@@ -231,10 +231,10 @@
 <span id="L169"><span class="lineNum">     169</span> <span class="tlaUNC">           0 :                   'date': _dateTimeConverter.encode(item.date)</span></span>
 <span id="L170"><span class="lineNum">     170</span>              :                 },</span>
 <span id="L171"><span class="lineNum">     171</span>              :             changeListener),</span>
-<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">           1 :         _expenseDeletionAdapter = DeletionAdapter(</span></span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaUNC">           0 :         _expenseDeletionAdapter = DeletionAdapter(</span></span>
 <span id="L173"><span class="lineNum">     173</span>              :             database,</span>
 <span id="L174"><span class="lineNum">     174</span>              :             'Expense',</span>
-<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">           1 :             ['id'],</span></span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaUNC">           0 :             ['id'],</span></span>
 <span id="L176"><span class="lineNum">     176</span> <span class="tlaUNC">           0 :             (Expense item) =&gt; &lt;String, Object?&gt;{</span></span>
 <span id="L177"><span class="lineNum">     177</span> <span class="tlaUNC">           0 :                   'id': item.id,</span></span>
 <span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 :                   'category': item.category,</span></span>
@@ -316,11 +316,11 @@
 <span id="L254"><span class="lineNum">     254</span>              : }</span>
 <span id="L255"><span class="lineNum">     255</span>              : </span>
 <span id="L256"><span class="lineNum">     256</span>              : class _$DestinationDao extends DestinationDao {</span>
-<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC">           1 :   _$DestinationDao(</span></span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaUNC">           0 :   _$DestinationDao(</span></span>
 <span id="L258"><span class="lineNum">     258</span>              :     this.database,</span>
 <span id="L259"><span class="lineNum">     259</span>              :     this.changeListener,</span>
-<span id="L260"><span class="lineNum">     260</span> <span class="tlaGNC">           1 :   )   : _queryAdapter = QueryAdapter(database),</span></span>
-<span id="L261"><span class="lineNum">     261</span> <span class="tlaGNC">           1 :         _destinationInsertionAdapter = InsertionAdapter(</span></span>
+<span id="L260"><span class="lineNum">     260</span> <span class="tlaUNC">           0 :   )   : _queryAdapter = QueryAdapter(database),</span></span>
+<span id="L261"><span class="lineNum">     261</span> <span class="tlaUNC">           0 :         _destinationInsertionAdapter = InsertionAdapter(</span></span>
 <span id="L262"><span class="lineNum">     262</span>              :             database,</span>
 <span id="L263"><span class="lineNum">     263</span>              :             'Destination',</span>
 <span id="L264"><span class="lineNum">     264</span> <span class="tlaUNC">           0 :             (Destination item) =&gt; &lt;String, Object?&gt;{</span></span>
@@ -358,11 +358,11 @@
 <span id="L296"><span class="lineNum">     296</span>              : }</span>
 <span id="L297"><span class="lineNum">     297</span>              : </span>
 <span id="L298"><span class="lineNum">     298</span>              : class _$AttractionDao extends AttractionDao {</span>
-<span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">           1 :   _$AttractionDao(</span></span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 :   _$AttractionDao(</span></span>
 <span id="L300"><span class="lineNum">     300</span>              :     this.database,</span>
 <span id="L301"><span class="lineNum">     301</span>              :     this.changeListener,</span>
-<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">           1 :   )   : _queryAdapter = QueryAdapter(database),</span></span>
-<span id="L303"><span class="lineNum">     303</span> <span class="tlaGNC">           1 :         _attractionInsertionAdapter = InsertionAdapter(</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC">           0 :   )   : _queryAdapter = QueryAdapter(database),</span></span>
+<span id="L303"><span class="lineNum">     303</span> <span class="tlaUNC">           0 :         _attractionInsertionAdapter = InsertionAdapter(</span></span>
 <span id="L304"><span class="lineNum">     304</span>              :             database,</span>
 <span id="L305"><span class="lineNum">     305</span>              :             'Attraction',</span>
 <span id="L306"><span class="lineNum">     306</span> <span class="tlaUNC">           0 :             (Attraction item) =&gt; &lt;String, Object?&gt;{</span></span>
@@ -427,11 +427,11 @@
 <span id="L365"><span class="lineNum">     365</span>              : }</span>
 <span id="L366"><span class="lineNum">     366</span>              : </span>
 <span id="L367"><span class="lineNum">     367</span>              : class _$TravelDetailsDao extends TravelDetailsDao {</span>
-<span id="L368"><span class="lineNum">     368</span> <span class="tlaGNC">           1 :   _$TravelDetailsDao(</span></span>
+<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :   _$TravelDetailsDao(</span></span>
 <span id="L369"><span class="lineNum">     369</span>              :     this.database,</span>
 <span id="L370"><span class="lineNum">     370</span>              :     this.changeListener,</span>
-<span id="L371"><span class="lineNum">     371</span> <span class="tlaGNC">           1 :   )   : _queryAdapter = QueryAdapter(database),</span></span>
-<span id="L372"><span class="lineNum">     372</span> <span class="tlaGNC">           1 :         _travelDetailsInsertionAdapter = InsertionAdapter(</span></span>
+<span id="L371"><span class="lineNum">     371</span> <span class="tlaUNC">           0 :   )   : _queryAdapter = QueryAdapter(database),</span></span>
+<span id="L372"><span class="lineNum">     372</span> <span class="tlaUNC">           0 :         _travelDetailsInsertionAdapter = InsertionAdapter(</span></span>
 <span id="L373"><span class="lineNum">     373</span>              :             database,</span>
 <span id="L374"><span class="lineNum">     374</span>              :             'TravelDetails',</span>
 <span id="L375"><span class="lineNum">     375</span> <span class="tlaUNC">           0 :             (TravelDetails item) =&gt; &lt;String, Object?&gt;{</span></span>
@@ -453,10 +453,10 @@
 <span id="L391"><span class="lineNum">     391</span> <span class="tlaUNC">           0 :                   'pdfPath': item.pdfPath,</span></span>
 <span id="L392"><span class="lineNum">     392</span> <span class="tlaUNC">           0 :                   'imagePaths': _stringListConverter.encode(item.imagePaths)</span></span>
 <span id="L393"><span class="lineNum">     393</span>              :                 }),</span>
-<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">           1 :         _travelDetailsUpdateAdapter = UpdateAdapter(</span></span>
+<span id="L394"><span class="lineNum">     394</span> <span class="tlaUNC">           0 :         _travelDetailsUpdateAdapter = UpdateAdapter(</span></span>
 <span id="L395"><span class="lineNum">     395</span>              :             database,</span>
 <span id="L396"><span class="lineNum">     396</span>              :             'TravelDetails',</span>
-<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">           1 :             ['id'],</span></span>
+<span id="L397"><span class="lineNum">     397</span> <span class="tlaUNC">           0 :             ['id'],</span></span>
 <span id="L398"><span class="lineNum">     398</span> <span class="tlaUNC">           0 :             (TravelDetails item) =&gt; &lt;String, Object?&gt;{</span></span>
 <span id="L399"><span class="lineNum">     399</span> <span class="tlaUNC">           0 :                   'id': item.id,</span></span>
 <span id="L400"><span class="lineNum">     400</span> <span class="tlaUNC">           0 :                   'name': item.name,</span></span>
@@ -519,9 +519,9 @@
 <span id="L457"><span class="lineNum">     457</span> <span class="tlaUNC">           0 :         arguments: [name]);</span></span>
 <span id="L458"><span class="lineNum">     458</span>              :   }</span>
 <span id="L459"><span class="lineNum">     459</span>              : </span>
-<span id="L460"><span class="lineNum">     460</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L460"><span class="lineNum">     460</span> <span class="tlaUNC">           0 :   @override</span></span>
 <span id="L461"><span class="lineNum">     461</span>              :   Future&lt;List&lt;TravelDetails&gt;&gt; getAllTravelDetails() async {</span>
-<span id="L462"><span class="lineNum">     462</span> <span class="tlaGNC">           2 :     return _queryAdapter.queryList('SELECT * FROM TravelDetails',</span></span>
+<span id="L462"><span class="lineNum">     462</span> <span class="tlaUNC">           0 :     return _queryAdapter.queryList('SELECT * FROM TravelDetails',</span></span>
 <span id="L463"><span class="lineNum">     463</span> <span class="tlaUNC">           0 :         mapper: (Map&lt;String, Object?&gt; row) =&gt; TravelDetails(</span></span>
 <span id="L464"><span class="lineNum">     464</span> <span class="tlaUNC">           0 :             id: row['id'] as int?,</span></span>
 <span id="L465"><span class="lineNum">     465</span> <span class="tlaUNC">           0 :             name: row['name'] as String,</span></span>

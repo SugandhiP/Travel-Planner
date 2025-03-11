@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-03-10 18:08:45</td>
+            <td class="headerValue">2025-03-10 22:50:03</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -82,19 +82,19 @@
 <span id="L20"><span class="lineNum">      20</span>              : import 'dart:typed_data';</span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
 <span id="L22"><span class="lineNum">      22</span>              : class ItinerariesHomePage extends StatefulWidget {</span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           6 :   ItinerariesHomePage({Key? key}) : super(key: key);</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           4 :   ItinerariesHomePage({Key? key}) : super(key: key);</span></span>
 <span id="L24"><span class="lineNum">      24</span>              : </span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           3 :   @override</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           3 :   State&lt;ItinerariesHomePage&gt; createState() =&gt; _TravelPlannerAState();</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           2 :   @override</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           2 :   State&lt;ItinerariesHomePage&gt; createState() =&gt; _TravelPlannerAState();</span></span>
 <span id="L27"><span class="lineNum">      27</span>              : }</span>
 <span id="L28"><span class="lineNum">      28</span>              : </span>
 <span id="L29"><span class="lineNum">      29</span>              : class _TravelPlannerAState extends State&lt;ItinerariesHomePage&gt; {</span>
 <span id="L30"><span class="lineNum">      30</span>              :   late AppDatabase database;</span>
 <span id="L31"><span class="lineNum">      31</span>              : </span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           3 :   @override</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           2 :   @override</span></span>
 <span id="L33"><span class="lineNum">      33</span>              :   void initState() {</span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           3 :     super.initState();</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           9 :     database = Provider.of&lt;AppDatabase&gt;(context, listen: false);</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           2 :     super.initState();</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           6 :     database = Provider.of&lt;AppDatabase&gt;(context, listen: false);</span></span>
 <span id="L36"><span class="lineNum">      36</span>              :   }</span>
 <span id="L37"><span class="lineNum">      37</span>              : </span>
 <span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :   Future&lt;void&gt; _deleteItinerary(TravelDetails td) async {</span></span>
@@ -425,20 +425,20 @@
 <span id="L363"><span class="lineNum">     363</span>              :     });</span>
 <span id="L364"><span class="lineNum">     364</span>              :   }</span>
 <span id="L365"><span class="lineNum">     365</span>              : </span>
-<span id="L366"><span class="lineNum">     366</span> <span class="tlaGNC">           3 :   @override</span></span>
+<span id="L366"><span class="lineNum">     366</span> <span class="tlaGNC">           2 :   @override</span></span>
 <span id="L367"><span class="lineNum">     367</span>              :   Widget build(BuildContext context) {</span>
 <span id="L368"><span class="lineNum">     368</span> <span class="tlaGNC">           2 :     return Scaffold(</span></span>
-<span id="L369"><span class="lineNum">     369</span> <span class="tlaGNC">           3 :       appBar: AppBar(</span></span>
-<span id="L370"><span class="lineNum">     370</span> <span class="tlaGNC">           3 :         title: Row(</span></span>
+<span id="L369"><span class="lineNum">     369</span> <span class="tlaGNC">           2 :       appBar: AppBar(</span></span>
+<span id="L370"><span class="lineNum">     370</span> <span class="tlaGNC">           2 :         title: Row(</span></span>
 <span id="L371"><span class="lineNum">     371</span>              :           mainAxisAlignment: MainAxisAlignment.center,</span>
-<span id="L372"><span class="lineNum">     372</span> <span class="tlaGNC">           3 :           children: [</span></span>
-<span id="L373"><span class="lineNum">     373</span> <span class="tlaGNC">           3 :             Icon(Icons.flight_takeoff, color: Colors.white),</span></span>
-<span id="L374"><span class="lineNum">     374</span> <span class="tlaGNC">           3 :             SizedBox(width: 8),</span></span>
-<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">           3 :             Text(</span></span>
+<span id="L372"><span class="lineNum">     372</span> <span class="tlaGNC">           2 :           children: [</span></span>
+<span id="L373"><span class="lineNum">     373</span> <span class="tlaGNC">           2 :             Icon(Icons.flight_takeoff, color: Colors.white),</span></span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaGNC">           2 :             SizedBox(width: 8),</span></span>
+<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">           2 :             Text(</span></span>
 <span id="L376"><span class="lineNum">     376</span>              :               &quot;Your Itineraries&quot;,</span>
-<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">           3 :               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),</span></span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">           2 :               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),</span></span>
 <span id="L378"><span class="lineNum">     378</span>              :             ),</span>
-<span id="L379"><span class="lineNum">     379</span> <span class="tlaGNC">           3 :             IconButton(</span></span>
+<span id="L379"><span class="lineNum">     379</span> <span class="tlaGNC">           2 :             IconButton(</span></span>
 <span id="L380"><span class="lineNum">     380</span>              :               icon: const Icon(Icons.home),</span>
 <span id="L381"><span class="lineNum">     381</span> <span class="tlaUNC">           0 :               onPressed: () {</span></span>
 <span id="L382"><span class="lineNum">     382</span> <span class="tlaUNC">           0 :                 Navigator.of(context).pushReplacement(</span></span>
@@ -450,7 +450,7 @@
 <span id="L388"><span class="lineNum">     388</span>              :             )</span>
 <span id="L389"><span class="lineNum">     389</span>              :           ],</span>
 <span id="L390"><span class="lineNum">     390</span>              :         ),</span>
-<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">           3 :         leading: IconButton(</span></span>
+<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">           2 :         leading: IconButton(</span></span>
 <span id="L392"><span class="lineNum">     392</span>              :           icon: const Icon(Icons.arrow_back),</span>
 <span id="L393"><span class="lineNum">     393</span> <span class="tlaUNC">           0 :           onPressed: () {</span></span>
 <span id="L394"><span class="lineNum">     394</span> <span class="tlaUNC">           0 :             Navigator.pop(context);</span></span>
@@ -461,7 +461,7 @@
 <span id="L399"><span class="lineNum">     399</span>              :         automaticallyImplyLeading: false,</span>
 <span id="L400"><span class="lineNum">     400</span>              :       ),</span>
 <span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">           2 :       body: FutureBuilder&lt;List&lt;TravelDetails&gt;&gt;(</span></span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">           8 :         future: database.travelDetailsDao.getAllTravelDetails(),</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">           6 :         future: database.travelDetailsDao.getAllTravelDetails(),</span></span>
 <span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">           2 :         builder: (context, snapshot) {</span></span>
 <span id="L404"><span class="lineNum">     404</span> <span class="tlaGNC">           4 :           if (snapshot.connectionState == ConnectionState.waiting) {</span></span>
 <span id="L405"><span class="lineNum">     405</span> <span class="tlaGNC">           4 :             return Center(child: CircularProgressIndicator());</span></span>
